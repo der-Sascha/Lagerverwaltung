@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="de.doit.controller.MainController"
+      spacing="10"
+      prefWidth="1000" prefHeight="650">
+
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <!-- Suchleiste -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Suche:"/>
+        <TextField fx:id="txtSuche" prefWidth="220" onAction="#onSuchen"/>
+
+        <Label text="Lager:"/>
+        <ComboBox fx:id="cmbLager" prefWidth="220" onAction="#onLagerChanged"/>
+
+        <Button text="Suchen"        onAction="#onSuchen"/>
+        <Button text="Zuruecksetzen" onAction="#onZuruecksetzen"/>
+        <Button text="Aktualisieren" onAction="#onAktualisieren"/>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <Label fx:id="lblWarnungAnzahl" text="Warnungen: 0" style="-fx-font-weight: bold;"/>
+    </HBox>
+
+    <!-- Bestandstabelle -->
+    <TableView fx:id="tabBestand" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colMaterial" text="Material"       prefWidth="260"/>
+            <TableColumn fx:id="colEinheit"  text="Einheit"        prefWidth="100"/>
+            <TableColumn fx:id="colLager"    text="Lager"          prefWidth="240"/>
+            <TableColumn fx:id="colBestand"  text="Bestand"        prefWidth="100"/>
+            <TableColumn fx:id="colMindest"  text="Mindestbestand" prefWidth="120"/>
+            <TableColumn fx:id="colStatus"   text="Status"         prefWidth="120"/>
+        </columns>
+    </TableView>
+
+</VBox>
