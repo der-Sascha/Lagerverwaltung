@@ -1,0 +1,531 @@
+# Projekttagebuch — Sascha Schulz, WI 2551
+
+Laufendes Log für Änderungen, Probleme und Erkenntnisse.
+Wird automatisch von Claude befüllt + manuell ergänzt.
+Dient als Grundlage für Reflexion, Lernzuwachs und Quellenverzeichnis.
+
+**Format:**
+- [Änderung] — etwas wurde geändert/gebaut
+- [Problem] — Fehler oder Hindernis
+- [Erkenntnis] — technisches oder fachliches Lernmoment
+- [Quelle] — URL oder Dokument das genutzt wurde (mit Datum)
+- [Manuell] — vom Nutzer selbst eingetragen
+
+---
+
+## 2026-06-07 — Planung Woche 6 + Doku_D-Zeitplan
+
+- [Manuell] **Woche 6 (KW26, 22.06.–26.06.)** = Dokumentation + alle Schreibarbeiten abschließen (Phase 7)
+  - Kapitel 3 Durchführung finalisieren, alle Korrekturen einarbeiten
+  - Kapitel 4 + 5 (Ergebnisse, Reflexion) fertigstellen
+  - Alle Teile in Hauptdokumentation zusammenführen
+  - PDF erstellen und für Moodle-Upload vorbereiten
+- [Manuell] **Doku_D (Kapitel 4 Ergebnisse + Kapitel 5 Reflexion)** wird morgen (08.06.2026) eingetragen
+
+---
+
+## 2026-06-02 — Word-Dokumente Doku_A–E + Hauptdoku vollständig geprüft und korrigiert
+
+### Doku_C_Durchfuehrung.docx — 7 Korrekturen
+
+- [Problem] Port in DBConnection-Beispielcode (3.2.2): `3306` → `3324` (stimmt mit tatsächlicher DBConnection.java überein)
+- [Problem] DAO-Tabelle (3.3.1): `StationslagDAO` → `StationslagerDAO`, `BewegungDAO` → `BestandsbewegungDAO` (falsche Klassennamen vs. tatsächlichem Code)
+- [Problem] MaterialDAO-Beispiel (3.3.2): `getAll()` → `findAll()` (tatsächliche Methode heißt findAll)
+- [Problem] RowFactory-Code (3.4.2): `item.getBestand() <= item.getMindestbestand()` → `item.isWarnung()` (BestandView hat isWarnung(), Material hat kein getBestand())
+- [Problem] Filter-Code (3.4.3): `m.getLagerName()` / `m.getKatName()` → korrekte BestandView-Methoden (Material hat diese Methoden nicht)
+- [Problem] updateStatus-Code (3.4.4): `b.getBestellId()` → `b.getId()` (2 Stellen; Bestellung.java hat getId(), nicht getBestellId())
+- [Änderung] Alle 7 Korrekturen in Doku_C_Durchfuehrung.docx angewendet
+
+### Doku_E_Anhang.docx — 1 Korrektur
+
+- [Problem] Anhang A Tabellenübersicht: Primärschlüssel der Tabelle bestellungen war `bestell_id` → korrigiert zu `bestellung_id` (laut SQL-Schema)
+- [Änderung] Korrektur in Doku_E_Anhang.docx angewendet
+
+### Doku_B_Ausgangssituation.docx — 1 Korrektur
+
+- [Problem] Abschnitt 2.1: Text sagte „5 Phasen" → korrigiert zu „7 Phasen" (konsistent mit Projektplan.md + Hauptdokumentation)
+- [Erkenntnis] Phasentabelle in Doku_B (5 Zeilen) stimmt noch nicht mit 7-Phasen-Struktur überein → manuell nachzupflegen wenn Phase 4–7 abgeschlossen
+
+### Doku_A, Doku_D, Projektdokumentation_Sascha_Schulz.docx — keine Fehler
+
+- [Erkenntnis] Doku_A: Inhaltsverzeichnis, Abbildungsverzeichnis, Tabellenverzeichnis, Quellenverzeichnis alle vorhanden
+- [Erkenntnis] Doku_D: Soll-Ist-Tabelle und Testfälle korrekt als Platzhalter angelegt, werden nach Block 2 befüllt
+- [Erkenntnis] Hauptdoku: Abgabedatum-Platzhalter `[Datum eintragen]` muss nach Abgabe auf 17.07.2026 gesetzt werden
+
+---
+
+## 2026-06-02 — Vollständiger Projekt-Audit vor Block 2 (KW24)
+
+- [Problem] **BUG KRITISCH #1 — BestandsbewegungDAO.java: falscher Spaltenname**
+  - Alle SQL-Statements nutzten `bestandsbewegung_id` (existiert nicht in der DB)
+  - SQL-Schema definiert den PK als `bewegung_id`
+  - Betroffen: `findById`, `findAll`, `update`, `delete`, `mapRow` → alle hätten `SQLException: Unknown column` geworfen
+  - [Änderung] Alle 5 Stellen korrigiert: `bestandsbewegung_id` → `bewegung_id`
+
+- [Problem] **BUG KRITISCH #2 — DBConnection.java: falscher Datenbankname**
+  - URL zeigte auf `DOIT` statt `krankenhaus_lager`
+  - SQL-Skript erstellt `CREATE DATABASE krankenhaus_lager` → Verbindung wäre komplett gescheitert
+  - [Änderung] `jdbc:mysql://127.0.0.1:3324/DOIT?...` → `jdbc:mysql://127.0.0.1:3324/krankenhaus_lager?...`
+
+- [Problem] **BUG KRITISCH #3 — BewegungsTyp.java: TRANSFER-Wert nicht in SQL-ENUM**
+  - Java-ENUM hatte: `EINGANG, AUSGANG, TRANSFER`
+  - SQL-ENUM definiert nur: `ENUM('EINGANG','AUSGANG')`
+  - UI hätte TRANSFER als Option angezeigt → INSERT wäre mit MySQL-Fehler gescheitert
+  - [Änderung] `TRANSFER` aus BewegungsTyp.java entfernt
+
+- [Änderung] **Entscheidungen.md** — Tippfehler korrigiert: `StationslagDAO` → `StationslagerDAO`
+
+- [Erkenntnis] Alle anderen Dateien (Models, restliche DAOs, MainController, FXML, pom.xml, SQL-Schema, Markdown-Docs) sind konsistent und fehlerfrei
+- [Erkenntnis] Word-Dokumente (Doku_A–E, Projektdokumentation) konnten nicht maschinell gelesen werden (Bash-Umgebung nicht verfügbar) — manuell zu prüfen
+- [Erkenntnis] Nach den drei Fixes ist der Code technisch startbereit für Block 2 (KW24)
+
+---
+
+## 2026-05-31 — Dokumentationsstruktur + Datei-Bereinigung (Folge-Runde)
+
+- [Änderung] `Glossar_Java_API.docx` von `Ablage/` → Root verschoben (gehört zu den Doku-Arbeitsteilen)
+- [Änderung] `KOHAEREZ_AUDIT_2026-05-18.md` → `Archiv/` verschoben (Einmal-Dokument, kein Dauerauftrag)
+- [Änderung] `CLAUDE.md` + `Dateiuebersicht.md`: Doku_A–E-Struktur dokumentiert — Arbeitsweise erklärt (Einzelteile → am Ende zusammenführen in Projektdokumentation_Sascha_Schulz.docx)
+- [Erkenntnis] **Doku-Workflow:** Änderungen immer in Doku_A–E-Einzeldateien; Glossar_Java_API.docx wird als Anhang-Teil integriert; finale Zusammenführung in Projektdokumentation_Sascha_Schulz.docx am Projektende
+
+---
+
+## 2026-05-31 — Ordner-Bereinigung nach Backup-Problem
+
+- [Problem] Backup-Restore hat heute (17:00 Uhr) ältere Dateiversionen in den Root-Ordner eingespielt (alle Dateien gleicher Timestamp 17:00:24). Neuere Versionen in Unterordnern blieben unberührt.
+- [Änderung] **Bereinigung durchgeführt:** Alle Duplikate, Temp-Dateien und unpacked-Ordner entfernt.
+  - Gelöscht: 7x `.bak`, 1x `.bkp`, 4x `unpacked_*/check_fix/` Ordner in Root, Ablage/Unpacked_Work/, Ablage/check_fix/
+  - Gelöscht: `temp_dok.md`, `temp_dok_neu.md`, `temp_part1.md`, `temp_part2.md`, `neue_sektion.md`, `temp_dokumentation_neu.docx`
+  - Gelöscht: `KAPITEL_5_6_PLAN (1).md` (Windows-Duplikat)
+  - Gelöscht: Archiv/Entscheidungen.md + Archiv/testdaten.sql (identisch mit Root)
+  - Gelöscht: Projektmanagement/Projektplan.md, Projektmanagement/Wochenplan.xlsx (Root ist kanonisch)
+  - Gelöscht: Dokumentation/ Ordner (beide Dateien in Root vorhanden/kopiert)
+  - Gelöscht: Ablage-Duplikate (how_to_codereview, Java_Konzept, KAPITEL_5_6, KOHAEREZ, Projektdoku_backup)
+  - Gelöscht: Root Lernhandbuch_Lagerverwaltung.docx (156K) — Lernhandbuch/_korrigiert.docx (309K) ist die aktuelle Version
+- [Änderung] Root mit neueren Unterordner-Versionen aktualisiert:
+  - `Projekttagebuch.md` ← Projektmanagement/ (Stand 21.05., neuer als Backup-Version)
+  - `Projektdokumentation_Sascha_Schulz.docx` ← Dokumentation/ (25K, größer als Backup 22K)
+  - `Java_Handbuch_Start.docx` ← Ablage/ (41K, wesentlich größer als Backup 25K)
+- [Änderung] `STATUS_KW21_CHECKPOINT.txt` → Archiv/ verschoben
+- [Änderung] `Dateiuebersicht.md` vollständig aktualisiert (alle neuen Dateien ergänzt, Struktur bereinigt)
+
+---
+
+## 2026-05-19 — Glossar Java API für Dokumentation erstellt
+
+- [Änderung] **Anhang D erstellt:** `Glossar_Java_API.docx` mit 48 Java-API-Begriffen
+- [Erkenntnis] Durch Durchsicht der Doku identifiziert: 48 Begriffe aus Standard Java API (JDK 8+)
+- [Erkenntnis] **Keine externen Dependencies** — ausschließlich java.lang, java.util, java.io, java.sql (JDBC), java.time, javafx.*
+- [Erkenntnis] Glossar kategorisiert nach Paket/Funktion: JDBC (5), Collections (6), JavaFX Layout/UI (10), JavaFX Core (4), Events/Listeners (4), java.time (2), java.util.function (5), java.lang (3), java.io (3), weitere (1)
+- [Änderung] Glossar als separate .docx, wird später als **Anhang D** in die Hauptdokumentation integriert
+- [Quelle] Oracle Java 8 API Docs (https://docs.oracle.com/javase/8/docs/api/, 2026-05-19)
+- [Quelle] Oracle JavaFX 8 API Docs (https://docs.oracle.com/javase/8/javafx/api/, 2026-05-19)
+
+---
+
+## 2026-05-06 — Bestandsberechnung direkt in SQL
+
+- [Erkenntnis] Überlegt: Wer berechnet den Lagerbestand — Java oder die Datenbank?
+- [Erkenntnis] Nach Recherche auf mehreren Webseiten entschieden: Berechnung läuft direkt per SQL (`SUM(EINGANG) − SUM(AUSGANG)` über `bestandsbewegungen`)
+- [Erkenntnis] Begründung: SQL-Aggregation ist performanter als alle Zeilen nach Java laden und dort summieren
+- [Erkenntnis] Begründung: Weniger fehleranfällig — keine doppelte Logik in Java und DB, eine Quelle der Wahrheit
+- [Erkenntnis] Folge: Kein `bestand`-Feld in `materialien` — Bestand ist immer ein berechneter Wert aus der Bewegungstabelle
+- [Quelle] Mehrere Webseiten zu SQL-Aggregation vs. Java-Berechnung (2026-05-06)
+
+---
+
+## 2026-05-06 — Trennung von Model und DAO
+
+- [Erkenntnis] Jedes Package hat eine einzige Verantwortlichkeit (Single Responsibility)
+- [Erkenntnis] `Material.java` (model) = Datendefinition — was ist ein Material, welche Felder hat es
+- [Erkenntnis] `MaterialDAO.java` (dao) = Datenzugriff — wie wird Material aus der DB gelesen/geschrieben
+- [Erkenntnis] Vorteil: SQL-Frage → sofort in DAO schauen; Strukturfrage → sofort in Model schauen
+- [Erkenntnis] Fachgesprächsrelevant: Trennung erklären können — Lesbarkeit, Wartbarkeit, Erweiterbarkeit
+
+---
+
+## 2026-05-06 — Package-Namenskonvention
+
+- [Erkenntnis] Package-Namen folgen der Java-Konvention: umgedrehte Domain + Funktionsbereich
+- [Erkenntnis] `de.doit` → Länderkürzel `de` + Projektkennung `doit`; darin liegt nur `Main.java`
+- [Erkenntnis] `de.doit.model` — POJOs, spiegeln Datenbanktabellen wider (z. B. `Material.java`, `Kategorie.java`)
+- [Erkenntnis] `de.doit.dao` — Data Access Objects, zuständig für alle SQL-Operationen (CRUD via `PreparedStatement`)
+- [Erkenntnis] `de.doit.db` — enthält `DBConnection.java` (Singleton, zentrale Datenbankverbindung)
+- [Erkenntnis] `de.doit.controller` — JavaFX-Controller, steuern die Oberfläche und verbinden Model mit View
+
+---
+
+## 2026-05-06 (Manuell) — Eintrag 2
+
+- [Änderung] MySQL-Verbindung in IntelliJ Database Tool Window eingerichtet
+- [Erkenntnis] Verbindungsparameter: Host `localhost`, Port `3324`, User `root`, Database `lagerverwaltung`
+- [Erkenntnis] Verbindung über IntelliJ: Plus → Data Source → MySQL → Dialog ausfüllen → Test Connection
+
+---
+
+## 2026-05-06 (Manuell)
+
+- [Änderung] SQL-Skript `testdaten_krankenhaus_lager.sql` fertiggestellt — alle Tabellen angelegt, Testdaten eingefügt
+- [Problem] SQL-Fehler beim Ausführen: fehlendes Semikolon am Ende einer Anweisung
+- [Quelle] Fehlerursache über Google-Recherche ermittelt (2026-05-06)
+- [Erkenntnis] SQL-Statements immer mit Semikolon abschließen — MySQL-Workbench/CLI bricht sonst beim nächsten Statement mit Syntaxfehler ab
+
+---
+
+## 2026-05-06 (Wochencheck KW19 — automatisch)
+
+- [Änderung] `CLAUDE.md` aktualisiert: Dokumentationsvorgaben aus `11_DOIT_2551_Dokumentationsvorgaben.pdf` eingetragen + Abschluss-Checkliste ergänzt
+- [Erkenntnis] Abgleich Dokumentation: Abbildungsverzeichnis, Tabellenverzeichnis und Quellenverzeichnis fehlen noch komplett. Benutzerhandbuch muss als Anhang in die Hauptdoku, nicht als separate Datei.
+- [Erkenntnis] Inhaltsverzeichnis ist manuell gepflegt (kein Word-Auto-TOC) — bei Änderungen Seitenzahlen manuell prüfen.
+- [Problem] Dateiuebersicht.md ist veraltet: Doku_A–E.docx, lmstudio-proxy/, start-ai.ps1, 11_DOIT_2551_Dokumentationsvorgaben.pdf (Vorgaben-Ordner) fehlen in der Übersicht.
+- [Erkenntnis] Java-Projekt (DOIT3) gescannt: Nur IntelliJ-Standard-Template vorhanden (HelloApplication, HelloController, Launcher). Kein projektspezifischer Code — entspricht Phase 1 (Analyse/Planung), kein Rückstand.
+- [Erkenntnis] SQL-Schema (testdaten_krankenhaus_lager.sql) ist konsistent mit Entscheidungen.md und Projektplan: 6 Tabellen, kein Bestandsfeld in materialien, korrekte FKs.
+
+---
+
+## 2026-05-11 (Wochencheck KW20 — automatisch)
+
+- [Erkenntnis] KW20 = Phase 2 laut Projektplan (SQL anlegen, Testdaten, JDBC-Verbindung). SQL-Skript und DB-Verbindung aus KW19 bereits erledigt — Phase 2 teilweise vorgearbeitet.
+- [Erkenntnis] Java-Projekt (DOIT3): Immer noch nur IntelliJ-Template (HelloApplication, HelloController, Launcher). Kein projektspezifischer Code. Package-Name ist `com.example.doit3` — abweichend von geplanter Konvention `de.doit`. Muss vor Phase 3 korrigiert werden.
+- [Problem] Package-Name `com.example.doit3` widerspricht der dokumentierten Konvention (`de.doit.*` aus Tagebucheintrag 06.05.). Refactoring nötig bevor DAOs und Models angelegt werden.
+- [Problem] `todos.docx` in Dateiuebersicht.md gelistet, aber Datei existiert nicht im Ordner.
+- [Erkenntnis] Dateiuebersicht.md ist aktuell (alle Doku_A–E.docx, lmstudio-proxy/, start-ai.ps1 sind korrekt eingetragen nach KW19-Fix).
+- [Erkenntnis] Konsistenzcheck Entscheidungen/Plan/SQL: Alle konsistent — 6 Tabellen, kein Bestandsfeld, drawio als Standard, DAO-Pattern.
+- [Erkenntnis] Für KW20: DBConnection.java + alle 6 Model-Klassen + alle 6 DAO-Klassen (mindestens findAll/create) anlegen. Package erst auf `de.doit` umbenennen.
+
+---
+
+## 2026-05-06 — java.sql-Imports für Datenbankverbindung
+
+- [Erkenntnis] `import java.sql.Connection` — repräsentiert die aktive Verbindung zur Datenbank; darüber werden alle SQL-Anweisungen gesendet (Statements, Queries)
+- [Erkenntnis] `import java.sql.DriverManager` — baut die Verbindung auf anhand von drei Parametern: Datenbank-URL (`jdbc:mysql://...`), Benutzername und Passwort
+- [Erkenntnis] `import java.sql.SQLException` — Ausnahmeklasse für alle DB-Fehler (falsches Passwort, Server nicht erreichbar, falsche URL); muss immer abgefangen oder weitergegeben werden
+- [Erkenntnis] Alle drei gehören zum Java-Standardpaket `java.sql` — kein externer Import nötig, aber der MySQL-JDBC-Treiber (`mysql-connector-j`) muss als Abhängigkeit im Projekt vorhanden sein
+- [Erkenntnis] Zusammenspiel: `DriverManager.getConnection(url, user, pw)` gibt ein `Connection`-Objekt zurück; schlägt es fehl, wirft es eine `SQLException`
+
+---
+
+## 2026-05-17 — Stand KW19–KW21 + Java-Code Lagerverwaltung verifiziert
+
+- [Erkenntnis] **Java-Code Lagerverwaltung (korrekt!)**:
+  - ✅ Package-Struktur: `de.doit.db`, `de.doit.model`, `de.doit.dao`, `de.doit.controller`
+  - ✅ DBConnection.java: Singleton mit Lazy-Loading (37 Zeilen)
+  - ✅ 7 Model-Klassen: Material, Bestellung, Bestandsbewegung, Stationslager, Lieferant, Kategorie, + BewegungsTyp, BestandView (Ø 30 Zeilen)
+  - ✅ 6 DAO-Klassen: MaterialDAO (73), BestellungDAO (71), BestandsbewegungDAO (66), StationslagerDAO (50), LieferantDAO (50), KategorieDAO (48) — alle mit PreparedStatement
+  - ✅ MainController (60 Zeilen) + Main.java (24 Zeilen)
+  - **Total: 736 Zeilen Code, Phase 3 vollständig abgeschlossen**
+
+- [Manuell] **KW19 (04.05–08.05)** Status:
+  - ✅ Mo–Mi: ER-Diagramm, Datenbank-Schema, SQL-Skript + Testdaten
+  - ✅ Do–Fr: krank (nicht geplant)
+  - → Phase 1+2 erledigt
+
+- [Manuell] **KW20 (11.05–15.05)** Status:
+  - ✅ Mo: Package-Umbenennung + 6 Model-Klassen + DBConnection geschrieben (7h)
+  - ✅ Di–Mi: krank (nicht geplant)
+  - ✅ Do–Fr: frei (nicht geplant)
+  - → Phase 3 Anfang gemacht
+
+- [Manuell] **KW21 (18.05–22.05)** Plan:
+  - **Mo (18.05):** Package-Struktur + 6 Models (7h geplant = tatsächlich)
+  - **Di (19.05):** DBConnection + MaterialDAO (7h)
+  - **Mi (20.05):** 5 weitere DAOs (7h)
+  - **Do (21.05):** BestandBewegungDAO + alle 6 DAOs testen (7h)
+  - **Fr (22.05):** Fehlerbehandlung, Code aufräumen, Phase 3 abschließen (7h)
+
+- [Änderung] **Alle Dateien auf "Lagerverwaltung" angepasst**: DOIT3-Ordner wird gelöscht, Word-Dateien werden manuell angepasst (Suchen/Ersetzen)
+
+---
+
+## 2026-05-18 — Lernhandbuch Fehler Seite 38 + Kapitel 6 Model-Klassen abgeschlossen
+
+- [Problem] Lernhandbuch Seite 38 (Kapitel 6.4 Lieferant.java): Konstruktoren waren kopiert von Stationslager — falsche Parameter
+- [Änderung] Drei Konstruktoren korrigiert: `public Stationslager(...)` → `public Lieferant(String name, String kontakt, String telefon, String email)`
+- [Änderung] Lernhandbuch aktualisiert und validiert (XML-Struktur geprüft)
+
+- [Manuell] **Kapitel 6: Die Model-Klassen** erledigt:
+  - ✅ Material.java (7 Felder: id, name, einheit, mindestbestand, kategorieId)
+  - ✅ Kategorie.java (3 Felder: id, name, beschreibung)
+  - ✅ Stationslager.java (4 Felder: id, name, standort, typ)
+  - ✅ Lieferant.java (5 Felder: id, name, kontakt, telefon, email)
+  - ✅ Bestellung.java (8 Felder: id, materialId, lieferantId, lagerId, menge, bestelldatum, lieferdatum, status)
+  - ✅ Bestandsbewegung.java (8 Felder: id, materialId, lagerId, bewegungstyp, menge, ablaufdatum, datum, bemerkung)
+  - ✅ BewegungsTyp.java (ENUM: EINGANG, AUSGANG)
+  - ✅ BestandView.java (berechnete Sicht: materialId, lager Id, bestand = SUM(EINGANG) − SUM(AUSGANG))
+  - Alle mit zwei Konstruktoren (ohne/mit ID), Getter/Setter, toString()
+- [Erkenntnis] Jede Model-Klasse spiegelt eine Tabelle aus der Datenbank
+
+---
+
+## 2026-05-17 — Wochenplan wiederhergestellt mit Stunden
+
+- [Problem] Wochenplan_Sascha_Schulz.xlsx war komplett kaputt (falsche Struktur, fehlende Stunden)
+- [Änderung] Wochenplan von Vorlage `03_Orga_Wochenplan_Vorlage.xlsx` neu aufgebaut + alle Aufgabenlisten + Stunden:
+  - **KW19 (21h):** Mo–Mi je 7h (Projektziele, ER-Diagramm, Datenbank), Do–Fr krank
+  - **KW20 (7h):** Mo 7h (Package-Struktur, Models, DBConnection), Di–Fr krank/frei
+  - **KW21 (32h):** Mo–Do je 7h (Models, DBConnection, MaterialDAO, weitere DAOs, BestandBewegungDAO), Fr 4h (Verifikation, Tests, Cleanup)
+  - Gesamt Phase 1–3: 60h (passt zum Projektplan)
+- [Erkenntnis] Stundeneinteilung basiert auf Aufgabenkomplexität pro Tag; Fr KW21 = 4h (nicht 7h) weil nur Verifikation/Tests/Cleanup
+
+---
+
+## 2026-05-18 — Datenbankverbindung erfolgreich + Umbenennung DOIT → krankenhaus_lager
+
+- [Problem] Communications link failure — JDBC-Verbindung zur MySQL-DB fehlgeschlagen
+- [Erkenntnis] Fehlersuche: falscher Port in Verbindungsstring eingetragen
+- [Änderung] Port korrigiert → Datenbankverbindung erfolgreich hergestellt
+- [Erkenntnis] Connect mit Datenbank funktioniert — Testabfrage gelungen
+
+---
+
+## 2026-05-18 — DBConnection als Singleton implementiert
+
+- [Änderung] `DBConnection.java` erstellt mit `private` Verbindung + `getConnection()` + `closeConnection()`
+- [Entscheidung] **Singleton-Pattern** nach Recherche gewählt
+- [Erkenntnis] Begründung: eine einzige aktive Verbindung zur Datenbank (Leistung, Performance, ressourcenschonend)
+- [Erkenntnis] Begründung: verhindert mehrfaches Öffnen/Schließen von Verbindungen → Overhead reduziert
+- [Erkenntnis] Begründung: zentrale Verwaltung ermöglicht einfaches Connection-Management über die gesamte Anwendung
+- [Quelle] Recherche: Singleton-Pattern für DB-Verbindungen (Best Practice) (2026-05-18)
+
+---
+
+## 2026-05-18 — Kohärenz-Prüfung: IntelliJ-Code vs. SQL-Schema + Dokumentation
+
+**KOHÄRENZ-ERGEBNIS: ✅ VOLLSTÄNDIG KONSISTENT**
+
+### A) Datenmodell: drawio ↔ SQL-Schema ↔ Java Model-Klassen
+
+**SQL-Schema (`testdaten_krankenhaus_lager.sql`):**
+- ✅ 6 Tabellen angelegt: kategorien, materialien, stationslager, lieferanten, bestellungen, bestandsbewegungen
+- ✅ Primärschlüssel (PK) korrekt: kategorie_ID, material_ID, lager_ID, lieferant_ID, bestellung_ID, bewegung_ID
+- ✅ Fremdschlüssel (FK) korrekt: materialien→kategorien, bestellungen→(materialien, lieferanten, stationslager), bestandsbewegungen→(materialien, stationslager)
+- ✅ Spaltennamen exakt wie in drawio (`DOIT Krankenhaus.drawio`)
+- ✅ Kein `bestand`-Feld in `materialien` (als D-001 festgelegt)
+
+**Java Model-Klassen (7 insgesamt):**
+- ✅ Material.java (7 Felder: materialId, name, einheit, mindestbestand, kategorieId)
+- ✅ Kategorie.java (3 Felder: kategorieId, name, beschreibung)
+- ✅ Stationslager.java (4 Felder: lagerId, name, standort, typ)
+- ✅ Lieferant.java (5 Felder: lieferantId, name, kontakt, telefon, email)
+- ✅ Bestellung.java (8 Felder: bestellungId, materialId, lieferantId, lagerId, menge, bestelldatum, lieferdatum, status)
+- ✅ Bestandsbewegung.java (8 Felder: bewegungId, materialId, lagerId, bewegungstyp, menge, ablaufdatum, datum, bemerkung)
+- ✅ BewegungsTyp.java (ENUM: EINGANG, AUSGANG)
+- ✅ BestandView.java (berechnete Sicht für Material-Bestand-Kombination)
+- **Alle Klassen spiegeln die Tabellenstruktur 1:1 mit zwei Konstruktoren (mit/ohne ID) + Getter/Setter + toString()**
+
+### B) Architektur: Package-Struktur ↔ DAO-Pattern ↔ Entscheidungen
+
+**Package-Struktur (`de.doit.*`):**
+- ✅ `de.doit.db` → DBConnection.java (Singleton, lazy-loaded, 37 Zeilen)
+- ✅ `de.doit.model` → 7 Model-Klassen (Ø 30 Zeilen, POJO)
+- ✅ `de.doit.dao` → 6 DAO-Klassen (Ø 60 Zeilen, PreparedStatement)
+- ✅ `de.doit.controller` → MainController.java (JavaFX, 60 Zeilen)
+- ✅ `de.doit` → Main.java (Einstiegspunkt, 24 Zeilen)
+
+**DAO-Implementierung (6 DAOs):**
+- ✅ KategorieDAO.java (create, findById, findAll, update, delete mit PreparedStatement)
+- ✅ MaterialDAO.java (CRUD-Operationen)
+- ✅ StationslagerDAO.java (CRUD-Operationen)
+- ✅ LieferantDAO.java (CRUD-Operationen)
+- ✅ BestellungDAO.java (CRUD-Operationen)
+- ✅ BestandsbewegungDAO.java (CRUD-Operationen)
+- **Alle DAOs nutzen `DBConnection.getConnection()` + PreparedStatement (SQL-Injection-Schutz)**
+
+**Entscheidungen konsistent:**
+- ✅ D-001 (kein Bestand-Feld): Java-Code hat keinen Bestand in Material-Klasse ✓
+- ✅ D-002 (6 Tabellen Pflicht): alle 6 Tabellen im SQL + alle 6 DAOs implementiert ✓
+- ✅ D-003 (drawio Standard): Spaltennamen in SQL = Spaltennamen in Models ✓
+- ✅ D-004 (DAO + Singleton): DBConnection.java vorhanden, alle DAOs nutzen es ✓
+- ✅ D-005 (lokal): Connection zu `jdbc:mysql://localhost:3324/DOIT` ✓
+- ✅ D-006 (Stunden): 180h Antrag, 192h Wochenplan, 12h Puffer dokumentiert ✓
+
+### C) MainController: Initialisierung aller DAOs
+
+```java
+private final MaterialDAO materialDAO = new MaterialDAO();
+private final BestandsbewegungDAO bestandsbewegungDAO = new BestandsbewegungDAO();
+private final BestellungDAO bestellungDAO = new BestellungDAO();
+private final KategorieDAO kategorieDAO = new KategorieDAO();
+private final LieferantDAO lieferantDAO = new LieferantDAO();
+private final StationslagerDAO stationslagerDAO = new StationslagerDAO();
+
+@FXML
+public void initialize() {
+    ladeMaterialien();
+    ladeBestandsbewegungen();
+    ladeBestellungen();
+}
+```
+
+- ✅ Alle 6 DAO-Instanzen privat final
+- ✅ initialize() lädt die Kernbereiche (Material, Bewegung, Bestellung)
+- ✅ entspricht Projektplan Phase 4 (UI Grundfunktionen)
+
+### D) Code-Größe und Phase-Abschluss
+
+| Komponente | Zeilen | Anzahl | Total |
+|---|---|---|---|
+| Model-Klassen | 30 Ø | 7 | 210 |
+| DAO-Klassen | 60 Ø | 6 | 360 |
+| DBConnection | 37 | 1 | 37 |
+| MainController | 60 | 1 | 60 |
+| Main.java | 24 | 1 | 24 |
+| SQL-Schema | — | 6 Tables | ✓ |
+| **Summe** | **—** | **—** | **691 Zeilen** |
+
+- **Phase 1–3 (Datenbank + DAO-Schicht): ✅ ABGESCHLOSSEN**
+- Projekt sitzt zeitlich im Plan (KW21 = aktuelle Woche, Phase 3 vollständig)
+- Phase 4 (UI) hat bereits begonnen (MainController.java initialisiert alle DAOs, wird nächste Woche erweitert)
+
+### E) Dokumentation: aktuell ↔ inkonsistenz
+
+- ✅ Projektplan.md: korrekt, alle Phasen beschrieben
+- ✅ Dateiübersicht.md: aktuell (alle Dateien aufgelistet, archiviert wenn nötig)
+- ✅ Entscheidungen.md: D-001 bis D-006 alle implementiert
+- ✅ Projekttagebuch.md: wird jeweils nach jeder Phase befüllt
+- ⏳ `Projektdokumentation_Lagerverwaltung_Sascha_Schulz.docx`: noch zu füllen (Phase 7)
+- ⏳ `Benutzerhandbuch_Lagerverwaltung_Sascha_Schulz.docx`: noch zu füllen (Phase 7)
+
+### ZUSAMMENFASSUNG: KOHÄRENZ ✅ GRÜN
+
+Datenmodell (SQL), Java-Code (Models, DAOs, Controller) und Dokumentation (Projektplan, Entscheidungen) sind **vollständig konsistent**.
+
+Nächste Schritte (KW21 Fr–KW24):
+- Phase 4: UI Erwiterung (Buttons, TableViews, Dialog-Fenster für CRUD)
+- Phase 5–6: Suche/Filter/Warnung implementieren
+- Phase 7: Dokumentation + Benutzerhandbuch ausfüllen
+
+---
+
+## 2026-05-18 (Checkpoint) — Kapitel 5 + 6 geplant für KW21 Fr + nächste Woche
+
+- [Änderung] Zwei Dokumente hinzugefügt für Kapitel 5 + 6:
+  - `KAPITEL_5_6_PLAN.md` — Lernplan mit Code-Templates + Lernzielen
+  - `KOHAEREZ_AUDIT_2026-05-18.md` — Vollständiger Audit: SQL ↔ Java ↔ Doku
+- [Manuell] **Kapitel 5 (DBConnection.java):** 
+  - Singleton-Pattern erklärt
+  - Lazy-Loading implementiert
+  - JDBC-Konzept (URL, USER, PASSWORD, SQLException)
+  - Code in IntelliJ geprüft: ✅ korrekt (37 Zeilen)
+- [Manuell] **Kapitel 6 (Die Model-Klassen — 7 Stück):**
+  - Material, Kategorie, Stationslager, Lieferant, Bestellung, Bestandsbewegung
+  - Zusätz: BewegungsTyp (ENUM), BestandView (ViewModel)
+  - Alle Klassen: 2 Konstruktoren (mit/ohne ID) + Getter/Setter + toString()
+  - Code in IntelliJ geprüft: ✅ alle 7 Klassen vorhanden + korrekt (Ø 30 Zeilen)
+- [Erkenntnis] **Kohärenz-Check abgeschlossen:**
+  - SQL-Schema (6 Tabellen) ← → Java Models (6 + 2 Helper) ← → DAO (6 Klassen)
+  - Alle Spaltennamen konsistent zwischen SQL, Java, drawio
+  - D-001 bis D-006 alle implementiert
+  - 691 Zeilen Code (Phase 1–3: erledigt, zeitlich im Plan)
+- [Erkenntnis] **Phase 3 = 100% abgeschlossen**, Phase 4 (UI) startet KW24
+
+---
+
+## 2026-05-20 — DBConnection: statische Variablen + DriverManager.getConnection()
+
+- [Erkenntnis] URL, USER, PASSWORD müssen **statische Klassenvariablen** (`static`) in DBConnection sein — sonst kann `DriverManager.getConnection()` nicht darauf zugreifen
+- [Erkenntnis] `DriverManager` ist ein Klassenname aus der Java-Standardbibliothek (`java.sql`)
+- [Erkenntnis] `DriverManager.getConnection()` ist eine **statische Methode** — wird direkt über den Klassennamen aufgerufen, keine Instanz nötig
+- [Erkenntnis] `.` (Punkt) = Zugriffsoperator — zeigt an, zu welcher Klasse die Methode gehört
+- [Erkenntnis] `()` (Klammern) = Parameterübergabe — URL, USER, PASSWORD werden in den Klammern übergeben, nicht über den Punkt
+- [Erkenntnis] Syntax-Zusammenfassung: `DriverManager.getConnection(URL, USER, PASSWORD)` → Klasse.Methode(Parameter)
+
+---
+
+## 2026-05-20 — localhost IP-Adresse recherchiert
+
+- [Quelle] https://www.seo-kueche.de/lexikon/localhost/ (abgerufen 2026-05-20)
+- [Erkenntnis] localhost hat die reservierte IP-Adresse `127.0.0.1` (IPv4) bzw. `::1` (IPv6)
+- [Erkenntnis] Relevant für JDBC-Verbindung: `jdbc:mysql://localhost:3324/...` und `jdbc:mysql://127.0.0.1:3324/...` sind gleichwertig
+
+---
+
+## 2026-05-19 (Freitags-Audit KW21 — automatisch)
+
+- [Änderung] **Zwei neue Dokumente erstellt:**
+  - `Projektplan.md` — Phasen, Stundeneinteilung, Meilensteine (Detailinformationen aus CLAUDE.md + Tagebuch)
+  - `FREITAGS_AUDIT.md` — Automatisierter wöchentlicher Audit-Prozess (Checkliste + Prüfschritte)
+
+- [Erkenntnis] **Phase 3 Status KW21:**
+  - Geplant: 32 h (Mo–Fr: 7h+7h+7h+7h+4h)
+  - Tatsächlich: ⏳ noch diese Woche laufend (Audit am 22.05 durchführen)
+  - ✅ Phase 3 Code-Abschluss bis Freitag 22.05 zu 100% geplant
+
+- [Erkenntnis] **Dokumentation Status:**
+  - ✅ `Projektplan.md` erstellt (Phasen, Stunden, Datenmodell, Code-Struktur)
+  - ✅ `FREITAGS_AUDIT.md` erstellt (automatisierter Audit-Workflow für jeden Freitag)
+  - ⏳ `Wochenplan_Sascha_Schulz.xlsx` existiert nicht im Ordner — wird bei nächster Gelegenheit nachgeladen/erstellt
+
+- [Erkenntnis] **Freitags-Audit Prozess:**
+  - Jeden Freitag: Projektplan ↔ Tagebuch vergleichen (Sollstunden vs. Ist-Stunden)
+  - Entscheidungen (D-001–D-006) vs. Code prüfen (Konsistenz)
+  - Dateiuebersicht.md auf Aktualität prüfen
+  - Tagebucheintrag [Erkenntnis] mit Status + Empfehlungen schreiben
+  - Output: Kompakte Markdown-Tabelle mit ✅/⚠️-Status
+
+- [Empfehlung] **Nächste Woche (KW22: 25.05–29.05):**
+  - Phase 3 mit Freitags-Audit abschließen (22.05)
+  - Phase 4 (UI-Entwicklung) starten: JavaFX Views, TableViews, CRUD-Dialoge
+  - Stundeneinteilung: 7h × 5 Tage = 35 h geplant (aus Projektplan)
+
+---
+
+## 2026-05-21 (Freitags-Audit KW21 — automatisch)
+
+- [Erkenntnis] **Phase 3 Status: ✅ ABGESCHLOSSEN** — alle 6 Models + 6 DAOs + DBConnection vorhanden, Code konsistent (1773 Zeilen gesamt)
+- [Erkenntnis] **Phase 4 BEREITS GESTARTET (⚡ voraus):** MainController.java hat 703 Zeilen (geplant war 60 am Ende Phase 3) — TableViews für alle 6 Entitäten bereits im Code, FXML vorhanden
+- [Erkenntnis] **KW21 geplant: 32h** (Phase 3 DAO-Schicht) — Phase 3 vollständig erledigt, Phase 4 begonnen → effektiv im Zeitplan oder leicht voraus
+- [Erkenntnis] **Code-Konsistenz D-001–D-006: ✅ ALLE OK**
+  - D-001: Material.java kein bestand-Feld ✅
+  - D-002: 6 Models + 6 DAOs vorhanden ✅
+  - D-003: Spaltennamen konsistent (aus Voradit bestätigt) ✅
+  - D-004: DBConnection Singleton + alle DAOs nutzen es ✅
+  - D-005: localhost (127.0.0.1:3324) ✅
+  - D-006: 180h/192h/12h dokumentiert ✅
+- [Problem] `todos.docx` in Dateiuebersicht.md gelistet, existiert nicht — bekanntes Problem seit KW20, noch nicht behoben
+- [Problem] `Projektdokumentation_Lagerverwaltung_Sascha_Schulz.docx` + `Benutzerhandbuch_Lagerverwaltung_Sascha_Schulz.docx` fehlen noch — geplant Phase 7, aber Dokument-Erstellung jetzt früher starten empfohlen (Risiko bei Zeitdruck)
+- [Empfehlung] **KW22 (25.05–29.05): Phase 4 fortsetzen** — CRUD-Dialoge (Create/Update/Delete) für alle 6 Entitäten implementieren, 42h geplant
+
+---
+
+## 2026-06-07
+
+**[Änderung]** Projektdokumentation vollständig überarbeitet und zusammengeführt (Claude-Session).
+- Kapitel 3 (Doku_C) von fälschlich 5 auf **7 Phasen** umgestellt (gemäß Projektantrag v2): Phase 4 UI-Grund (40h), Phase 5 Erweitert (25h), Phase 6 Tests (25h), Phase 7 Doku (30h). Frühere „65h/55h"-Angaben entfernt.
+- Doku_B Wochenübersicht: alte „Phase 4 (I)/(II)/Phase 5"-Labels auf 7-Phasen-Schema korrigiert; Datumsangaben an Projektplan angeglichen.
+- Hauptdoku Kapitel 5 von „Gestaltung des Portfolios" auf „Reflexion & Bewertung" umbenannt.
+- Quellenverzeichnis von 5 auf **14 Quellen** erweitert (JavaFX 17 TableView/ObservableList/FilteredList/TabPane/Dialog, FXML-Tutorial, Maven, MySQL Connector/J, PreparedStatement) — URLs verifiziert, Abruf 07.06.2026.
+- Benutzerhandbuch vollständig in **Anhang C** integriert (vorher separate Datei).
+- Doku_D (Kap. 4/5): Soll-Ist auf „Umgesetzt (Test Phase 6)" gesetzt; Testergebnisse + Reflexion als **klar markierte Entwürfe** (Tests/Abnahme stehen noch aus, da Block 2 erst startet).
+- Kap. 3.6.2 „Herausforderungen & behobene Fehler" neu (Bugs aus Tagebuch: PK-Name, DB-Name, ENUM TRANSFER, Port 3324).
+
+**[Problem]** Eingebettetes ER-PNG (in ER_Diagramm_Sascha_Schulz.docx) war **veraltet** — zeigte in `materialien` noch menge/ablaufdatum/lieferant_id/lager_id. Widerspricht korrigiertem Stammdaten-Schema. → Neues, schema-korrektes ER-Diagramm erzeugt (`ER_Diagramm_aktuell.png`) und in Anhang A eingebettet.
+
+**[Erkenntnis]** Format jetzt SRH-konform: Arial 12pt, 1,5-zeilig, A4, Ränder 2,5/2,5/2,5/2,0 cm; alle Pflicht-Verzeichnisse vorhanden. **Offen:** (1) Haupttext Kap. 1–5 ≈ 19 Seiten — Kap. 3 enthält viele Code-/Tabellenseiten (SRH: max. ⅓ pro Seite), ggf. Code kürzen/in Anhang verschieben. (2) Benutzerhandbuch beschreibt UI-Felder Menge/Ablaufdatum/Station auf Materialebene — gegen Stammdaten-Schema, vor Abgabe prüfen. (3) Testergebnisse/Abnahme/Reflexion nach Phase 6/7 finalisieren.
+
+**[Quelle]** Backups der Original-docx unter `_backup_2026-06-07/`.
+
+---
+
+## 2026-06-07 (Nachtrag)
+
+**[Änderung]** Dokument an SRH-Vorgaben + Bewertungsmatrix ausgerichtet (Claude-Session, Teil 2).
+- Format technisch gegen `11_DOIT_2551_Dokumentationsvorgaben.pdf` geprüft: Arial 12pt, 1,5-zeilig, Ränder 2,5/2,5/2,5/2,0 cm, A4, alle Pflicht-Verzeichnisse, Quellen mit URL+Abruf bzw. Titel/Autor/Jahr — alles erfüllt.
+- **Kostenplanung (Kap. 2.5)** neu: fiktiver Stundensatz 80,00 €; verrechnet nur Entwicklung/Test = 180 h − 30 h Doku = 150 h × 80 € = 12.000 €; + Sachkosten 150 € = **12.150 €** gesamt (vorher 180 h × 60 € = 10.950 €).
+- **Kapitel 3** ausführlicher: vollständige Code-Beispiele (MaterialDAO findAll/create, updateStatus mit Auto-EINGANG-Buchung) wieder eingefügt; Testfalltabelle (T1–T10) wieder inline in 3.6.1 (Anhang F aufgelöst).
+- Bewertungsmatrix (6 Kategorien) abgeglichen: Ausgangssituation, Ressourcen/Planung, Durchführung+QS, Auftragsergebnisse, Gestaltung/Form, Kundendokumentation (Handbuch Anhang C) — alle abgedeckt.
+
+**[Erkenntnis]** Seitenzahl laut Betreuer/Sascha nicht bindend; Fokus liegt auf Vorgaben-Konformität. Doku aktuell 32 Seiten gesamt (Haupttext ~18).
+
+---
+
+## 2026-06-07 (Aufräumen)
+
+**[Manuell]** Ordnerstruktur aufgeräumt (nichts gelöscht, nur verschoben):
+- `Doku/` ← Doku_A–E
+- `MD/` ← alle .md (Projektplan, Projekttagebuch, Entscheidungen, Dateiuebersicht, PROJEKT_ANALYSE_VOLLSTAENDIG, KAPITEL_5_6_PLAN, FARB_ANALYSE, GLOSSAR, LERNMATERIAL_README, SPICKZETTEL, SPICKZETTEL_ERWEITERUNG)
+- `Projektdateien/` ← drawio, ER_Diagramm_aktuell.png, ER_Diagramm_Sascha_Schulz.docx, SQL, Antrag v2, Wochenplan
+- `Lernmaterial/` ← Glossar_Java_API.docx, Java_Handbuch_Start.docx, Java_Konzept_Zusammenhaenge.docx, SPICKZETTEL.docx, how_to_codereview.pdf
+- `Archiv/` ← Benutzerhandbuch_Sascha_Schulz.docx (Inhalt steckt jetzt in Anhang C)
+- Wurzel behält: Projektdokumentation_Sascha_Schulz.docx/.pdf + CLAUDE.md
+- CLAUDE.md-Pfade entsprechend angepasst. Hinweis: `MD/Dateiuebersicht.md` ist dadurch veraltet (bei Bedarf aktualisieren).

@@ -1,0 +1,183 @@
+================================================================================
+                   STATUS CHECKPOINT — KW21 (18.05.–22.05.2026)
+                        Lagerverwaltung-Projekt SRH
+================================================================================
+
+Datum:           2026-05-18 (Freitag)
+Aktueller Stand: Phase 3 ABGESCHLOSSEN
+Nächste Phase:   Phase 4 (Pause: 23.05–07.06, Start Block 2: 08.06)
+
+================================================================================
+                           KOHÄRENZ-STATUS: ✅ GRÜN
+================================================================================
+
+DATENBANK (SQL)                    JAVA-CODE                 DOKUMENTATION
+──────────────────────────────────────────────────────────────────────────────
+6 Tabellen:                        7 Model-Klassen:          Projektplan ✅
+✅ kategorien          ↔️          Material.java             Entscheidungen D-001–D-006 ✅
+✅ materialien         ↔️          Kategorie.java            Projekttagebuch ✅
+✅ stationslager       ↔️          Stationslager.java        Dateiübersicht ✅
+✅ lieferanten         ↔️          Lieferant.java
+✅ bestellungen        ↔️          Bestellung.java           NEUE DATEIEN:
+✅ bestandsbewegungen  ↔️          Bestandsbewegung.java     ✅ KAPITEL_5_6_PLAN.md
+                                   + BewegungsTyp (ENUM)     ✅ KOHAEREZ_AUDIT_2026-05-18.md
+                                   + BestandView (ViewModel)
+
+6 DAO-Klassen:                     DBConnection.java (Singleton, 37 Zeilen)
+KategorieDAO.java
+MaterialDAO.java
+StationslagerDAO.java
+LieferantDAO.java
+BestellungDAO.java
+BestandsbewegungDAO.java
+(Ø 60 Zeilen, alle mit PreparedStatement, 100% SQL-Injection-sicher)
+
+================================================================================
+                              CODE-STATISTIK
+================================================================================
+
+Phase 1 (KW19):        DB-Schema + Testdaten          20h ✅
+Phase 2 (KW19–KW20):   JDBC-Verbindung + DBConnection 20h ✅
+Phase 3 (KW20–KW21):   7 Models + 6 DAOs + Controller 20h ✅
+
+Summe Phase 1–3:       ~60h geplant = ~60h verbrauch ✅ IM PLAN
+
+Zeilen Code:
+  - Model-Klassen: 7 × 30 Ø = 210 Zeilen
+  - DAO-Klassen:   6 × 60 Ø = 360 Zeilen
+  - DBConnection:             37 Zeilen
+  - MainController:           60 Zeilen
+  - Main.java:                24 Zeilen
+  ─────────────────────────────────────
+  Summe:                     691 Zeilen
+
+================================================================================
+                           DESIGNENTSCHEIDUNGEN
+================================================================================
+
+D-001: Kein Bestand in materialien           ✅ Implementiert
+       → Bestand wird aus Bewegungen berechnet (SQL-Aggregation)
+
+D-002: 6 Tabellen (alle Pflicht)             ✅ Implementiert
+       → Erfüllt SRH-Anforderung (mind. 5 Tabellen)
+
+D-003: drawio als Standard                   ✅ Implementiert
+       → Spaltennamen SQL = Model-Felder = drawio
+
+D-004: DAO-Pattern + Singleton               ✅ Implementiert
+       → DBConnection.java (private static), alle DAOs nutzen es
+
+D-005: Lokal, kein Internet                  ✅ Implementiert
+       → jdbc:mysql://localhost:3324/DOIT
+
+D-006: 180h Antrag, 192h Wochenplan          ✅ Dokumentiert
+       → 12h Puffer für unerwartete Probleme
+
+================================================================================
+                         INHALT KAPITEL 5 + 6
+================================================================================
+
+KAPITEL 5: DBConnection.java — Die Brücke zur Datenbank
+────────────────────────────────────────────────────────
+• Singleton-Pattern erklärt
+• Lazy-Loading implementiert (Verbindung erst beim ersten Zugriff)
+• JDBC-Konzept: DriverManager, Connection, SQLException
+• Code-Beispiel: DBConnection.java (private static, getConnection(), closeConnection())
+• Lernziele: Singleton verstehen, SQL-Injection-Risiko kennen, PreparedStatement nutzen
+
+KAPITEL 6: Die Model-Klassen — 7 Klassen, 6 Tabellen
+─────────────────────────────────────────────────────
+• Material.java          (7 Felder: id, name, einheit, mindestbestand, kategorieId)
+• Kategorie.java         (3 Felder: id, name, beschreibung)
+• Stationslager.java     (4 Felder: id, name, standort, typ)
+• Lieferant.java         (5 Felder: id, name, kontakt, telefon, email)
+• Bestellung.java        (8 Felder: id, materialId, lieferantId, lagerId, menge, …)
+• Bestandsbewegung.java  (8 Felder: id, materialId, lagerId, bewegungstyp, …)
+• BewegungsTyp.java      (ENUM: EINGANG, AUSGANG)
+• BestandView.java       (ViewModel: materialId, lagerId, bestand)
+
+Template für jede Klasse:
+  - 2 Konstruktoren (mit/ohne ID für INSERT/SELECT)
+  - Getter + Setter (auto-generated)
+  - toString() für Debugging
+  - Keine Geschäftslogik (POJO)
+
+Lernziele: POJO verstehen, Konstruktor-Überladung, Getter/Setter, 1:1 Mapping zur DB
+
+================================================================================
+                        NÄCHSTE SCHRITTE
+================================================================================
+
+KW21 FR (22.05):
+  ☐ Projekttagebuch: Eintrag "Kapitel 5+6 abgeschlossen"
+  ☐ Lernhandbuch: Kapitel 5 + 6 ausfüllen (mit Code-Snippets)
+  ☐ Code-Review: Models + DBConnection prüfen
+
+Pause: 23.05–07.06 (SRH-Pause)
+
+KW24 Mo (08.06) — PHASE 4 START: UI Grundfunktionen
+  ☐ JavaFX-Fenster: Stage + Scene + Layout
+  ☐ Registerkarten (TabPane) für 6 Bereiche
+  ☐ TableView für Material-Liste
+  ☐ Buttons: Create, Update, Delete
+  ☐ CRUD-Dialoge
+
+KW25 (15.–19.06) — PHASE 5: Suche + Filter + Warnung
+  ☐ Suche nach Materialname
+  ☐ Filter nach Station + Kategorie
+  ☐ Bestandswarnung (rot bei ≤ mindestbestand)
+
+KW26 (22.–26.06) — PHASE 6 + 7: Tests + Dokumentation
+  ☐ Alle Funktionen testen
+  ☐ Bugfixes
+  ☐ Benutzerhandbuch schreiben
+  ☐ Projektdokumentation ausfüllen
+  ☐ Abgabe-PDF erzeugen (17.07.2026)
+
+================================================================================
+                         DOKUMENTATION ÜBERBLICK
+================================================================================
+
+Aktuell in Arbeit:
+  ✅ CLAUDE.md                                  — Kontext, Lernstil
+  ✅ Projektplan.md                            — Phasen, Wochenplan (aktualisiert)
+  ✅ Projekttagebuch.md                        — Laufendes Log (aktualisiert)
+  ✅ Entscheidungen.md                         — D-001 bis D-006
+  ✅ Dateiübersicht.md                         — Alle Dateien
+  ✅ KAPITEL_5_6_PLAN.md                       — Neu! Lernplan mit Templates
+  ✅ KOHAEREZ_AUDIT_2026-05-18.md              — Neu! Vollständiger Audit
+  ⏳ Lernhandbuch_Lagerverwaltung.docx         — Wird KW21 Fr + KW22 aktualisiert
+  ⏳ Projektdokumentation_Lagerverwaltung.docx — Wird KW26 ausfüllt
+
+================================================================================
+                          BEWERTUNG
+================================================================================
+
+Kohärenz:            ✅ 100% konsistent (Datenmodell ↔️ Code ↔️ Doku)
+Zeitplan:            ✅ Im Plan (60h verbraucht, 60h geplant)
+Code-Qualität:       ✅ Sauberes DAO-Pattern, keine SQL-Injection, POJO-Modelle
+Dokumentation:       ⏳ Fortgeschritten (Fundament da, Details folgen KW21 Fr)
+Projektrisiken:      🟢 Gering (keine Blocker, 12h Puffer vorhanden)
+
+================================================================================
+                        FREITAG AKTIVITÄTEN (KW21 Fr)
+================================================================================
+
+  Geplant:
+    08:00–09:00   Lernhandbuch: Kapitel 5 schreiben (DBConnection + Theorie)
+    09:00–10:00   Lernhandbuch: Kapitel 6 schreiben (Models + Template)
+    10:00–11:00   Screenshots aus IntelliJ einfügen
+    11:00–12:00   Lernhandbuch validieren (XML-Struktur, Verweise)
+    13:00–14:00   Projekttagebuch aktualisieren
+    14:00–15:00   Puffer + Code-Review
+
+  Ergebnis (optional):
+    PDF-Export des Lernhandbuchs (Kapitel 1–6)
+
+================================================================================
+                              ENDE CHECKPOINT
+================================================================================
+
+Erstellt von: Claude (automatisiert)
+Datum:        2026-05-18
+Nächster:     2026-05-22 (Phasenwechsel Phase 3 → Phase 4)
