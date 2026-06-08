@@ -529,3 +529,8 @@ Nächste Schritte (KW21 Fr–KW24):
 - `Archiv/` ← Benutzerhandbuch_Sascha_Schulz.docx (Inhalt steckt jetzt in Anhang C)
 - Wurzel behält: Projektdokumentation_Sascha_Schulz.docx/.pdf + CLAUDE.md
 - CLAUDE.md-Pfade entsprechend angepasst. Hinweis: `MD/Dateiuebersicht.md` ist dadurch veraltet (bei Bedarf aktualisieren).
+---
+
+## 2026-06-08 (Repo-Struktur final)
+
+**[Entscheidung]** Hauptordner = `Documents\WI\DOIT` – ein Ordner für alles. Code im Standard-Maven-Layout am Repo-Root (`src/`, `pom.xml`), Dokumentation in den Unterordnern (`Doku/`, `MD/`, `Projektdateien/` …). GitHub-Repo `der-Sascha/Lagerverwaltung` enthält Code + Doku vereint; Medienverwaltung liegt im eigenen Repo. Push erfolgt aus dem DOIT-Ordner (bzw. aus IntelliJ, wenn dieser Ordner geöffnet ist). Der frühere separate Ordner `IdeaProjects\lagerverwaltung` wird nicht mehr genutzt. In IntelliJ werden die Doku-Ordner als „Excluded“ ausgeblendet (lokale .idea-Einstellung, git-ignoriert) – sie bleiben in Git und werden mitgepusht.
