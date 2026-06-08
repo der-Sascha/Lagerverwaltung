@@ -33,6 +33,6 @@ public class Stationslager {
     public void setTyp(String typ) { this.typ = typ; }
 
 
-    //@Override
-    //public String toString() { return name + " (" + standort + ")"; }
+    @Override
+    public String toString() { return name + " (" + standort + ")"; }
 }

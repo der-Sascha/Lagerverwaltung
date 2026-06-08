@@ -74,7 +74,7 @@
                 </executions>
             </plugin>
 
-            <!-- JavaFX-Maven-Plugin: startet das Programm mit "mvn javafx:run" -->
+            <!-- JavaFX-Maven-Plugin: startet Programm mit "mvn javafx:run odr dem Launcher" -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>

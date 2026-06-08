@@ -25,6 +25,6 @@ public class Kategorie {
     public void setBeschreibung(String beschreibung) {this.beschreibung = beschreibung; }
 
 
-    //@Override
-    //public String toString() { return name; }
+    @Override
+    public String toString() { return name; }
 }

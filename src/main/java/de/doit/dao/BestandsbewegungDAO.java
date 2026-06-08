@@ -63,6 +63,24 @@ public class BestandsbewegungDAO {
         return result;
     }
 
+    public void update(Bestandsbewegung b) throws SQLException {
+        String sql = "UPDATE bestandsbewegungen SET material_id=?, lager_id=?, bewegungstyp=?, "
+                + "menge=?, ablaufdatum=?, datum=?, bemerkung=? WHERE bewegung_id=?";
+        Connection conn = DBConnection.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, b.getMaterialId());
+            ps.setInt(2, b.getLagerId());
+            ps.setString(3, b.getBewegungstyp().name());
+            ps.setInt(4, b.getMenge());
+            if (b.getAblaufdatum() == null) ps.setNull(5, java.sql.Types.DATE);
+            else ps.setDate(5, Date.valueOf(b.getAblaufdatum()));
+            ps.setTimestamp(6, Timestamp.valueOf(b.getDatum() == null ? LocalDateTime.now() : b.getDatum()));
+            ps.setString(7, b.getBemerkung());
+            ps.setInt(8, b.getId());
+            ps.executeUpdate();
+        }
+    }
+
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM bestandsbewegungen WHERE bewegung_id = ?";
         Connection conn = DBConnection.getConnection();
@@ -80,7 +98,9 @@ public class BestandsbewegungDAO {
                         + "       m.einheit     AS einheit, "
                         + "       s.lager_id    AS lager_id, "
                         + "       s.name        AS lager_name, "
-                        + "       SUM(CASE WHEN b.bewegungstyp = 'EINGANG' THEN b.menge ELSE -b.menge END) AS bestand, "
+                        + "       SUM(CASE WHEN b.bewegungstyp = 'EINGANG' THEN b.menge "
+                        + "                WHEN b.bewegungstyp = 'AUSGANG' THEN -b.menge "
+                        + "                ELSE 0 END) AS bestand, "
                         + "       m.mindestbestand AS mindestbestand "
                         + "FROM bestandsbewegungen b "
                         + "JOIN materialien   m ON m.material_id = b.material_id "
@@ -103,6 +123,21 @@ public class BestandsbewegungDAO {
             }
         }
         return result;
+    }
+
+    public int getBestand(int materialId, int lagerId) throws SQLException {
+        String sql = "SELECT COALESCE(SUM(CASE WHEN bewegungstyp = 'EINGANG' THEN menge "
+                   + "                        WHEN bewegungstyp = 'AUSGANG' THEN -menge "
+                   + "                        ELSE 0 END), 0) "
+                   + "FROM bestandsbewegungen WHERE material_id = ? AND lager_id = ?";
+        Connection conn = DBConnection.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, materialId);
+            ps.setInt(2, lagerId);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getInt(1) : 0;
+            }
+        }
     }
 
     private Bestandsbewegung mapRow(ResultSet rs) throws SQLException {
