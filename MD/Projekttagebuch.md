@@ -13,6 +13,15 @@ Dient als Grundlage für Reflexion, Lernzuwachs und Quellenverzeichnis.
 
 ---
 
+## 2026-06-09 — Struktur-Abgleich + Git/Mount-Befund
+
+- [Änderung] CLAUDE.md „Ordnerstruktur" an den realen Stand angepasst: ergänzt `src/` (Java/Maven), `Lernhandbuch/`, `Vorgaben/`, `Projektmanagement/`, `Ablage/`, `Archiv/` sowie Wurzeldateien `README.md`, `pom.xml`, `DOIT.iml`; Repo-Link ergänzt.
+- [Änderung] Aufgeräumt: stale `.git/index.lock` und 4 Junk-Dateien (`_wtest.tmp` in Doku/Lernhandbuch/MD, `Archiv/_moved.tmp`) entfernt; korrupten Git-Index aus HEAD neu aufgebaut.
+- [Problem] Git-Schreiboperationen über den Cowork-Sandbox-Mount unzuverlässig: `git add` erzeugte genullten Index (`bad signature 0x00000000`); gelöschte Dateien werden als „modified" statt „deleted" gemeldet. → Commit/Push nativ unter Windows ausführen, nicht aus der Sandbox.
+- [Erkenntnis] GitHub aus der Sandbox nicht erreichbar (keine Credentials). Ausstehende Reorg (Endabgabe → `Doku/`, Backups+altes Lernhandbuch → `Archiv/`, Glossar vereinheitlicht) ist noch nicht committet.
+
+---
+
 ## 2026-06-07 — Planung Woche 6 + Doku_D-Zeitplan
 
 - [Manuell] **Woche 6 (KW26, 22.06.–26.06.)** = Dokumentation + alle Schreibarbeiten abschließen (Phase 7)
@@ -535,3 +544,44 @@ Nächste Schritte (KW21 Fr–KW24):
 
 **[Entscheidung]** Hauptordner = `Documents\WI\DOIT` – ein Ordner für alles. Code im Standard-Maven-Layout am Repo-Root (`src/`, `pom.xml`), Dokumentation in den Unterordnern (`Doku/`, `MD/`, `Projektdateien/` …). GitHub-Repo `der-Sascha/Lagerverwaltung` enthält Code + Doku vereint; Medienverwaltung liegt im eigenen Repo. Push erfolgt aus dem DOIT-Ordner (bzw. aus IntelliJ, wenn dieser Ordner geöffnet ist). Der frühere separate Ordner `IdeaProjects\lagerverwaltung` wird nicht mehr genutzt. In IntelliJ werden die Doku-Ordner als „Excluded“ ausgeblendet (lokale .idea-Einstellung, git-ignoriert) – sie bleiben in Git und werden mitgepusht.
 **[Änderung]** Reflexion (Kap. 5) finalisiert – „Entwurf/vorläufig"-Hinweis entfernt, Prosa als Endfassung (5.1 Verlauf, 5.2 Lernzuwachs, 5.3 Verbesserungspotenzial). Testergebnisse (4.2) und Abnahmeprotokoll (4.3.4) bleiben bewusst als klar markierte Platzhalter, weil Tests (Phase 6) und Abnahme (Ende KW26) noch ausstehen – werden nach Durchführung mit echten Werten gefüllt.
+
+
+## 2026-06-08 — [Änderung] Komplette Umstrukturierung der Projektdokumentation (Amshove-Schema)
+- Gliederung auf phasenbasiertes IHK-Schema (nach Beispiel Amshove, Vorgaben/09) umgestellt: 8 Kapitel (1 Einleitung, 2 Projektplanung, 3 Analysephase, 4 Entwurfsphase, 5 Implementierungsphase, 6 Abnahme-/Testphase, 7 Dokumentation, 8 Fazit). Reine IHK-Wirtschaftspunkte (Make-or-Buy, Amortisation) bewusst weggelassen (SRH-Projekt ohne Firma).
+- Alle 6 Bewertungskriterien (Vorgaben 05/06) abgedeckt: Ausgangssituation, Ressourcen-/Ablaufplanung, Durchführung, Auftragsergebnisse, Gestaltung des Portfolios, Kundendokumentation.
+- Format gemäß Vorgaben 11: Times New Roman 12 pt, Zeilenabstand 1,5, Ränder 2,5/2,5/2,5/2 cm (oben/links/rechts/unten), A4.
+- Pflichtverzeichnisse statisch mit echten Seitenzahlen (Zwei-Pass): Inhalts-, Abbildungs-, Tabellen-, Quellcode-, Quellenverzeichnis. Code in gelben Boxen (Monospace) mit Listing-Unterschriften.
+- 4 professionelle Abbildungen erzeugt: Use-Case, ER (vorhanden), MVC/DAO-Architektur, UI-Wireframe (jeweils <= 1/3 Seite).
+- Benutzerhandbuch (Anhang C) deutlich detaillierter: Schritt-für-Schritt pro Funktion (C.1-C.10).
+- Haupttext = 11 Seiten (Kap. 1-8, S. 5-15), im 10-15-Seiten-Limit. Anhang ab S. 19.
+- Einzelteile Doku_A-E konsistent neu erzeugt; Master + PDF aktualisiert.
+- Schreibstil: einfache Sprache, sehr dezenter Pfälzer Einschlag.
+
+
+## 2026-06-08 — [Erkenntnis] Rundum-Check Doku ↔ Code + Korrekturen
+Vergleich der Projektdokumentation mit echtem Java-Code (src/), SQL, FXML und Lernhandbuch. Ergebnis: SQL ↔ Code ↔ Anhang B stimmig (6 Tabellen, bewegung_id, ENUM ohne TRANSFER, Testdaten); Lernhandbuch nah am Code. In der Projektdokumentation standen jedoch drei aus der Ur-Doku übernommene Features, die NICHT im Code sind. Alle korrigiert (Doku an Code angepasst):
+- [Änderung] Auto-EINGANG bei Status „geliefert" war beschrieben (Kap. 5.5, Handbuch C.8, Entscheidung D-001) → entfernt; Buchungen erfolgen manuell bzw. über Warenentnahme/Umlagerung. D-001 ebenfalls korrigiert.
+- [Änderung] Suche als FilteredList/Live-Suche → ersetzt durch reales anzeigeFiltern() (Filter per Enter/Button), Listing 4 ausgetauscht.
+- [Änderung] Kategorie-Filter (als Pflicht formuliert) → real nur Name + Station; Lastenheft/Soll-Ist/Texte angepasst.
+- [Änderung] Tab-Struktur: real 7 Tabs inkl. eigener „Bestandsübersicht" (Suche/Warnung/Warenentnahme/Umlagerung); Doku/Handbuch/Wireframe (Abb. 4) korrigiert. „Buchungshistorie"-Tab → „Bestandsbewegungen".
+- [Änderung] RowFactory: echtes Inline-setStyle(#FADBD8) auf tabBestand statt CSS-Klasse #FFCCCC (Listing 5).
+- [Änderung] DBConnection-Listing: real 127.0.0.1:3324 + serverTimezone, Passwort „1234".
+- [Änderung] create()-Listing: reale Signatur (Material + RETURN_GENERATED_KEYS).
+- [Änderung] JavaFX-Version überall 17 → 21 (pom.xml/README = 21).
+- [Änderung] Handbuch C.3: Kategorie wird als ID-Zahl eingegeben (kein Dropdown).
+- [Manuell] Ordner aufgeräumt: _backup_2026-06-07/ → Archiv/ verschoben, leerer Quellcode/ + LibreOffice-Lock/Temp gelöscht.
+Haupttext jetzt 12 Seiten (S. 5–16), Master + Doku_A–E + PDF neu erzeugt.
+
+
+## 2026-06-08 — [Änderung] Quellen & Glossar-Konsolidierung
+- Quellenverzeichnis: Quelle JavaFX-FilteredList (im Code nicht mehr genutzt) gestrichen, neu nummeriert → 13 Quellen. Master + PDF neu erzeugt.
+- Glossar konsolidiert: 3 Dateien → 1. Lernhandbuch/Glossar_Vereinigt.docx enthält jetzt Teil 1 (Begriffsreferenz, 90 Begriffe) + Teil 2 (Java-/JDBC-Lernteil aus ehem. MD/GLOSSAR.md) mit Inhaltsverzeichnis. Gelöscht: Lernmaterial/Glossar_Java_API.docx (war Teilmenge) und MD/GLOSSAR.md.
+
+
+## 2026-06-09
+
+- [Änderung] Einheitliches Layout (Variante A) auf alle .docx angewendet: Überschriften jetzt schwarz (000000) statt Word-Standard-Blau (2E74B5/1F4D78) und Times New Roman statt Calibri-Light-Theme. Betroffen: Doku_A–E, Lernhandbuch (Glossar_Vereinigt, Teil1–4), Lernmaterial (Java_Handbuch_Start, Java_Konzept_Zusammenhaenge, SPICKZETTEL), ER_Diagramm. Größen H1=14pt, H2=12pt, H3=12pt kursiv. Ziel: keine Default-/Tool-Optik.
+- [Änderung] Lernhandbuch_..._korrigiert.docx (20.05., veraltet, ohne Kap 10a) nach Archiv/ verschoben. Aktueller Stand = Einzelteile Teil1–4 (21.05.).
+- [Erkenntnis] Glossar war NICHT in der Projektdoku, nur in Glossar_Vereinigt + Lernhandbuch. 90-Begriffe-Glossar als "Anhang D – Glossar" in Doku_E (Benutzerhandbuch-Anhang) eingefügt.
+- [Problem] Projektdokumentation_Sascha_Schulz.docx/.pdf (Wurzel) sind OneDrive online-only und konnten nicht gelesen/umgestylt werden. Müssen nach Hydrierung neu aus Doku_A–E zusammengeführt werden.
+- [Änderung] Projektdokumentation_Sascha_Schulz.docx (nach Doku/ verschoben, jetzt lesbar) ebenfalls umgestylt; PDF neu erzeugt (LibreOffice). Hinweis: finale PDF zur Sicherheit aus Word exportieren (Layout/Verzeichnisse).

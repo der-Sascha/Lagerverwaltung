@@ -18,7 +18,7 @@ SUM(CASE WHEN bewegungstyp = 'EINGANG' THEN menge ELSE -menge END)
 - Lückenlose Buchungshistorie ist Voraussetzung für Krankenhaus-Controlling
 - Atomare Bewegungen sind nachvollziehbar
 
-**Konsequenz:** Bei jeder Bestellung mit Status „geliefert" wird automatisch ein EINGANG-Datensatz angelegt. Manuelle Buchungen bleiben möglich.
+**Konsequenz:** Zu- und Abgänge werden ausschließlich als gebuchte Bestandsbewegungen erfasst (manuell bzw. über die Funktionen Warenentnahme und Umlagerung). Der Bestellstatus (offen/geliefert/storniert) dokumentiert nur den Bestellvorgang.
 
 ---
 

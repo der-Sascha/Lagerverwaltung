@@ -2,12 +2,19 @@
 
 **WICHTIG:** Diese Datei enthält den Kontext für jeden neuen Chat. Schlank halten.
 
-**Ordnerstruktur (aufgeräumt 2026-06-07):**
-- `Doku/` — Arbeits-Einzelteile Doku_A–E
+**Ordnerstruktur (Stand 2026-06-09):**
+- `src/` — Java/Maven-Quellcode (`de.doit`: `db/`, `model/`, `dao/`, `controller/`, `Main.java`, `Launcher.java`; FXML unter `src/main/resources/fxml/`)
+- `Doku/` — Arbeits-Einzelteile Doku_A–E **+ Endabgabe `Projektdokumentation_Sascha_Schulz.docx`/`.pdf`**
 - `MD/` — alle Markdown-Notizen (Projektplan, Tagebuch, Entscheidungen, Dateiübersicht usw.)
-- `Projektdateien/` — drawio, ER-Bild, SQL, Antrag v2, Wochenplan
-- `Lernmaterial/` — Java-Lerndokumente (Glossar, Handbuch-Teile, Spickzettel.docx)
-- Wurzel: `Projektdokumentation_Sascha_Schulz.docx`/`.pdf` (Endabgabe) + `CLAUDE.md`
+- `Projektdateien/` — drawio, ER-Bild (PNG/docx), SQL-Testdaten, Antrag v2, Wochenplan
+- `Lernhandbuch/` — Lernhandbuch-Teile 1–4 + `Glossar_Vereinigt.docx`
+- `Lernmaterial/` — Java-Lerndokumente (Handbuch-Start, Konzept-Zusammenhänge, Spickzettel, Code-Review-PDF)
+- `Vorgaben/` — SRH-Originalvorgaben (Anleitung, Antrags-/Wochenplan-Vorlagen, Bewertungsbögen, Doku-Vorgaben, Beispiele)
+- `Projektmanagement/` — Kohärenzprüfungen
+- `Ablage/` — Audits & Entwürfe (`Audits_und_Entwuerfe/`)
+- `Archiv/` — alte/abgelöste Dateien (Benutzerhandbuch, alte Audits, altes Lernhandbuch, `_backup_2026-06-07/`)
+- Wurzel: `CLAUDE.md`, `README.md`, `pom.xml`, `DOIT.iml`
+- **Sync: Google Drive** (kein OneDrive) · **Repo: github.com/der-Sascha/Lagerverwaltung**
 
 Detail-Dateien:
 - `MD/Projektplan.md` — Phasen, Stunden, Wochenplan, Zeitplan
@@ -17,7 +24,7 @@ Detail-Dateien:
 
 **Dokumentationsstruktur:**
 `Doku/Doku_A` bis `Doku/Doku_E` sind Arbeits-Einzelteile der Projektdokumentation.
-Änderungen immer in der jeweiligen `Doku_X`-Datei — am Ende alles in `Projektdokumentation_Sascha_Schulz.docx` (Wurzel) zusammenführen → PDF → Moodle.
+Änderungen immer in der jeweiligen `Doku_X`-Datei — am Ende alles in `Doku/Projektdokumentation_Sascha_Schulz.docx` zusammenführen → PDF → Moodle.
 Detailübersicht der Teile: siehe `MD/Dateiuebersicht.md` → Abschnitt "Doku_A–E Struktur-Erklärung".
 
 **Tagebuch-Regel:** Bei jeder Analyse, Änderung oder Erkenntnis immer einen Eintrag in `MD/Projekttagebuch.md` schreiben (Datum + Kategorie: [Änderung] / [Problem] / [Erkenntnis] / [Quelle] / [Manuell]).
@@ -103,5 +110,5 @@ Bei jedem Chat zur Dokumentation bitte folgenden Stand prüfen und aktualisieren
 | Inhaltsverzeichnis vorhanden | ✅ vorhanden (echte Seitenzahlen) |
 | Abbildungsverzeichnis vorhanden | ✅ vorhanden |
 | Tabellenverzeichnis vorhanden | ✅ vorhanden (11 Tabellen) |
-| Quellenverzeichnis vorhanden | ✅ vorhanden (14 Quellen, URL+Abruf bzw. Titel/Autor/Jahr) |
+| Quellenverzeichnis vorhanden | ✅ vorhanden (13 Quellen, URL+Abruf bzw. Titel/Autor/Jahr) |
 | Benutzerhandbuch im Anhang (nicht sep
