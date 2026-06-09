@@ -11,7 +11,8 @@ import java.sql.SQLException;
 public class DBConnection {
     // JDBC-Treiber ist der Treiber, der das Protokoll der jeweiligen Datenbank implementiert, um die Kommunikation zu ermöglichen.
     // 127.0.0.1 Standart IP für localhost
-    private static final String URL = "jdbc:mysql://127.0.0.1:3324/krankenhaus_lager?serverTimezone=Europe/Berlin";
+    // Port 3324: abweichender MySQL-Port dieser lokalen Installation (Standard wäre 3306) - bei anderer Installation hier anpassen
+    private static final String URL = "jdbc:mysql://127.0.0.1:3324/DOIT?serverTimezone=Europe/Berlin";
     private static final String USER = "root";
     // normalerweiße in einer Konfigurationsdatei auslagern
     private static final String PASSWORD = "1234";

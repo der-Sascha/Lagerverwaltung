@@ -139,7 +139,7 @@
                         <TableColumn fx:id="colBestMat"     text="Material-ID"  prefWidth="120"/>
                         <TableColumn fx:id="colBestLief"    text="Lieferant-ID" prefWidth="120"/>
                         <TableColumn fx:id="colBestLager"   text="Lager-ID"     prefWidth="100"/>
-                        <TableColumn fx:id="colBestMenge"   text="Menge"        prefWidth="80"/>
+                        <TableColumn fx:id="colBestMenge"   text="Menge"        prefWidth="60"/>
                         <TableColumn fx:id="colBestBestell" text="Bestelldatum" prefWidth="130"/>
                         <TableColumn fx:id="colBestLiefer"  text="Lieferdatum"  prefWidth="130"/>
                         <TableColumn fx:id="colBestStatus"  text="Status"       prefWidth="120"/>
@@ -163,7 +163,7 @@
                         <TableColumn fx:id="colBewMat"    text="Material-ID"  prefWidth="120"/>
                         <TableColumn fx:id="colBewLager"  text="Lager-ID"     prefWidth="100"/>
                         <TableColumn fx:id="colBewTyp"    text="Typ"          prefWidth="100"/>
-                        <TableColumn fx:id="colBewMenge"  text="Menge"        prefWidth="80"/>
+                        <TableColumn fx:id="colBewMenge"  text="Menge"        prefWidth="60"/>
                         <TableColumn fx:id="colBewDatum"  text="Datum"        prefWidth="160"/>
                         <TableColumn fx:id="colBewAblauf" text="Ablaufdatum"  prefWidth="130"/>
                         <TableColumn fx:id="colBewBem"    text="Bemerkung"    prefWidth="200"/>

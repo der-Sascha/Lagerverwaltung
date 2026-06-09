@@ -27,20 +27,20 @@ public class StationslagerDAO {
         return lager;
     }
 
-    public Stationslager findById(int id) throws SQLException {
-        String sql = "SELECT lager_id, name, standort, typ FROM stationslager "
-                + "WHERE lager_id = ?";
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return mapRow(rs);
-                }
-            }
-        }
-        return null;
-    }
+//    public Stationslager findById(int id) throws SQLException {
+//        String sql = "SELECT lager_id, name, standort, typ FROM stationslager "
+//                + "WHERE lager_id = ?";
+//        Connection conn = DBConnection.getConnection();
+//        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+//            ps.setInt(1, id);
+//            try (ResultSet rs = ps.executeQuery()) {
+//                if (rs.next()) {
+//                    return mapRow(rs);
+//                }
+//            }
+//        }
+//        return null;
+//    }
 
     public List<Stationslager> findAll() throws SQLException {
         String sql = "SELECT lager_id, name, standort, typ FROM stationslager "

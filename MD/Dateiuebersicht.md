@@ -22,6 +22,17 @@
 | `Projektdokumentation_Sascha_Schulz.docx` | **finale Abgabe-Dokumentation** (zusammengeführt) | vorgabenkonform, Entwürfe für Tests/Reflexion |
 | `Projektdokumentation_Sascha_Schulz.pdf` | PDF-Export der Abgabe | aktuell |
 
+## `Präsentationen/` — Projektpräsentation
+
+| Datei | Inhalt | Status |
+|---|---|---|
+| `Praesentation_Lagerverwaltung_Sascha_Schulz.pptx` | **Projektpräsentation**, 15 Folien (16:9), mit Sprechernotizen | aktuell |
+| `Praesentation_Lagerverwaltung_Sascha_Schulz.pdf` | PDF-Export der Folien | aktuell |
+| `assets/build.js` | pptxgenjs-Build-Skript (reproduzierbar) | aktuell |
+| `assets/er.png`, `bg_dark.png`, `bg_light.png` | Grafiken/Hintergründe der Folien | aktuell |
+
+Roter Faden: Amondis-Berufsgeschichte (Anwender) läuft synonym parallel zum Projekt (Entwickler). Quelle der Berufsdaten: `Arbeitszeugnis/Arbeitszeugnis Diakonissen.pdf`. Geprüft gegen IHK-Rubrik `Vorgaben/07_TN_Bewertung-Präsentation.pdf` (30/30/20/20).
+
 ## `Doku/` — Arbeits-Einzelteile der Dokumentation
 
 `Doku_A`–`Doku_E` sind Bausteine derselben Dokumentation (aufgeteilt zum Bearbeiten). Änderungen immer im jeweiligen Teil, dann in `Projektdokumentation_Sascha_Schulz.docx` (Wurzel) zusammenführen → PDF → Moodle.

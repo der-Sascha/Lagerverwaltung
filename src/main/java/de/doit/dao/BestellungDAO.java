@@ -38,21 +38,21 @@ public class BestellungDAO {
         return bestellung;
     }
 
-    public Bestellung findById(int id) throws SQLException {
-        String sql = "SELECT bestellung_id, material_id, lieferant_id, lager_id, "
-                + "menge, bestelldatum, lieferdatum, status "
-                + "FROM bestellungen WHERE bestellung_id = ?";
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return mapRow(rs);
-                }
-            }
-        }
-        return null;
-    }
+//    public Bestellung findById(int id) throws SQLException {
+//        String sql = "SELECT bestellung_id, material_id, lieferant_id, lager_id, "
+//                + "menge, bestelldatum, lieferdatum, status "
+//                + "FROM bestellungen WHERE bestellung_id = ?";
+//        Connection conn = DBConnection.getConnection();
+//        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+//            ps.setInt(1, id);
+//            try (ResultSet rs = ps.executeQuery()) {
+//                if (rs.next()) {
+//                    return mapRow(rs);
+//                }
+//            }
+//        }
+//        return null;
+//    }
 
     public List<Bestellung> findAll() throws SQLException {
         String sql = "SELECT bestellung_id, material_id, lieferant_id, lager_id, "

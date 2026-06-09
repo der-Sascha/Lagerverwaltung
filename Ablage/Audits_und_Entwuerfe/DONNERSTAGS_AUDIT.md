@@ -1,6 +1,6 @@
-# Freitags-Audit-Skript — DoIT Lagerverwaltung
+# Donnerstags-Audit-Skript — DoIT Lagerverwaltung
 
-**Automatisierter wöchentlicher Checkpoint (jeden Freitag ausführen)**
+**Automatisierter wöchentlicher Checkpoint (jeden Donnerstag ausführen)**
 
 ---
 
@@ -13,7 +13,7 @@ Projektplan.md                     (Phasen, Stunden, Meilensteine)
 Dateiuebersicht.md                 (alle Dateien im Ordner)
 Entscheidungen.md                  (Designentscheidungen D-001 bis D-006)
 Projekttagebuch.md                 (laufendes Log)
-Wochenplan_Sascha_Schulz.xlsx      (Stunden-Tracking, falls vorhanden)
+Projektdateien\Wochenplan_Sascha_Schulz.xlsx   (Stunden-Tracking, falls vorhanden)
 ```
 
 ### 2. Prüfungen durchführen
@@ -34,8 +34,8 @@ Wochenplan_Sascha_Schulz.xlsx      (Stunden-Tracking, falls vorhanden)
 
 #### C) Dateiübersicht.md (aktuell?)
 - [ ] Alle aufgelisteten Dateien existieren tatsächlich?
-- [ ] Archiv-Ordner `/Alt/` aktuell?
-- [ ] Vorgaben-Ordner `/Vorgaben/` vollständig?
+- [ ] Archiv-Ordner `Archiv/` aktuell?
+- [ ] Vorgaben-Ordner `Vorgaben/` vollständig?
 - [ ] Neue Dateien, die nicht in Übersicht aufgeführt sind?
 
 #### D) Offene TODOs / Probleme (Tagebuch)
@@ -43,17 +43,17 @@ Wochenplan_Sascha_Schulz.xlsx      (Stunden-Tracking, falls vorhanden)
 - [ ] Gibt es [Änderung]-Einträge ohne entsprechenden Code-Status?
 - [ ] Gibt es unbeantwortete Fragen / Blockierer?
 
-#### E) Dokumentation (Fortschritt KW25)
-- [ ] Ist `Projektdokumentation_Lagerverwaltung_Sascha_Schulz.docx` aktualisiert?
-- [ ] Fehlende Verzeichnisse: Abbildungs-/Tabellenverzeichnis/Quellenverzeichnis?
-- [ ] Benutzerhandbuch in Hauptdoku integriert oder noch separat?
+#### E) Dokumentation (Fortschritt)
+- [ ] Ist `Doku\Projektdokumentation_Sascha_Schulz.docx` (+ .pdf) aktualisiert?
+- [ ] Fehlende Verzeichnisse: Abbildungs-/Tabellen-/Quellcode-/Quellenverzeichnis?
+- [ ] Benutzerhandbuch im Anhang (Anhang C), nicht separat?
 
 ---
 
 ## Output-Format (Markdown-Tabelle)
 
 ```markdown
-## Audit Freitag, DD.MM.YYYY (KW XX)
+## Audit Donnerstag, DD.MM.YYYY (KW XX)
 
 ### Status Überblick
 
@@ -89,7 +89,7 @@ Wochenplan_Sascha_Schulz.xlsx      (Stunden-Tracking, falls vorhanden)
 Diese Checkliste sollte jede Woche ausgefüllt werden (als Anlage im Tagebuch):
 
 ```
-Freitags-Audit KW __
+Donnerstags-Audit KW __
 
 Projektplan vs. Tagebuch:
   [ ] Phase __ geplant
@@ -127,7 +127,7 @@ Nächste Woche:
 ## Template für Tagebuch-Eintrag (automatisch)
 
 ```markdown
-## YYYY-MM-DD (Freitag-Audit KW XX — automatisch)
+## YYYY-MM-DD (Donnerstags-Audit KW XX — automatisch)
 
 - [Erkenntnis] **Phase X Status:**
   - Geplant: Y h

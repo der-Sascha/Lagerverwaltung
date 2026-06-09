@@ -29,20 +29,20 @@ public class MaterialDAO {
         return material;
     }
 
-    public Material findById(int id) throws SQLException {
-        String sql = "SELECT material_id, name, einheit, mindestbestand, kategorie_id "
-                + "FROM materialien WHERE material_id = ?";
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return mapRow(rs);
-                }
-            }
-        }
-        return null;
-    }
+//    public Material findById(int id) throws SQLException {
+//        String sql = "SELECT material_id, name, einheit, mindestbestand, kategorie_id "
+//                + "FROM materialien WHERE material_id = ?";
+//        Connection conn = DBConnection.getConnection();
+//        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+//            ps.setInt(1, id);
+//            try (ResultSet rs = ps.executeQuery()) {
+//                if (rs.next()) {
+//                    return mapRow(rs);
+//                }
+//            }
+//        }
+//        return null;
+//    }
 
     public List<Material> findAll() throws SQLException {
         String sql = "SELECT material_id, name, einheit, mindestbestand, kategorie_id "
@@ -58,21 +58,21 @@ public class MaterialDAO {
         return result;
     }
 
-    public List<Material> findByName(String suchtext) throws SQLException {
-        String sql = "SELECT material_id, name, einheit, mindestbestand, kategorie_id "
-                + "FROM materialien WHERE name LIKE ? ORDER BY name";
-        List<Material> result = new ArrayList<>();
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, "%" + suchtext + "%");
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    result.add(mapRow(rs));
-                }
-            }
-        }
-        return result;
-    }
+//    public List<Material> findByName(String suchtext) throws SQLException {
+//        String sql = "SELECT material_id, name, einheit, mindestbestand, kategorie_id "
+//                + "FROM materialien WHERE name LIKE ? ORDER BY name";
+//        List<Material> result = new ArrayList<>();
+//        Connection conn = DBConnection.getConnection();
+//        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+//            ps.setString(1, "%" + suchtext + "%");
+//            try (ResultSet rs = ps.executeQuery()) {
+//                while (rs.next()) {
+//                    result.add(mapRow(rs));
+//                }
+//            }
+//        }
+//        return result;
+//    }
 
     public void update(Material material) throws SQLException {
         String sql = "UPDATE materialien SET name = ?, einheit = ?, mindestbestand = ?, "

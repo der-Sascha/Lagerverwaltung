@@ -37,9 +37,9 @@ public class BestandsbewegungDAO {
     }
 
     public Bestandsbewegung findById(int id) throws SQLException {
-        String sql = "SELECT bewegung_id, material_id, lager_id, bewegungstyp, "
+        String sql = "SELECT bestandsbewegung_id, material_id, lager_id, bewegungstyp, "
                 + "menge, ablaufdatum, datum, bemerkung "
-                + "FROM bestandsbewegungen WHERE bewegung_id = ?";
+                + "FROM bestandsbewegungen WHERE bestandsbewegung_id = ?";
         Connection conn = DBConnection.getConnection();
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
@@ -51,7 +51,7 @@ public class BestandsbewegungDAO {
     }
 
     public List<Bestandsbewegung> findAll() throws SQLException {
-        String sql = "SELECT bewegung_id, material_id, lager_id, bewegungstyp, "
+        String sql = "SELECT bestandsbewegung_id, material_id, lager_id, bewegungstyp, "
                 + "menge, ablaufdatum, datum, bemerkung "
                 + "FROM bestandsbewegungen ORDER BY datum DESC";
         List<Bestandsbewegung> result = new ArrayList<>();
@@ -65,7 +65,7 @@ public class BestandsbewegungDAO {
 
     public void update(Bestandsbewegung b) throws SQLException {
         String sql = "UPDATE bestandsbewegungen SET material_id=?, lager_id=?, bewegungstyp=?, "
-                + "menge=?, ablaufdatum=?, datum=?, bemerkung=? WHERE bewegung_id=?";
+                + "menge=?, ablaufdatum=?, datum=?, bemerkung=? WHERE bestandsbewegung_id=?";
         Connection conn = DBConnection.getConnection();
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, b.getMaterialId());
@@ -82,7 +82,7 @@ public class BestandsbewegungDAO {
     }
 
     public void delete(int id) throws SQLException {
-        String sql = "DELETE FROM bestandsbewegungen WHERE bewegung_id = ?";
+        String sql = "DELETE FROM bestandsbewegungen WHERE bestandsbewegung_id = ?";
         Connection conn = DBConnection.getConnection();
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
@@ -147,7 +147,7 @@ public class BestandsbewegungDAO {
         LocalDateTime datum = ts == null ? null : ts.toLocalDateTime();
         BewegungsTyp typ = BewegungsTyp.valueOf(rs.getString("bewegungstyp"));
         return new Bestandsbewegung(
-                rs.getInt("bewegung_id"),
+                rs.getInt("bestandsbewegung_id"),
                 rs.getInt("material_id"),
                 rs.getInt("lager_id"),
                 typ,

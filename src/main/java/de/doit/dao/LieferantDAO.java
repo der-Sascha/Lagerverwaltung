@@ -29,20 +29,20 @@ public class LieferantDAO {
         return lieferant;
     }
 
-    public Lieferant findById(int id) throws SQLException {
-        String sql = "SELECT lieferant_id, name, kontakt, telefon, email FROM lieferanten "
-                + "WHERE lieferant_id = ?";
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return mapRow(rs);
-                }
-            }
-        }
-        return null;
-    }
+//    public Lieferant findById(int id) throws SQLException {
+//        String sql = "SELECT lieferant_id, name, kontakt, telefon, email FROM lieferanten "
+//                + "WHERE lieferant_id = ?";
+//        Connection conn = DBConnection.getConnection();
+//        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+//            ps.setInt(1, id);
+//            try (ResultSet rs = ps.executeQuery()) {
+//                if (rs.next()) {
+//                    return mapRow(rs);
+//                }
+//            }
+//        }
+//        return null;
+//    }
 
     public List<Lieferant> findAll() throws SQLException {
         String sql = "SELECT lieferant_id, name, kontakt, telefon, email FROM lieferanten "

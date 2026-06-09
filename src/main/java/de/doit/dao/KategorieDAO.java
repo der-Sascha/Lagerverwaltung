@@ -33,20 +33,20 @@ public class KategorieDAO {
         return kategorie;
     }
 
-    public Kategorie findById(int id) throws SQLException {
-        String sql = "SELECT kategorie_id, name, beschreibung FROM kategorien "
-                + "WHERE kategorie_id = ?";
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return mapRow(rs);
-                }
-            }
-        }
-        return null;
-    }
+//    public Kategorie findById(int id) throws SQLException {
+//        String sql = "SELECT kategorie_id, name, beschreibung FROM kategorien "
+//                + "WHERE kategorie_id = ?";
+//        Connection conn = DBConnection.getConnection();
+//        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+//            ps.setInt(1, id);
+//            try (ResultSet rs = ps.executeQuery()) {
+//                if (rs.next()) {
+//                    return mapRow(rs);
+//                }
+//            }
+//        }
+//        return null;
+//    }
 
     public List<Kategorie> findAll() throws SQLException {
         String sql = "SELECT kategorie_id, name, beschreibung FROM kategorien "

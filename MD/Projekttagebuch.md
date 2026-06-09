@@ -4,6 +4,33 @@ Laufendes Log für Änderungen, Probleme und Erkenntnisse.
 Wird automatisch von Claude befüllt + manuell ergänzt.
 Dient als Grundlage für Reflexion, Lernzuwachs und Quellenverzeichnis.
 
+---
+
+## 2026-06-09 — [Änderung] BestandsbewegungDAO: Spaltenname vereinheitlicht
+
+- [Änderung] `BestandsbewegungDAO.java`: 3 verbleibende SQL-Strings mit `bewegung_id` auf `bestandsbewegung_id` vereinheitlicht (Zeilen 42, 85, 150). DB-Spalte heißt bereits `bestandsbewegung_ID`.
+- [Erkenntnis] IntelliJ Rename-Refactoring funktioniert nur für Java-Bezeichner (Felder, Methoden, Klassen), nicht für Textinhalt in String-Literalen. Für SQL-Strings → Ctrl+Shift+R (Replace in Files).
+
+## 2026-06-09 — [Problem] Datenbankfehler beim Start — DB-Name korrigiert
+
+- [Problem] App startete, konnte aber keine Daten laden. Fehler: Datenbank `krankenhaus_lager` existiert im Docker-MySQL-Container nicht.
+- [Erkenntnis] Docker-Container läuft korrekt auf Port 3324, aber die Datenbank wurde unter dem Namen `DOIT` angelegt (nicht `krankenhaus_lager` wie im SQL-Skript). `DOIT` enthält alle 6 Tabellen und 20+ Datensätze.
+- [Änderung] `DBConnection.java` Z.15: URL geändert von `krankenhaus_lager` auf `DOIT`.
+
+## 2026-06-09 — [Änderung] Projektpräsentation erstellt (15 Folien, PPTX)
+
+- [Änderung] Neuer Ordner `Präsentationen/` mit `Praesentation_Lagerverwaltung_Sascha_Schulz.pptx` (+ PDF) angelegt. 15 Folien, 16:9, Sprechernotizen auf jeder Folie. Build-Skript (pptxgenjs) und Grafiken unter `Präsentationen/assets/`.
+- [Erkenntnis] Roter Faden: berufliche Amondis-Geschichte läuft synonym parallel zum Projekt — jede Folie hat ein "Damals (Anwender) ↔ Heute (Entwickler)"-Band. Motiv: vom Fax-Zettel zum selbst entwickelten System.
+- [Quelle] `Arbeitszeugnis/Arbeitszeugnis Diakonissen.pdf` (OCR): Teamleiter Zentrallager Diakonissen Speyer 02/2020–03/2023, Warenwirtschaft mySAP ERP/Modul MM, Pilotprojekt Amondis-Logistik (federführend Anpassung Oberflächen/Prozesse + Einführung), 15.000 Lieferscheine/Jahr, 180 Lagerplätze/600 m², 12 MA geführt. Abrufdatum 2026-06-09.
+- [Manuell] Nutzerangabe eingearbeitet: ~1.200 lagergeführte Artikel vs. 24.000+ Artikel über den Einkauf — automatische Trennung durch Amondis, vorher nicht möglich (Folie 2 + 4).
+- [Erkenntnis] Verifikation gegen `Vorgaben/07_TN_Bewertung-Präsentation.pdf`: Rubrik 30/30/20/20 (Aufbau/Struktur · Problemerfassung/Lösung · Sprachliche Gestaltung · Zielgruppengerechte Darstellung/Medien). Deck adressiert alle vier — Körpersprache bleibt Vortragssache.
+
+## 2026-06-09 — [Erkenntnis] Scheduler-Blockierer geprüft + Audit-Prompt gehärtet
+
+- [Erkenntnis] 3 von 4 vom Donnerstags-Audit gemeldeten Blockierern waren veraltet/falsch: (1) DOIT-Ordner IST eingebunden (Dateien lesbar, Audit lief 07:18), (2) Tagebuch KW23/24 bereits vorhanden, (3) Task-Timing korrekt auf Do `0 20 * * 4` — Di-Lauf war manuell.
+- [Änderung] DBConnection.java Z.14: Kommentar zum Nicht-Standardport 3324 ergänzt (Default 3306).
+- [Änderung] weekly-check Audit-Prompt um "Schritt 0 Realitätscheck" erweitert: Mount-Zugriff + Tagebuch-Aktualität live prüfen, keine erledigten Altlasten als Blockierer wiederholen.
+
 **Format:**
 - [Änderung] — etwas wurde geändert/gebaut
 - [Problem] — Fehler oder Hindernis
@@ -585,3 +612,14 @@ Haupttext jetzt 12 Seiten (S. 5–16), Master + Doku_A–E + PDF neu erzeugt.
 - [Erkenntnis] Glossar war NICHT in der Projektdoku, nur in Glossar_Vereinigt + Lernhandbuch. 90-Begriffe-Glossar als "Anhang D – Glossar" in Doku_E (Benutzerhandbuch-Anhang) eingefügt.
 - [Problem] Projektdokumentation_Sascha_Schulz.docx/.pdf (Wurzel) sind OneDrive online-only und konnten nicht gelesen/umgestylt werden. Müssen nach Hydrierung neu aus Doku_A–E zusammengeführt werden.
 - [Änderung] Projektdokumentation_Sascha_Schulz.docx (nach Doku/ verschoben, jetzt lesbar) ebenfalls umgestylt; PDF neu erzeugt (LibreOffice). Hinweis: finale PDF zur Sicherheit aus Word exportieren (Layout/Verzeichnisse).
+nen: alle Doku_A–E .docx-Dateien + Lernhandbuch-Teile. Master-Datei neu erzeugt.
+
+## 2026-06-09 (Donnerstags-Audit KW 24 — automatisch)
+
+- [Problem] DOIT-Doku-Ordner war in erster Audit-Session nicht gemountet → Audit-Bereiche A, C, D, E konnten nicht vollständig geprüft werden. Behoben: Ordner ist jetzt eingebunden.
+- [Erkenntnis] Code-Stand KW 24: 5 Commits am 08.06.2026 (letzter: e0e8c1c). Implementierungsphase weit fortgeschritten — 6 DAOs, 8 Models (inkl. BestandView, BewegungsTyp), MainController, 7-Tab-FXML vollständig.
+- [Erkenntnis] Code-Konsistenz: D-001 ✅  D-002 ✅  D-003 ⚠️  D-004 ✅  D-005 ✅⚠️  D-006 ⚠️
+- [Problem] D-005: Port 3324 statt Standard 3306 — absichtlich (lokale MySQL-Konfiguration). Kommentar in DBConnection.java ergänzen, damit nachvollziehbar.
+- [Problem] Scheduled Tasks (Freitag + Donnerstag) laufen beide am Dienstag statt am konfigurierten Wochentag — Timing in Cowork-Einstellungen prüfen.
+- [Problem] Tagebuch KW 23/24 unvollständig — Einträge fehlen oder wurden abgeschnitten (s. o.). Nachtragen.
+- [Empfehlung] 38 Tage bis Abgabe (17.07.2026). Fokus ab KW 25: Testing (Phase 6) + Projektdokumentation finalisieren. Testergebnisse und Abnahmeprotokoll (Platzhalter in Doku) mit echten Werten füllen.
