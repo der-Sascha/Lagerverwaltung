@@ -6,6 +6,14 @@ Dient als Grundlage für Reflexion, Lernzuwachs und Quellenverzeichnis.
 
 ---
 
+## 2026-06-09 — [Änderung] _ORDNERINFO.md je Ordner angelegt
+
+- [Änderung] In 11 Ordnern eine `_ORDNERINFO.md` angelegt (`src/`, `Doku/`, `MD/`, `Projektdateien/`, `Lernhandbuch/`, `Lernmaterial/`, `Vorgaben/`, `Projektmanagement/`, `Ablage/`, `Archiv/`, `Präsentationen/`) — je eine Tabelle Datei → Zweck.
+- [Änderung] `CLAUDE.md` um "Ordner-Info-Regel" ergänzt: neuer Chat liest zuerst die `_ORDNERINFO.md` des Ordners; bei Datei-Änderungen die `_ORDNERINFO.md` aktualisieren.
+- [Erkenntnis] Erfassung erfolgte über Dateinamen/Struktur (`find`) + bestehenden CLAUDE.md-Kontext — Dateien wurden nicht einzeln geöffnet/inhaltlich geprüft. Beschreibungen daher teils abgeleitet, nicht aus dem Dateiinhalt verifiziert.
+- [Entscheidung] Detailtiefe bewusst auf "welche Datei = was" begrenzt; keine Inhaltszusammenfassungen (Pflegeaufwand/Veralten). Tiefe gehört in die Datei selbst bzw. `MD/Dateiuebersicht.md`.
+- [Änderung] Nachgelagert alle `.docx` in `Doku/`, `Lernhandbuch/`, `Lernmaterial/`, `Projektdateien/` per python-docx geöffnet und Überschriften ausgelesen → `_ORDNERINFO.md` von `Doku/` und `Lernhandbuch/` mit verifizierten Kapitelangaben präzisiert (z. B. Doku_B = Kap. 1–3, Doku_C = Kap. 4–5, Doku_D = Kap. 6–8; Lernhandbuch-Teile = Kap. 1–3/4–6/7–9/10–14).
+
 ## 2026-06-09 — [Änderung] BestandsbewegungDAO: Spaltenname vereinheitlicht
 
 - [Änderung] `BestandsbewegungDAO.java`: 3 verbleibende SQL-Strings mit `bewegung_id` auf `bestandsbewegung_id` vereinheitlicht (Zeilen 42, 85, 150). DB-Spalte heißt bereits `bestandsbewegung_ID`.
@@ -623,3 +631,66 @@ nen: alle Doku_A–E .docx-Dateien + Lernhandbuch-Teile. Master-Datei neu erzeug
 - [Problem] Scheduled Tasks (Freitag + Donnerstag) laufen beide am Dienstag statt am konfigurierten Wochentag — Timing in Cowork-Einstellungen prüfen.
 - [Problem] Tagebuch KW 23/24 unvollständig — Einträge fehlen oder wurden abgeschnitten (s. o.). Nachtragen.
 - [Empfehlung] 38 Tage bis Abgabe (17.07.2026). Fokus ab KW 25: Testing (Phase 6) + Projektdokumentation finalisieren. Testergebnisse und Abnahmeprotokoll (Platzhalter in Doku) mit echten Werten füllen.
+
+## 2026-06-09 [Änderung] Lernhandbuch Kap. 1 — IntelliJ-Icon-Farben
+- Teil1_Intro_Kap1-3.docx: Klassen-Icon "C" von grün auf **blau** korrigiert (Abgleich mit Screenshot von Saschas angepasster IntelliJ-Farbeinstellung); Alltagsanalogie + Prüfungsfrage 1 entsprechend angepasst.
+- Neuer Abschnitt "Die Buchstaben-Icons: f für Feld, m für Methode" inkl. static-Eckmarke.
+- Neue **Farbübersichts-Tabelle** (farbig hinterlegte Zellen): C/I=blau, f=orange, m=rot; Schlösser grün/rot/gelb/grau für public/private/protected/package-private.
+- docx validiert, PDF-Sichtprüfung ok.
+
+## 2026-06-09 [Manuell] IntelliJ-Spickzettel erstellt
+- Neue Datei `Lernmaterial/IntelliJ_Spickzettel_DoIT.docx` (2 Seiten, DIN A4, editierbar).
+- Inhalt: 1) Symbole (Kreis+Buchstabe: C/I/E/m/f/v/p) + Eck-Badges (public/private/protected/package-private/static/final), 2) Farben (Fehler/Warnung, Code-Einfärbung, Git-Dateifarben) mit farbig hinterlegten Zellen, 3) wichtigste Shortcuts, 4) Gutter-/Lauf-Icons, 5) DoIT-Ablauf (mvn javafx:run, Launcher/Main, src-Struktur, MySQL/DAO).
+- Quelle Icons: JetBrains Icon reference (jetbrains.com/help/idea/symbols.html). docx validiert, PDF-Sichtprüfung 2 Seiten ok.
+
+## 2026-06-09 [Änderung] IntelliJ-Spickzettel v2
+- Abschnitt „Fehler & Warnungen (Editor/Randstreifen)" entfernt (auf Wunsch).
+- Zugriffs-Badges jetzt als echte IntelliJ-ähnliche Icons (PNG): public=offenes grünes Schloss, private=rotes Schloss, protected=gelbes Schloss, package-private=ohne, static=Quadrat unten links, final=graues Schloss. Auch Symbol-Tabelle (1) nutzt jetzt echte Kreis-Icons (C/I/E/m/f/v/p).
+- Neuer Abschnitt 6 „Wie die Java-Dateien zusammenarbeiten" mit Architektur-Diagramm (matplotlib-PNG): Launcher→Main→JavaFX-Fenster(main.fxml+MainController)→DAO-Schicht→DBConnection→MySQL; model-POJOs; gestrichelter Datenfluss (SQL↓/Daten↑). Jetzt 3 Seiten.
+
+## 2026-06-10 (Donnerstags-Audit KW24 — automatisch)
+
+- [Erkenntnis] **Phase 4 Status (UI Grundfunktionen, 40h):** KW24 (Mo–Mi) zeigt keinen neuen UI-Code — MainController noch bei 703 Zeilen (= KW21-Stand). KW24-Arbeit war: Doku, Lernhandbuch, Präsentation. Phase 4 war in KW21 vorgearbeitet (703 Zeilen, 7 Tabs, alle DAOs). Ob vollständiges CRUD für alle 6 Bereiche implementiert → noch zu verifizieren/dokumentieren. ⚠️ Stunden Phase 4 KW24 nicht sichtbar.
+- [Erkenntnis] **Code-Konsistenz D-001–D-006: ✅ ALLE OK**
+  - D-001: Material.java kein bestand-Feld ✅
+  - D-002: 6 Models + 6 DAOs vorhanden ✅
+  - D-003: bewegung_id-Spaltenname konsistent (SQL + DAO) ✅
+  - D-004: DBConnection Singleton ✅, alle 6 DAOs nutzen getConnection() ✅
+  - D-005: 127.0.0.1:3324 (= localhost) ✅
+  - D-006: 180h/192h/12h dokumentiert ✅
+- [Änderung] **Entscheidungen.md D-004:** `BewegungDAO` → `BestandsbewegungDAO` korrigiert (Tippfehler in Klassenbaum).
+- [Änderung] **MD-Korrektur: Dateiuebersicht.md** — 10 Korrekturen: Stand 06-07→06-10; Wurzel (Projektdoku entfernt, README/pom.xml/lagerverwaltung.iml ergänzt); Doku/ (Projektdokumentation.docx/.pdf hinzugefügt); Präsentation 15→11 Folien; Lernmaterial (5 alte Dateien→nur Spickzettel_DoIT.docx); Lernhandbuch (Hauptdatei entfernt→Archiv, Teil1_Intro_Kap1-3.docx→NEU, Pruefungsfragen ergänzt); Archiv (2 neue Einträge: Lernhandbuch_korrigiert, abgeloest_Lernmaterial_2026-06-10); Weitere Ordner (Vorgaben/src ergänzt, _backup aus Archiv).
+- [Problem] `Lernhandbuch/_writetest_` (leere Datei) + `Lernmaterial/~$ickzettel_DoIT.docx` (LibreOffice-Lock) → Junk, manuell löschen.
+- [Problem] `how_to_codereview.pdf` fehlt in Lernmaterial/ (tagebuch-Eintrag 10.06. sagt es sei da, tatsächlich nur in Vorgaben/) → entweder ignorieren (es liegt in Vorgaben als SRH-Original) oder manuell kopieren.
+- [Empfehlung] **KW24 Rest (Do–Fr):** Phase 4 UI-Code-Fortschritt dokumentieren — ist CRUD für alle 6 Entitäten mit Dialogen vollständig? Wenn ja → Phase 4 als ✅ schließen und Tagebuch-Eintrag nachziehen. Wenn nein → fehlende Dialoge implementieren.
+- [Empfehlung] **KW25 (15.06–19.06):** Phase 5 (Suche/Filter/Warnmeldung, 25h) + Phase 6 Anfang (Tests). 37 Tage bis Abgabe 17.07.2026.
+
+## 2026-06-10 — DB-Name auf DOIT vereinheitlicht + Lernhandbuch-Korrekturen
+
+[Änderung] Datenbankname projektweit von `krankenhaus_lager`/`lagerverwaltung` auf **DOIT** (Port 3324) angeglichen — Quelle: DBConnection.java (echte Verbindung). Geändert: Lernhandbuch Teil2 & Teil4, SQL-Skript (CREATE/USE DATABASE DOIT), Projektdokumentation (+PDF neu), Benutzerhandbuch. Dateiname testdaten_krankenhaus_lager.sql sowie Maven-Projektname `lagerverwaltung` bewusst unverändert.
+[Änderung] Lernhandbuch Teil1: Kap. 1.9 Syntax-Farbbeschreibungen an angepasstes IDE-Schema angeglichen (Keyword #000080 dunkelblau, Klassen #00627a türkis, lokale Var. #1a7a1a grün, Felder #660e7a lila, String #008000, Zahl #0000ff, Kommentar #808080, Annotation #808000) + neue Abschnitte Strings/Zahlen/Kommentare; Kap. 1.8 Tabellennamen auf 6-Tabellen-Schema + DB DOIT/Port 3324; Kapitelübersicht 15→14 korrigiert.
+[Erkenntnis] Tabelle in Kap. 1.2 war NICHT leer (Icon-Farbübersicht bereits vollständig) — kein Eingriff nötig.
+[Problem] Teil1_Intro_Kap1-3.docx war beim Schreiben gesperrt (vermutlich in Word geöffnet) → korrigierte Fassung als Teil1_Intro_Kap1-3_NEU.docx abgelegt; Original noch zu ersetzen.
+[Erkenntnis] Kein Netzzugriff auf WSL-MySQL aus der Umgebung; DBConnection.java als Wahrheit verwendet (DB=DOIT, 127.0.0.1:3324, root).
+
+
+## 2026-06-10 [Änderung] Präsentation – Ausgangssituation & Star-Wars-Bezug
+- Folie 1 Titel: „des Tisches" → „der Macht" (klarer Star-Wars-Bezug)
+- Folie 3 Titel: „Die Ausgangslage – damals" → „Die Ausgangssituation – damals"
+- Folie 5 (Brückenschlag): Untertitel „Auf die andere Seite der Macht gewechselt.", Karten-Texte gekürzt, Zitat gestrafft + Macht-Bezug
+- Sprechernotiz Folie 5 angepasst; PPTX + PDF neu exportiert
+
+## 2026-06-10 [Änderung] Präsentation – Reise-Struktur (15→11 Folien)
+- Redundanz aufgelöst: jedes Problem als Reise Zettel→Amondis (Anwender)→Heute (selbst programmiert)
+- Neu: Folie 3 „Der rote Faden", 4 Journey-Folien (Bestellen, Bestand & Listen, Überblick & Warnung, Nachvollziehbarkeit)
+- Technik kompakt auf 1 Folie (Pflichtnachweis + MVC/DAO); Datenmodell + Designentscheidung behalten
+- Entfernt als Einzelfolien: alte „Das Projekt", „Anforderungen", „Problem im Modell", „Kernfunktionen", „Herausforderungen & Lösungen", „Das Ergebnis", „Brückenschlag"
+- Fazit neu: „Vom Zettel in die Moderne"
+- Build: assets/build.js nutzt jetzt @resvg/resvg-js statt sharp (sharp lief in der Build-Umgebung nicht)
+
+## 2026-06-10 [Änderung] Lernmaterial konsolidiert
+- Geprüft: Java-Handbuch & Konzept-Zusammenhänge sind inhaltlich bereits im Lernhandbuch/ abgedeckt (Teil1 IntelliJ/Grundlagen, Glossar Singleton/Maven, Teil3 DAO/PreparedStatement).
+- Neue Datei `Lernmaterial/Spickzettel_DoIT.docx` (5 S.) = Zusammenführung von SPICKZETTEL + IntelliJ_Spickzettel_DoIT + Java_Konzept_Zusammenhaenge: Teil A IntelliJ, Teil B Java/JDBC-Code, Teil C Architektur/Warum (mit Diagramm, Wer-kennt-wen, Singleton, DAO/PreparedStatement, Ablauf „Suchen").
+- Farbtabelle auf echtes IntelliJ-Light-Schema (Hex) umgestellt.
+- 4 Quelldateien → `Archiv/abgeloest_Lernmaterial_2026-06-10/` (SPICKZETTEL, IntelliJ_Spickzettel_DoIT, Java_Konzept_Zusammenhaenge, Java_Handbuch_Start). Lernmaterial/ enthält jetzt nur noch Spickzettel_DoIT.docx + how_to_codereview.pdf.
+- _ORDNERINFO.md in Lernmaterial/ und Archiv/ aktualisiert.

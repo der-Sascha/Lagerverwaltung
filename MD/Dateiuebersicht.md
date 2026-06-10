@@ -1,14 +1,14 @@
 # Dateiübersicht — Lagerverwaltung-Projekt (SRH)
 
-**Stand:** 2026-06-07 (nach Ordner-Aufräumen)
+**Stand:** 2026-06-10 (nach KW24-Aufräumen)
 
 ---
 
 ## Projektstand auf einen Blick (für neue Chats)
 
 - **Block 1 (KW19–KW21) abgeschlossen:** Phasen 1–3 fertig (DB-Schema, 6 Tabellen, DAO-Schicht, ~1.700 Zeilen Code). UI (MainController, 703 Zeilen) bereits in KW21 vorgearbeitet.
-- **Block 2 startet KW24 (08.06.2026):** Phasen 4–7 (UI-Grundfunktionen, erweiterte Funktionen, Tests, Doku/Abgabe).
-- **Projektdokumentation:** fertig zusammengeführt und **vorgabenkonform** (Arial 12pt, 1,5-zeilig, Ränder 2,5/2,5/2,5/2,0 cm, alle Pflichtverzeichnisse, 14 Quellen, Benutzerhandbuch in Anhang C, schema-korrektes ER-Diagramm). Endabgabe-Datei: `Projektdokumentation_Sascha_Schulz.docx` (+ PDF) im Wurzelverzeichnis.
+- **Block 2 läuft (KW24, 08.06.–12.06.2026):** Phase 4 UI-Grundfunktionen (40h) aktiv. Phasen 5–7 folgen KW25–KW26.
+- **Projektdokumentation:** fertig zusammengeführt und **vorgabenkonform** (Times New Roman 12pt, 1,5-zeilig, Ränder 2,5/2,5/2,5/2,0 cm, alle Pflichtverzeichnisse, 13 Quellen, Benutzerhandbuch in Anhang C, schema-korrektes ER-Diagramm). Endabgabe-Datei: `Doku/Projektdokumentation_Sascha_Schulz.docx` (+ PDF).
 - **Noch offen (nach Phase 6/7):** Testergebnisse (4.2), Abnahmeprotokoll (4.3.4) und Reflexion (Kap. 5) sind als **klar markierte Entwürfe** drin und werden nach Durchführung final ausgefüllt.
 - **Abgabe:** PDF in Moodle bis **17.07.2026**.
 
@@ -19,31 +19,34 @@
 | Datei | Zweck | Status |
 |---|---|---|
 | `CLAUDE.md` | Kontext für jeden neuen Chat | aktuell |
-| `Projektdokumentation_Sascha_Schulz.docx` | **finale Abgabe-Dokumentation** (zusammengeführt) | vorgabenkonform, Entwürfe für Tests/Reflexion |
-| `Projektdokumentation_Sascha_Schulz.pdf` | PDF-Export der Abgabe | aktuell |
+| `README.md` | Projekt-Übersicht (GitHub) | aktuell |
+| `pom.xml` | Maven-Build-Konfiguration | aktuell |
+| `lagerverwaltung.iml` | IntelliJ-Modulkonfiguration | aktuell |
 
 ## `Präsentationen/` — Projektpräsentation
 
 | Datei | Inhalt | Status |
 |---|---|---|
-| `Praesentation_Lagerverwaltung_Sascha_Schulz.pptx` | **Projektpräsentation**, 15 Folien (16:9), mit Sprechernotizen | aktuell |
-| `Praesentation_Lagerverwaltung_Sascha_Schulz.pdf` | PDF-Export der Folien | aktuell |
-| `assets/build.js` | pptxgenjs-Build-Skript (reproduzierbar) | aktuell |
+| `Praesentation_Lagerverwaltung_Sascha_Schulz.pptx` | **Projektpräsentation**, 11 Folien (16:9), mit Sprechernotizen; Reise-Struktur Zettel→Amondis→Heute | aktuell |
+| `Praesentation_Lagerverwaltung_Sascha_Schulz.pdf` | PDF-Export der Folien (zuletzt 10.06.) | aktuell |
+| `assets/build.js` | Build-Skript (@resvg/resvg-js, reproduzierbar) | aktuell |
 | `assets/er.png`, `bg_dark.png`, `bg_light.png` | Grafiken/Hintergründe der Folien | aktuell |
 
-Roter Faden: Amondis-Berufsgeschichte (Anwender) läuft synonym parallel zum Projekt (Entwickler). Quelle der Berufsdaten: `Arbeitszeugnis/Arbeitszeugnis Diakonissen.pdf`. Geprüft gegen IHK-Rubrik `Vorgaben/07_TN_Bewertung-Präsentation.pdf` (30/30/20/20).
+Roter Faden: Amondis-Berufsgeschichte (Anwender) läuft synonym parallel zum Projekt (Entwickler). Geprüft gegen Rubrik `Vorgaben/07_TN_Bewertung-Präsentation.pdf` (30/30/20/20).
 
-## `Doku/` — Arbeits-Einzelteile der Dokumentation
+## `Doku/` — Arbeits-Einzelteile der Dokumentation + Masterdatei
 
-`Doku_A`–`Doku_E` sind Bausteine derselben Dokumentation (aufgeteilt zum Bearbeiten). Änderungen immer im jeweiligen Teil, dann in `Projektdokumentation_Sascha_Schulz.docx` (Wurzel) zusammenführen → PDF → Moodle.
+`Doku_A`–`Doku_E` sind Bausteine derselben Dokumentation (aufgeteilt zum Bearbeiten). Änderungen immer im jeweiligen Teil, dann in `Projektdokumentation_Sascha_Schulz.docx` zusammenführen → PDF → Moodle.
 
 | Datei | Inhalt |
 |---|---|
+| `Projektdokumentation_Sascha_Schulz.docx` | **finale Abgabe-Dokumentation** (zusammengeführt, 13 Quellen, Amshove-Schema) | 
+| `Projektdokumentation_Sascha_Schulz.pdf` | PDF-Export der Abgabe (zuletzt 10.06.) |
 | `Doku_A_Verzeichnisse.docx` | Deckblatt, Inhalts-, Abbildungs-, Tabellen-, Quellenverzeichnis |
 | `Doku_B_Ausgangssituation.docx` | Kap. 1 Ausgangssituation + Kap. 2 Ressourcen/Planung |
 | `Doku_C_Durchfuehrung.docx` | Kap. 3 Durchführung (7 Phasen, Code-Beispiele) |
 | `Doku_D_Ergebnisse.docx` | Kap. 4 Ergebnisse/Abnahme + Kap. 5 Reflexion + Abgabeerklärung |
-| `Doku_E_Anhang.docx` | Anhang A–C (ER-Diagramm, SQL-Auszug, Benutzerhandbuch) |
+| `Doku_E_Anhang.docx` | Anhang A–D (ER-Diagramm, SQL-Auszug, Benutzerhandbuch, Glossar) |
 
 ## `MD/` — Markdown-Notizen
 
@@ -74,24 +77,24 @@ Roter Faden: Amondis-Berufsgeschichte (Anwender) läuft synonym parallel zum Pro
 
 ## `Lernmaterial/` — Java-Lerndokumente
 
+Konsolidiert 10.06.: 4 Dateien (Glossar_Java_API, Java_Handbuch_Start, Java_Konzept_Zusammenhaenge, SPICKZETTEL) → Archiv/abgeloest_Lernmaterial_2026-06-10/
+
 | Datei | Inhalt |
 |---|---|
-| `Glossar_Java_API.docx` | Java-API-Glossar (48 Begriffe) |
-| `Java_Handbuch_Start.docx` | Java-Lernnotizen |
-| `Java_Konzept_Zusammenhaenge.docx` | Java-Konzepte/Zusammenhänge |
-| `SPICKZETTEL.docx` | Kurzreferenz (Word) |
-| `how_to_codereview.pdf` | SRH-Anleitung Code-Review-Phase |
+| `Spickzettel_DoIT.docx` | **Konsolidierter Spickzettel** (5 S.): Teil A IntelliJ, Teil B Java/JDBC, Teil C Architektur/Warum (mit Diagramm) |
 
 ## `Lernhandbuch/` — persönliches Lernhandbuch (14 Kapitel)
 
+Hauptdatei (korrigiert.docx) → Archiv/ verschoben (20.05., veraltet). Aktiver Stand = Einzelteile Teil1–4.
+
 | Datei | Inhalt |
 |---|---|
-| `Lernhandbuch_Lagerverwaltung_Krankenhaus_korrigiert.docx` | Hauptdatei Lernhandbuch |
-| `Teil1_Intro_Kap1-3.docx` | Kapitel 1–3 |
-| `Teil2_Kap4-6_neu.docx` | Kapitel 4–6 |
+| `Teil1_Intro_Kap1-3_NEU.docx` | Kapitel 1–3 (IntelliJ-Symbole/-Farben, Syntax-Farben korrigiert 10.06.) |
+| `Teil2_Kap4-6_neu.docx` | Kapitel 4–6 (DB-Name auf DOIT korrigiert 10.06.) |
 | `Teil3_Kap7-9_neu.docx` | Kapitel 7–9 |
-| `Teil4_Kap10-14_neu.docx` | Kapitel 10–14 |
-| `Glossar_Vereinigt.docx` | zusammengeführtes Glossar |
+| `Teil4_Kap10-14_neu.docx` | Kapitel 10–14 (DB-Name auf DOIT korrigiert 10.06.) |
+| `Glossar_Vereinigt.docx` | zusammengeführtes Glossar (90 Begriffe, Anhang D der Doku) |
+| `Lernhandbuch_Pruefungsfragen_Loesungen.docx` | Prüfungsfragen + Lösungen |
 
 ## `Vorgaben/` — SRH-Originale (nicht bearbeiten)
 
@@ -99,20 +102,24 @@ Anleitung, Leitfaden, Vorlagen (Antrag/Wochenplan), Bewertungsbögen (Projektarb
 
 ## `Archiv/` — historischer/abgelöster Bestand
 
-| Datei | Grund |
+| Datei/Ordner | Grund |
 |---|---|
 | `Benutzerhandbuch_Sascha_Schulz.docx` | Inhalt jetzt in Anhang C der Doku — Altbestand |
+| `Lernhandbuch_Lagerverwaltung_Krankenhaus_korrigiert.docx` | veraltet (ohne Kap. 10a), ersetzt durch Teil1–4 |
 | `Projektantrag_Sascha_Schulz_v2.docx` | Meilenstein-Backup (12.05.) |
 | `STATUS_KW21_CHECKPOINT.txt` | Statusbericht KW21 |
 | `KOHAEREZ_AUDIT_2026-05-18.md` | Kohärenz-Audit 18.05. |
+| `_backup_2026-06-07/` | Backup der Original-Doku vor Überarbeitung 07.06. (Doku_A–E + Master) |
+| `abgeloest_Lernmaterial_2026-06-10/` | 4 abgelöste Lernmaterial-Dateien (10.06.): Glossar_Java_API, Java_Handbuch_Start, Java_Konzept_Zusammenhaenge, SPICKZETTEL |
 
 ## Weitere Ordner
 
 | Ordner | Inhalt |
 |---|---|
-| `Ablage/Audits_und_Entwuerfe/` | Audit-Definitionen/Entwürfe |
+| `Ablage/Audits_und_Entwuerfe/` | Audit-Definitionen/Entwürfe (DONNERSTAGS_AUDIT.md) |
 | `Projektmanagement/` | `Kohaerenzpruefung_Lernhandbuch.md` |
-| `_backup_2026-06-07/` | Backup der Original-Doku vor der Überarbeitung 07.06. |
+| `Vorgaben/` | SRH-Originale (Anleitungen, Vorlagen, Bewertungsbögen, Beispiel-Dokus) — nicht bearbeiten |
+| `src/` | Java/Maven-Quellcode (de.doit: db/, model/, dao/, controller/, Main.java, Launcher.java; FXML unter resources/fxml/) |
 
 ---
 

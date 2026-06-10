@@ -9,9 +9,9 @@
 --   bestellungen = Einzelpositions-Bestellung inkl. Ziel-Lager
 -- ============================================================
 
-DROP DATABASE IF EXISTS krankenhaus_lager;
-CREATE DATABASE krankenhaus_lager CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE krankenhaus_lager;
+DROP DATABASE IF EXISTS DOIT;
+CREATE DATABASE DOIT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE DOIT;
 
 -- ============================================================
 -- TABELLEN-DEFINITIONEN

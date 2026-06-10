@@ -16,6 +16,9 @@
 - Wurzel: `CLAUDE.md`, `README.md`, `pom.xml`, `DOIT.iml`
 - **Sync: Google Drive** (kein OneDrive) · **Repo: github.com/der-Sascha/Lagerverwaltung**
 
+**Ordner-Info-Regel (wichtig für neue Chats):**
+In jedem Ordner liegt eine `_ORDNERINFO.md` mit Auflistung und Zweck der enthaltenen Dateien. Vor der Arbeit in einem Ordner zuerst dessen `_ORDNERINFO.md` lesen — nicht den gesamten Ordner durchsuchen. Wird in einem Ordner etwas geändert (Datei neu/umbenannt/gelöscht), die `_ORDNERINFO.md` dieses Ordners aktualisieren. Vorhanden in: `src/`, `Doku/`, `MD/`, `Projektdateien/`, `Lernhandbuch/`, `Lernmaterial/`, `Vorgaben/`, `Projektmanagement/`, `Ablage/`, `Archiv/`, `Präsentationen/`.
+
 Detail-Dateien:
 - `MD/Projektplan.md` — Phasen, Stunden, Wochenplan, Zeitplan
 - `MD/Dateiuebersicht.md` — alle Dateien im Ordner mit Zweck

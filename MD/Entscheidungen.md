@@ -74,7 +74,7 @@ DBConnection.java
 ├── StationslagerDAO
 ├── LieferantDAO
 ├── BestellungDAO
-└── BewegungDAO
+└── BestandsbewegungDAO
 ```
 
 ---
