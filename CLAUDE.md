@@ -37,6 +37,7 @@ Detailübersicht der Teile: siehe `MD/Dateiuebersicht.md` → Abschnitt "Doku_A�
 ## Person
 
 - **Sascha Schulz**, Sanddornweg 4, 67346 Speyer
+- **Anrede-Regel:** Den Nutzer immer **duzen** und direkt mit dem Vornamen **Sascha** ansprechen.
 - E-Mail: sascha0schulz@gmail.com
 - Beruf: **Wirtschaftsinformatiker (WI)**
 - Gruppe: **2551**
@@ -112,6 +113,11 @@ Bei jedem Chat zur Dokumentation bitte folgenden Stand prüfen und aktualisieren
 | Deckblatt vorhanden | ✅ vorhanden |
 | Inhaltsverzeichnis vorhanden | ✅ vorhanden (echte Seitenzahlen) |
 | Abbildungsverzeichnis vorhanden | ✅ vorhanden |
-| Tabellenverzeichnis vorhanden | ✅ vorhanden (11 Tabellen) |
+| Tabellenverzeichnis vorhanden | ✅ vorhanden (9 Tabellen) |
 | Quellenverzeichnis vorhanden | ✅ vorhanden (13 Quellen, URL+Abruf bzw. Titel/Autor/Jahr) |
-| Benutzerhandbuch im Anhang (nicht sep
+| Benutzerhandbuch im Anhang (nicht separat) | ✅ Anhang C |
+| Quellcodeverzeichnis | ✅ vorhanden (6 Listings) |
+| Anhänge A–F | ✅ A ER-Diagramm, B SQL, C Benutzerhandbuch, D Wochenplan, E Projektantrag, F Glossar |
+| Abgabeerklärung | ✅ vorhanden |
+
+**Hinweis (10.06.2026):** Verzeichnisse sind statischer Text — nach Layoutänderungen Seitenzahlen prüfen. Kohärenzprüfung: `Projektmanagement/Kohaerenzpruefung_Word-Dateien_2026-06-10.md`.

@@ -670,27 +670,21 @@ nen: alle Doku_A–E .docx-Dateien + Lernhandbuch-Teile. Master-Datei neu erzeug
 [Änderung] Datenbankname projektweit von `krankenhaus_lager`/`lagerverwaltung` auf **DOIT** (Port 3324) angeglichen — Quelle: DBConnection.java (echte Verbindung). Geändert: Lernhandbuch Teil2 & Teil4, SQL-Skript (CREATE/USE DATABASE DOIT), Projektdokumentation (+PDF neu), Benutzerhandbuch. Dateiname testdaten_krankenhaus_lager.sql sowie Maven-Projektname `lagerverwaltung` bewusst unverändert.
 [Änderung] Lernhandbuch Teil1: Kap. 1.9 Syntax-Farbbeschreibungen an angepasstes IDE-Schema angeglichen (Keyword #000080 dunkelblau, Klassen #00627a türkis, lokale Var. #1a7a1a grün, Felder #660e7a lila, String #008000, Zahl #0000ff, Kommentar #808080, Annotation #808000) + neue Abschnitte Strings/Zahlen/Kommentare; Kap. 1.8 Tabellennamen auf 6-Tabellen-Schema + DB DOIT/Port 3324; Kapitelübersicht 15→14 korrigiert.
 [Erkenntnis] Tabelle in Kap. 1.2 war NICHT leer (Icon-Farbübersicht bereits vollständig) — kein Eingriff nötig.
-[Problem] Teil1_Intro_Kap1-3.docx war beim Schreiben gesperrt (vermutlich in Word geöffnet) → korrigierte Fassung als Teil1_Intro_Kap1-3_NEU.docx abgelegt; Original noch zu ersetzen.
-[Erkenntnis] Kein Netzzugriff auf WSL-MySQL aus der Umgebung; DBConnection.java als Wahrheit verwendet (DB=DOIT, 127.0.0.1:3324, root).
+[Problem] Teil1_Intro_Kap1-3.docx war beim Schreiben gesperrt (vermutlich in Word geöffnet) → korrigierte Fassung als Tei
+## 2026-06-10 — Kohärenzprüfung aller Word-Dateien (Aufbau + Bezeichnungen)
 
+- [Erkenntnis] Vollprüfung 16 .docx gegen src/, SQL, pom.xml, CLAUDE.md → Bericht: `Projektmanagement/Kohaerenzpruefung_Word-Dateien_2026-06-10.md`.
+- [Problem] DB-Umbenennung auf DOIT (10.06.) wurde in 3 Dateien NICHT nachgezogen: `Doku_C` (Listing 2: krankenhaus_lager), `Doku_E` (3 Stellen), `ER_Diagramm_Sascha_Schulz.docx` (zusätzlich localhost:3306 statt 127.0.0.1:3324).
+- [Problem] Endabgabe: Anhangsübersicht listet D (Wochenplan) + E (Projektantrag), Abschnitte fehlen; Doku_E widerspricht sich selbst (Anhang D = Glossar vs. D = Wochenplan).
+- [Problem] Testfälle springen T8→T10 (T9 fehlt); Tippfehler Fazit „hat des gut geklappt"; FAQ-Tabelle Anhang C.10 ohne Umlaute; CLAUDE.md-Checkliste sagt 11 Tabellen, real 9.
+- [Erkenntnis] Konsistent: Titel, Verzeichnisse=Body (5 Abb./9 Tab./6 Listings), Eckdaten (180/192/12 h, Zeitraum, Cramer, 2551), Klassennamen Doku↔src, ER-Spalten↔SQL, Quellenverzeichnis (13, Format ok).
 
-## 2026-06-10 [Änderung] Präsentation – Ausgangssituation & Star-Wars-Bezug
-- Folie 1 Titel: „des Tisches" → „der Macht" (klarer Star-Wars-Bezug)
-- Folie 3 Titel: „Die Ausgangslage – damals" → „Die Ausgangssituation – damals"
-- Folie 5 (Brückenschlag): Untertitel „Auf die andere Seite der Macht gewechselt.", Karten-Texte gekürzt, Zitat gestrafft + Macht-Bezug
-- Sprechernotiz Folie 5 angepasst; PPTX + PDF neu exportiert
+## 2026-06-10 [Änderung] Spickzettel_DoIT: "Code zerlegt"-Übersicht ergänzt
+- Teil B: neue Übersicht "Code zerlegt: was ist was?" — 3 echte Code-Zeilen, jedes Teil benannt (Zugriffsmodifizierer, static, Typ/Interface, Variable, Zuweisung, Klasse, statische Methode, Konstante, Rückgabetyp, Methodenname, Parameterliste). Datei jetzt 6 Seiten.
 
-## 2026-06-10 [Änderung] Präsentation – Reise-Struktur (15→11 Folien)
-- Redundanz aufgelöst: jedes Problem als Reise Zettel→Amondis (Anwender)→Heute (selbst programmiert)
-- Neu: Folie 3 „Der rote Faden", 4 Journey-Folien (Bestellen, Bestand & Listen, Überblick & Warnung, Nachvollziehbarkeit)
-- Technik kompakt auf 1 Folie (Pflichtnachweis + MVC/DAO); Datenmodell + Designentscheidung behalten
-- Entfernt als Einzelfolien: alte „Das Projekt", „Anforderungen", „Problem im Modell", „Kernfunktionen", „Herausforderungen & Lösungen", „Das Ergebnis", „Brückenschlag"
-- Fazit neu: „Vom Zettel in die Moderne"
-- Build: assets/build.js nutzt jetzt @resvg/resvg-js statt sharp (sharp lief in der Build-Umgebung nicht)
+## 2026-06-10 — Korrekturlauf nach Kohärenzprüfung (alle Befunde behoben)
 
-## 2026-06-10 [Änderung] Lernmaterial konsolidiert
-- Geprüft: Java-Handbuch & Konzept-Zusammenhänge sind inhaltlich bereits im Lernhandbuch/ abgedeckt (Teil1 IntelliJ/Grundlagen, Glossar Singleton/Maven, Teil3 DAO/PreparedStatement).
-- Neue Datei `Lernmaterial/Spickzettel_DoIT.docx` (5 S.) = Zusammenführung von SPICKZETTEL + IntelliJ_Spickzettel_DoIT + Java_Konzept_Zusammenhaenge: Teil A IntelliJ, Teil B Java/JDBC-Code, Teil C Architektur/Warum (mit Diagramm, Wer-kennt-wen, Singleton, DAO/PreparedStatement, Ablauf „Suchen").
-- Farbtabelle auf echtes IntelliJ-Light-Schema (Hex) umgestellt.
-- 4 Quelldateien → `Archiv/abgeloest_Lernmaterial_2026-06-10/` (SPICKZETTEL, IntelliJ_Spickzettel_DoIT, Java_Konzept_Zusammenhaenge, Java_Handbuch_Start). Lernmaterial/ enthält jetzt nur noch Spickzettel_DoIT.docx + how_to_codereview.pdf.
-- _ORDNERINFO.md in Lernmaterial/ und Archiv/ aktualisiert.
+- [Änderung] A1–A10 + H1–H4 aus `Projektmanagement/Kohaerenzpruefung_Word-Dateien_2026-06-10.md` korrigiert: DB-Name DOIT in Doku_C/Doku_E/ER-docx (+JDBC 127.0.0.1:3324), T10→T9, „des"→„das", FAQ-Umlaute, Schreibweise einheitlich DOIT, Antrag-Zeitraum eingetragen, Kostenrechnung präzisiert (150 h = 180 − 30 Doku), Prüfungsfragen-To-do erledigt, CLAUDE.md-Checkliste 9 Tabellen.
+- [Änderung] Anhang-Struktur (Nutzerentscheidung): D = Wochenplan, E = Projektantrag, F = Glossar. Abschnitte in Doku_E + Endabgabe ergänzt, Glossar (91 Begriffe) in Endabgabe übernommen, Inhaltsverzeichnis (Doku_A + Endabgabe) erweitert (D/E/F → S. 24).
+- [Erkenntnis] PDF neu erzeugt (53 Seiten); statische Verzeichnis-Seitenzahlen gegen PDF verifiziert. Kerndoku unverändert 10–15-Seiten-konform (Anhang zählt nicht).
+- [Erkenntnis] CLAUDE.md war am Dateiende abgeschnitten (mitten in Checklisten-Zeile) — vervollständigt.

@@ -2,14 +2,15 @@ package de.doit.db;
 
 // STRG ALT L = zum Formatieren
 // ALT Enter = Quick Fix
-// CTRL Space = Code Vervollständigen
-// CTRL Klick = was macht der Code
+// STRG Space = Code Vervollständigen
+// STRG Klick = was macht der Code
 // 2 x Schift = öffnet Suchfeld
 // ALT 7 = Struktur mit Icons
 
 // Angepasste Farben
 // Dunkelblau, fett —       Schlüsselwörter
 // Türkis —                 Klassen, Interfaces und Enums
+// Türkis fett              Klassen, Interfaces und Enums als TYP
 // Schwarz (ohne Farbe) —   Methodennamen
 // Grün —                   lokale Variablen, Parameter fett-kursiv
 // Lila/Violett —           Felder der Klasse
@@ -39,13 +40,19 @@ public class DBConnection {
     // die einzige offene Verbindung der gesamten Anwendung , noch ist sie leer ert mit getConnection wird sie befüllt
     private static Connection connection;
 
+
+
+    // Direkte Zuweisung aber dann wäre er immer beim start online - kostet Resourcen und gibt keine SQLException
+    // private static Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+
     // private Konstruktor
     private DBConnection() {
         // Privater Konstruktor das es nur eine verbindung gibt pro Anwendung geben soll - Singleton Muster
         // Singleton Muster = eine Datenbankverbindung pro Anwendung
         // für hier: eine Klasse mit einem privaten Konstruktor und einer öffentlichen Zugriffsmethode,
-        // die garantiert, dass es im gesamten Programm nur eine Instanz gibt
+        // die garantiert, dass es im gesamten Programm nur eine Instanz/Prozess gibt
     }
+
 
     // Zugriffsmethode zur Verbindung
     public static Connection getConnection() throws SQLException {

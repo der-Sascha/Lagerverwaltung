@@ -22,6 +22,7 @@ public class Main extends Application {
     }
 
     @Override
+    // wird von JavaFX automatisch aufgerufen, wenn ich das Programm schließe
     public void stop() {
         DBConnection.closeConnection();
     }
