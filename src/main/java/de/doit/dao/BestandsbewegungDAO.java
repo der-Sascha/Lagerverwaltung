@@ -18,20 +18,20 @@ public class BestandsbewegungDAO implements GenericDAO<Bestandsbewegung> {
         String sql = "INSERT INTO bestandsbewegungen "
                 + "(material_id, lager_id, bewegungstyp, menge, ablaufdatum, datum, bemerkung) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql,
+        Connection verbindung = DBConnection.getConnection();
+        try (PreparedStatement anweisung = verbindung.prepareStatement(sql,
                 Statement.RETURN_GENERATED_KEYS)) {
-            ps.setInt(1, b.getMaterialId());
-            ps.setInt(2, b.getLagerId());
-            ps.setString(3, b.getBewegungstyp().name());
-            ps.setInt(4, b.getMenge());
-            if (b.getAblaufdatum() == null) ps.setNull(5, java.sql.Types.DATE);
-            else ps.setDate(5, Date.valueOf(b.getAblaufdatum()));
-            ps.setTimestamp(6, Timestamp.valueOf(b.getDatum() == null ? LocalDateTime.now() : b.getDatum()));
-            ps.setString(7, b.getBemerkung());
-            ps.executeUpdate();
-            try (ResultSet keys = ps.getGeneratedKeys()) {
-                if (keys.next()) b.setId(keys.getInt(1));
+            anweisung.setInt(1, b.getMaterialId());
+            anweisung.setInt(2, b.getLagerId());
+            anweisung.setString(3, b.getBewegungstyp().name());
+            anweisung.setInt(4, b.getMenge());
+            if (b.getAblaufdatum() == null) anweisung.setNull(5, java.sql.Types.DATE);
+            else anweisung.setDate(5, Date.valueOf(b.getAblaufdatum()));
+            anweisung.setTimestamp(6, Timestamp.valueOf(b.getDatum() == null ? LocalDateTime.now() : b.getDatum()));
+            anweisung.setString(7, b.getBemerkung());
+            anweisung.executeUpdate();
+            try (ResultSet schluessel = anweisung.getGeneratedKeys()) {
+                if (schluessel.next()) b.setId(schluessel.getInt(1));
             }
         }
         return b;
@@ -42,41 +42,41 @@ public class BestandsbewegungDAO implements GenericDAO<Bestandsbewegung> {
         String sql = "SELECT bestandsbewegung_id, material_id, lager_id, bewegungstyp, "
                 + "menge, ablaufdatum, datum, bemerkung "
                 + "FROM bestandsbewegungen ORDER BY datum DESC";
-        List<Bestandsbewegung> result = new ArrayList<>();
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) result.add(mapRow(rs));
+        List<Bestandsbewegung> ergebnis = new ArrayList<>();
+        Connection verbindung = DBConnection.getConnection();
+        try (PreparedStatement anweisung = verbindung.prepareStatement(sql);
+             ResultSet datensatz = anweisung.executeQuery()) {
+            while (datensatz.next()) ergebnis.add(zeileLesen(datensatz));
         }
-        return result;
+        return ergebnis;
     }
 
     @Override
     public void update(Bestandsbewegung b) throws SQLException {
         String sql = "UPDATE bestandsbewegungen SET material_id=?, lager_id=?, bewegungstyp=?, "
                 + "menge=?, ablaufdatum=?, datum=?, bemerkung=? WHERE bestandsbewegung_id=?";
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, b.getMaterialId());
-            ps.setInt(2, b.getLagerId());
-            ps.setString(3, b.getBewegungstyp().name());
-            ps.setInt(4, b.getMenge());
-            if (b.getAblaufdatum() == null) ps.setNull(5, java.sql.Types.DATE);
-            else ps.setDate(5, Date.valueOf(b.getAblaufdatum()));
-            ps.setTimestamp(6, Timestamp.valueOf(b.getDatum() == null ? LocalDateTime.now() : b.getDatum()));
-            ps.setString(7, b.getBemerkung());
-            ps.setInt(8, b.getId());
-            ps.executeUpdate();
+        Connection verbindung = DBConnection.getConnection();
+        try (PreparedStatement anweisung = verbindung.prepareStatement(sql)) {
+            anweisung.setInt(1, b.getMaterialId());
+            anweisung.setInt(2, b.getLagerId());
+            anweisung.setString(3, b.getBewegungstyp().name());
+            anweisung.setInt(4, b.getMenge());
+            if (b.getAblaufdatum() == null) anweisung.setNull(5, java.sql.Types.DATE);
+            else anweisung.setDate(5, Date.valueOf(b.getAblaufdatum()));
+            anweisung.setTimestamp(6, Timestamp.valueOf(b.getDatum() == null ? LocalDateTime.now() : b.getDatum()));
+            anweisung.setString(7, b.getBemerkung());
+            anweisung.setInt(8, b.getId());
+            anweisung.executeUpdate();
         }
     }
 
     @Override
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM bestandsbewegungen WHERE bestandsbewegung_id = ?";
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ps.executeUpdate();
+        Connection verbindung = DBConnection.getConnection();
+        try (PreparedStatement anweisung = verbindung.prepareStatement(sql)) {
+            anweisung.setInt(1, id);
+            anweisung.executeUpdate();
         }
     }
 
@@ -97,22 +97,22 @@ public class BestandsbewegungDAO implements GenericDAO<Bestandsbewegung> {
                         + "JOIN stationslager s ON s.lager_id    = b.lager_id "
                         + "GROUP BY b.material_id, b.lager_id, m.name, s.name, m.einheit, m.mindestbestand "
                         + "ORDER BY s.name, m.name";
-        List<BestandView> result = new ArrayList<>();
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                result.add(new BestandView(
-                        rs.getInt("material_id"),
-                        rs.getString("material_name"),
-                        rs.getString("einheit"),
-                        rs.getInt("lager_id"),
-                        rs.getString("lager_name"),
-                        rs.getInt("bestand"),
-                        rs.getInt("mindestbestand")));
+        List<BestandView> ergebnis = new ArrayList<>();
+        Connection verbindung = DBConnection.getConnection();
+        try (PreparedStatement anweisung = verbindung.prepareStatement(sql);
+             ResultSet datensatz = anweisung.executeQuery()) {
+            while (datensatz.next()) {
+                ergebnis.add(new BestandView(
+                        datensatz.getInt("material_id"),
+                        datensatz.getString("material_name"),
+                        datensatz.getString("einheit"),
+                        datensatz.getInt("lager_id"),
+                        datensatz.getString("lager_name"),
+                        datensatz.getInt("bestand"),
+                        datensatz.getInt("mindestbestand")));
             }
         }
-        return result;
+        return ergebnis;
     }
 
     public int getBestand(int materialId, int lagerId) throws SQLException {
@@ -120,31 +120,31 @@ public class BestandsbewegungDAO implements GenericDAO<Bestandsbewegung> {
                    + "                        WHEN bewegungstyp = 'AUSGANG' THEN -menge "
                    + "                        ELSE 0 END), 0) "
                    + "FROM bestandsbewegungen WHERE material_id = ? AND lager_id = ?";
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, materialId);
-            ps.setInt(2, lagerId);
-            try (ResultSet rs = ps.executeQuery()) {
-                return rs.next() ? rs.getInt(1) : 0;
+        Connection verbindung = DBConnection.getConnection();
+        try (PreparedStatement anweisung = verbindung.prepareStatement(sql)) {
+            anweisung.setInt(1, materialId);
+            anweisung.setInt(2, lagerId);
+            try (ResultSet datensatz = anweisung.executeQuery()) {
+                return datensatz.next() ? datensatz.getInt(1) : 0;
             }
         }
     }
 
-    private Bestandsbewegung mapRow(ResultSet rs) throws SQLException {
-        Date sqlAblauf = rs.getDate("ablaufdatum");
+    private Bestandsbewegung zeileLesen(ResultSet datensatz) throws SQLException {
+        Date sqlAblauf = datensatz.getDate("ablaufdatum");
         LocalDate ablauf = sqlAblauf == null ? null : sqlAblauf.toLocalDate();
-        Timestamp ts = rs.getTimestamp("datum");
+        Timestamp ts = datensatz.getTimestamp("datum");
         LocalDateTime datum = ts == null ? null : ts.toLocalDateTime();
-        BewegungsTyp typ = BewegungsTyp.valueOf(rs.getString("bewegungstyp"));
+        BewegungsTyp typ = BewegungsTyp.valueOf(datensatz.getString("bewegungstyp"));
         return new Bestandsbewegung(
-                rs.getInt("bestandsbewegung_id"),
-                rs.getInt("material_id"),
-                rs.getInt("lager_id"),
+                datensatz.getInt("bestandsbewegung_id"),
+                datensatz.getInt("material_id"),
+                datensatz.getInt("lager_id"),
                 typ,
-                rs.getInt("menge"),
+                datensatz.getInt("menge"),
                 ablauf,
                 datum,
-                rs.getString("bemerkung"));
+                datensatz.getString("bemerkung"));
     }
 }
 

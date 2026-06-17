@@ -1,4 +1,7 @@
 # Vollständige Projektanalyse — DoIT Lagerverwaltung
+
+> **Hinweis (2026-06-17):** Diese Analyse ist ein älterer Stand. Die Funktionen **Warenentnahme** und **Umlagerung** wurden inzwischen entfernt (Reduktion auf Antragsumfang, siehe `MD/Entscheidungen.md` D-009 und Projekttagebuch). Empfehlungen, sie als Bonus-Feature zu dokumentieren, gelten nicht mehr.
+
 **Erstellt:** 2026-06-07  
 **Zweck:** Detaillierte Übergabe-Zusammenfassung für nächstes Modell / nächste Session  
 **Autor der Analyse:** Claude (Cowork-Modus)  

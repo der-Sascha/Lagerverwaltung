@@ -13,17 +13,17 @@ public class MaterialDAO implements GenericDAO<Material> {
     public Material create(Material material) throws SQLException {
         String sql = "INSERT INTO materialien (name, einheit, mindestbestand, kategorie_id) "
                 + "VALUES (?, ?, ?, ?)";
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql,
+        Connection verbindung = DBConnection.getConnection();
+        try (PreparedStatement anweisung = verbindung.prepareStatement(sql,
                 Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, material.getName());
-            ps.setString(2, material.getEinheit());
-            ps.setInt(3, material.getMindestbestand());
-            ps.setInt(4, material.getKategorieId());
-            ps.executeUpdate();
-            try (ResultSet keys = ps.getGeneratedKeys()) {
-                if (keys.next()) {
-                    material.setId(keys.getInt(1));
+            anweisung.setString(1, material.getName());
+            anweisung.setString(2, material.getEinheit());
+            anweisung.setInt(3, material.getMindestbestand());
+            anweisung.setInt(4, material.getKategorieId());
+            anweisung.executeUpdate();
+            try (ResultSet schluessel = anweisung.getGeneratedKeys()) {
+                if (schluessel.next()) {
+                    material.setId(schluessel.getInt(1));
                 }
             }
         }
@@ -34,48 +34,48 @@ public class MaterialDAO implements GenericDAO<Material> {
     public List<Material> findAll() throws SQLException {
         String sql = "SELECT material_id, name, einheit, mindestbestand, kategorie_id "
                 + "FROM materialien ORDER BY name";
-        List<Material> result = new ArrayList<>();
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                result.add(mapRow(rs));
+        List<Material> ergebnis = new ArrayList<>();
+        Connection verbindung = DBConnection.getConnection();
+        try (PreparedStatement anweisung = verbindung.prepareStatement(sql);
+             ResultSet datensatz = anweisung.executeQuery()) {
+            while (datensatz.next()) {
+                ergebnis.add(zeileLesen(datensatz));
             }
         }
-        return result;
+        return ergebnis;
     }
 
     @Override
     public void update(Material material) throws SQLException {
         String sql = "UPDATE materialien SET name = ?, einheit = ?, mindestbestand = ?, "
                 + "kategorie_id = ? WHERE material_id = ?";
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, material.getName());
-            ps.setString(2, material.getEinheit());
-            ps.setInt(3, material.getMindestbestand());
-            ps.setInt(4, material.getKategorieId());
-            ps.setInt(5, material.getId());
-            ps.executeUpdate();
+        Connection verbindung = DBConnection.getConnection();
+        try (PreparedStatement anweisung = verbindung.prepareStatement(sql)) {
+            anweisung.setString(1, material.getName());
+            anweisung.setString(2, material.getEinheit());
+            anweisung.setInt(3, material.getMindestbestand());
+            anweisung.setInt(4, material.getKategorieId());
+            anweisung.setInt(5, material.getId());
+            anweisung.executeUpdate();
         }
     }
 
     @Override
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM materialien WHERE material_id = ?";
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ps.executeUpdate();
+        Connection verbindung = DBConnection.getConnection();
+        try (PreparedStatement anweisung = verbindung.prepareStatement(sql)) {
+            anweisung.setInt(1, id);
+            anweisung.executeUpdate();
         }
     }
 
-    private Material mapRow(ResultSet rs) throws SQLException {
+    private Material zeileLesen(ResultSet datensatz) throws SQLException {
         return new Material(
-                rs.getInt("material_id"),
-                rs.getString("name"),
-                rs.getString("einheit"),
-                rs.getInt("mindestbestand"),
-                rs.getInt("kategorie_id"));
+                datensatz.getInt("material_id"),
+                datensatz.getString("name"),
+                datensatz.getString("einheit"),
+                datensatz.getInt("mindestbestand"),
+                datensatz.getInt("kategorie_id"));
     }
 }

@@ -18,7 +18,7 @@ SUM(CASE WHEN bewegungstyp = 'EINGANG' THEN menge ELSE -menge END)
 - Lückenlose Buchungshistorie ist Voraussetzung für Krankenhaus-Controlling
 - Atomare Bewegungen sind nachvollziehbar
 
-**Konsequenz:** Zu- und Abgänge werden ausschließlich als gebuchte Bestandsbewegungen erfasst (manuell bzw. über die Funktionen Warenentnahme und Umlagerung). Der Bestellstatus (offen/geliefert/storniert) dokumentiert nur den Bestellvorgang.
+**Konsequenz:** Zu- und Abgänge werden ausschließlich als gebuchte Bestandsbewegungen erfasst (über den Reiter „Bestandsbewegungen“; eine Umlagerung als AUSGANG im Quell- und EINGANG im Ziellager). Der Bestellstatus (offen/geliefert/storniert) dokumentiert nur den Bestellvorgang. *(Hinweis 2026-06-17: die früheren Komfort-Buttons Warenentnahme/Umlagerung wurden entfernt, siehe D-009.)*
 
 ---
 
@@ -140,7 +140,7 @@ public interface GenericDAO<T> {
 - Zeigt Vererbung + Generics (`EntityCrud<T>`) — gut fürs Fachgespräch.
 - Bewusst der „leichte Weg": eine FXML-Datei bleibt, nur Logik in eigene Klassen → geringes Risiko, App-Verhalten unverändert.
 
-**Abgrenzung:** Der Reiter „Bestandsübersicht" (berechnete, schreibgeschützte Sicht mit Suche, Filter, Warenentnahme, Umlagerung) bleibt im `MainController`, weil er kein normales Stammdaten-CRUD ist. Die zwei Komfortfunktionen Warenentnahme/Umlagerung bleiben erhalten.
+**Abgrenzung:** Der Reiter „Bestandsübersicht" (berechnete, schreibgeschützte Sicht mit Suche und Filter) bleibt im `MainController`, weil er kein normales Stammdaten-CRUD ist. *(Hinweis 2026-06-17: die ursprünglich hier verorteten Komfortfunktionen Warenentnahme/Umlagerung wurden entfernt, siehe D-009.)*
 
 **Konsequenz:** Neues Paket `controller/crud/` (8 Klassen); Kompilierung mit JavaFX geprüft; Doku Kap. 4.2 + 8.2 ergänzt.
 
@@ -160,3 +160,17 @@ public interface GenericDAO<T> {
 
 **Konsequenz:** <Folgen für Code/Doku/Modell>
 ```
+
+---
+
+## D-009: Reduktion auf Antragsumfang — Warenentnahme & Umlagerung entfernt (2026-06-17)
+
+**Entscheidung:** Die beiden Komfort-Schaltflächen „Warenentnahme" und „Umlagerung" in der Bestandsübersicht werden entfernt.
+
+**Begründung:**
+
+- Beide waren Zusätze über den genehmigten Projektantrag hinaus (keine Kernfunktion).
+- Reduziert Komplexität (besonders fürs Fachgespräch); Umlagerung war die komplexeste Stelle (Doppelbuchung).
+- Kein Funktionsverlust: Ein-/Ausgänge inkl. Umlagerung bleiben über den Reiter „Bestandsbewegungen" buchbar (AUSGANG bzw. AUSGANG+EINGANG).
+
+**Konsequenz:** FXML-Buttons + `onWarenentnahme()`/`onUmlagerung()` entfernt; Doku (Doku_B/C/E + Endabgabe) umformuliert; Backup unter `Archiv/_backup_2026-06-17_Warenentnahme_Umlagerung/`. Korrigiert D-008 (dort hieß es „bleiben erhalten").

@@ -10,7 +10,6 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.GridPane;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -26,7 +25,7 @@ import java.util.List;
  * wiederkehrenden Ablauf (Laden/Anlegen/Bearbeiten/Loeschen) enthaelt die
  * gemeinsame Basisklasse {@link de.doit.controller.crud.EntityCrud}, sodass
  * jeder Reiter gleich aufgebaut ist. Nur der Reiter "Bestandsuebersicht"
- * (Suche, Filter, Warenentnahme, Umlagerung) bleibt direkt hier, weil er
+ * (Suche, Filter) bleibt direkt hier, weil er
  * eine berechnete, schreibgeschuetzte Sicht ist.</p>
  */
 public class MainController {
@@ -183,7 +182,7 @@ public class MainController {
     }
 
     // =========================================================================
-    // BESTANDSUEBERSICHT (Suche, Filter, Warenentnahme, Umlagerung)
+    // BESTANDSUEBERSICHT (Suche, Filter)
     // =========================================================================
     private void ladeBestaende() throws SQLException {
         alleBestaende = bewegungDao.findBestandViews();
@@ -224,74 +223,6 @@ public class MainController {
         txtSuche.clear();
         cmbLager.getSelectionModel().clearSelection();
         anzeigeFiltern();
-    }
-
-    @FXML public void onWarenentnahme() {
-        BestandView sel = tabBestand.getSelectionModel().getSelectedItem();
-        if (sel == null) { Dialoge.warnung("Bitte einen Bestand auswählen."); return; }
-
-        TextField tfMenge = new TextField("1");
-        TextField tfBem   = new TextField();
-        tfBem.setPrefWidth(250);
-
-        GridPane grid = Dialoge.gitter();
-        grid.addRow(0, new Label("Material:"),  new Label(sel.getMaterialName()));
-        grid.addRow(1, new Label("Lager:"),     new Label(sel.getLagerName()));
-        grid.addRow(2, new Label("Menge:"),     tfMenge);
-        grid.addRow(3, new Label("Bemerkung:"), tfBem);
-
-        Dialog<ButtonType> dlg = Dialoge.dialog("Warenentnahme", grid);
-        if (dlg.showAndWait().filter(b -> b == ButtonType.OK).isEmpty()) return;
-
-        try {
-            int menge = Integer.parseInt(tfMenge.getText());
-            if (menge > sel.getBestand()) { Dialoge.warnung("Entnahmemenge übersteigt den Bestand (" + sel.getBestand() + ")."); return; }
-            bewegungDao.create(new Bestandsbewegung(
-                    sel.getMaterialId(), sel.getLagerId(), BewegungsTyp.AUSGANG,
-                    menge, null, LocalDateTime.now(), tfBem.getText()));
-            ladeBestaende();
-        } catch (Exception ex) { Dialoge.fehler("Entnahme fehlgeschlagen", ex); }
-    }
-
-    @FXML public void onUmlagerung() {
-        BestandView sel = tabBestand.getSelectionModel().getSelectedItem();
-        if (sel == null) { Dialoge.warnung("Bitte einen Bestand auswählen."); return; }
-
-        try {
-            List<Stationslager> lags = lagerDao.findAll();
-            lags.removeIf(l -> l.getId() == sel.getLagerId());
-
-            ComboBox<Stationslager> cbZiel  = new ComboBox<>(FXCollections.observableArrayList(lags));
-            TextField               tfMenge = new TextField("1");
-            TextField               tfBem   = new TextField();
-            tfBem.setPrefWidth(250);
-
-            GridPane grid = Dialoge.gitter();
-            grid.addRow(0, new Label("Material:"),   new Label(sel.getMaterialName()));
-            grid.addRow(1, new Label("Von Lager:"),  new Label(sel.getLagerName()));
-            grid.addRow(2, new Label("Nach Lager:"), cbZiel);
-            grid.addRow(3, new Label("Menge:"),      tfMenge);
-            grid.addRow(4, new Label("Bemerkung:"),  tfBem);
-
-            Dialog<ButtonType> dlg = Dialoge.dialog("Umlagerung", grid);
-            if (dlg.showAndWait().filter(b -> b == ButtonType.OK).isEmpty()) return;
-
-            if (cbZiel.getValue() == null) { Dialoge.warnung("Bitte ein Ziellager auswählen."); return; }
-            int menge = Integer.parseInt(tfMenge.getText());
-            if (menge > sel.getBestand()) { Dialoge.warnung("Menge übersteigt den Bestand (" + sel.getBestand() + ")."); return; }
-
-            String bem = tfBem.getText();
-            LocalDateTime jetzt = LocalDateTime.now();
-            bewegungDao.create(new Bestandsbewegung(
-                    sel.getMaterialId(), sel.getLagerId(), BewegungsTyp.AUSGANG,
-                    menge, null, jetzt,
-                    "Umlagerung nach " + cbZiel.getValue().getName() + (bem.isEmpty() ? "" : ": " + bem)));
-            bewegungDao.create(new Bestandsbewegung(
-                    sel.getMaterialId(), cbZiel.getValue().getId(), BewegungsTyp.EINGANG,
-                    menge, null, jetzt,
-                    "Umlagerung von " + sel.getLagerName() + (bem.isEmpty() ? "" : ": " + bem)));
-            ladeBestaende();
-        } catch (Exception ex) { Dialoge.fehler("Umlagerung fehlgeschlagen", ex); }
     }
 
     // =========================================================================

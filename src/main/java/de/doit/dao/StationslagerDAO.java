@@ -12,16 +12,16 @@ public class StationslagerDAO implements GenericDAO<Stationslager> {
     @Override
     public Stationslager create(Stationslager lager) throws SQLException {
         String sql = "INSERT INTO stationslager (name, standort, typ) VALUES (?, ?, ?)";
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql,
+        Connection verbindung = DBConnection.getConnection();
+        try (PreparedStatement anweisung = verbindung.prepareStatement(sql,
                 Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, lager.getName());
-            ps.setString(2, lager.getStandort());
-            ps.setString(3, lager.getTyp());
-            ps.executeUpdate();
-            try (ResultSet keys = ps.getGeneratedKeys()) {
-                if (keys.next()) {
-                    lager.setId(keys.getInt(1));
+            anweisung.setString(1, lager.getName());
+            anweisung.setString(2, lager.getStandort());
+            anweisung.setString(3, lager.getTyp());
+            anweisung.executeUpdate();
+            try (ResultSet schluessel = anweisung.getGeneratedKeys()) {
+                if (schluessel.next()) {
+                    lager.setId(schluessel.getInt(1));
                 }
             }
         }
@@ -32,47 +32,47 @@ public class StationslagerDAO implements GenericDAO<Stationslager> {
     public List<Stationslager> findAll() throws SQLException {
         String sql = "SELECT lager_id, name, standort, typ FROM stationslager "
                 + "ORDER BY name";
-        List<Stationslager> result = new ArrayList<>();
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                result.add(mapRow(rs));
+        List<Stationslager> ergebnis = new ArrayList<>();
+        Connection verbindung = DBConnection.getConnection();
+        try (PreparedStatement anweisung = verbindung.prepareStatement(sql);
+             ResultSet datensatz = anweisung.executeQuery()) {
+            while (datensatz.next()) {
+                ergebnis.add(zeileLesen(datensatz));
             }
         }
-        return result;
+        return ergebnis;
     }
 
     @Override
     public void update(Stationslager lager) throws SQLException {
         String sql = "UPDATE stationslager SET name = ?, standort = ?, typ = ? "
                 + "WHERE lager_id = ?";
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, lager.getName());
-            ps.setString(2, lager.getStandort());
-            ps.setString(3, lager.getTyp());
-            ps.setInt(4, lager.getId());
-            ps.executeUpdate();
+        Connection verbindung = DBConnection.getConnection();
+        try (PreparedStatement anweisung = verbindung.prepareStatement(sql)) {
+            anweisung.setString(1, lager.getName());
+            anweisung.setString(2, lager.getStandort());
+            anweisung.setString(3, lager.getTyp());
+            anweisung.setInt(4, lager.getId());
+            anweisung.executeUpdate();
         }
     }
 
     @Override
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM stationslager WHERE lager_id = ?";
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ps.executeUpdate();
+        Connection verbindung = DBConnection.getConnection();
+        try (PreparedStatement anweisung = verbindung.prepareStatement(sql)) {
+            anweisung.setInt(1, id);
+            anweisung.executeUpdate();
         }
     }
 
-    private Stationslager mapRow(ResultSet rs) throws SQLException {
+    private Stationslager zeileLesen(ResultSet datensatz) throws SQLException {
         return new Stationslager(
-                rs.getInt("lager_id"),
-                rs.getString("name"),
-                rs.getString("standort"),
-                rs.getString("typ"));
+                datensatz.getInt("lager_id"),
+                datensatz.getString("name"),
+                datensatz.getString("standort"),
+                datensatz.getString("typ"));
     }
 }
 

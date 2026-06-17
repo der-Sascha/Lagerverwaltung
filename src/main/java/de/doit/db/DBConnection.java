@@ -1,79 +1,43 @@
 package de.doit.db;
 
-// STRG ALT L = zum Formatieren
-// ALT Enter = Quick Fix
-// STRG Space = Code Vervollständigen
-// STRG Klick = was macht der Code
-// 2 x Schift = öffnet Suchfeld
-// ALT 7 = Struktur mit Icons
-
-// Angepasste Farben
-// Dunkelblau, fett —       Schlüsselwörter
-// Türkis —                 Klassen, Interfaces und Enums
-// Türkis fett              Klassen, Interfaces und Enums als TYP
-// Schwarz (ohne Farbe) —   Methodennamen
-// Grün —                   lokale Variablen, Parameter fett-kursiv
-// Lila/Violett —           Felder der Klasse
-// Grün, fett —             Zeichenketten (Strings)
-// Blau —                   Zahlen
-// Grau, kursiv —           Kommentare
-// Oliv/Dunkelgelb, unterstrichen — Annotationen
-
-// Java-Standardbibliothek, also Teil des JDK daher keine eingabe für Abhängigkeit in pom.xml
-// Connection ist die Schnittstelle, das eine offene Datenbankverbindung darstellt
-
 import java.sql.Connection;
-// die Werkzeugklasse, die eine neue Verbindung aufbaut (ist ein Interface)
 import java.sql.DriverManager;
-// wenn etwas mit der Datenbank schiefgeht
 import java.sql.SQLException;
 
+/**
+ * Stellt die zentrale Datenbankverbindung nach dem Singleton-Muster bereit:
+ * Privater Konstruktor und eine statische Zugriffsmethode garantieren, dass
+ * im gesamten Programm nur eine Verbindung existiert. Die Verbindung wird
+ * lazy aufgebaut (erst bei der ersten Nutzung).
+ */
 public class DBConnection {
-    // JDBC-Treiber ist der Treiber, der das Protokoll der jeweiligen Datenbank implementiert, um die Kommunikation zu ermöglichen.
-    // 127.0.0.1 Standart IP für localhost
+
     // Port 3324: abweichender MySQL-Port (Standard 3306)
     private static final String URL = "jdbc:mysql://127.0.0.1:3324/DOIT?serverTimezone=Europe/Berlin";
     private static final String USER = "root";
-    // normalerweiße in einer Konfigurationsdatei auslagern
-    private static final String PASSWORD = "1234";
+    private static final String PASSWORD = "1234"; // im Produktivbetrieb in Konfigurationsdatei auslagern
 
-    // die einzige offene Verbindung der gesamten Anwendung , noch ist sie leer ert mit getConnection wird sie befüllt
     private static Connection connection;
 
+    // Privater Konstruktor: verhindert weitere Instanzen (Singleton).
+    private DBConnection() { }
 
-
-    // Direkte Zuweisung aber dann wäre er immer beim start online - kostet Resourcen und gibt keine SQLException
-    // private static Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-
-    // private Konstruktor
-    private DBConnection() {
-        // Privater Konstruktor das es nur eine verbindung gibt pro Anwendung geben soll - Singleton Muster
-        // Singleton Muster = eine Datenbankverbindung pro Anwendung
-        // für hier: eine Klasse mit einem privaten Konstruktor und einer öffentlichen Zugriffsmethode,
-        // die garantiert, dass es im gesamten Programm nur eine Instanz/Prozess gibt
-    }
-
-
-    // Zugriffsmethode zur Verbindung
+    /** Liefert die gemeinsame Verbindung; baut sie bei Bedarf auf (Lazy Initialization). */
     public static Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
         }
-        // hier der aktive Aufbau der Verbindung zu SQL-Datenbank - wird als connection zurückgegeben
-        // ist eine Lazy Initialization also erst bei aktiver Nutzung wird die VErbindung aufgebaut
-        // das ist ein gängiges Muster in der Softwareentwicklung, um Ressourcen optimal zu nutzen (Google)
         return connection;
     }
 
+    /** Schliesst die Verbindung, sofern sie geoeffnet ist. */
     public static void closeConnection() {
-        if (connection != null) { // der 1. (Sicherheits) Check
+        if (connection != null) {
             try {
-                connection.close(); // der 2. Check das ist Java Standrt festgelegt mit close
+                connection.close();
             } catch (SQLException e) {
                 System.err.println("Verbindung konnte nicht geschlossen werden: "
                         + e.getMessage());
-                // warum closeConenncton? keine toten VErbindungen und
-                // kein erneuter Aufbau einer geschlossenen Verbindung
             }
         }
     }

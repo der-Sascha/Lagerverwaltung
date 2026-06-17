@@ -15,24 +15,24 @@ public class BestellungDAO implements GenericDAO<Bestellung> {
         String sql = "INSERT INTO bestellungen (material_id, lieferant_id, lager_id, "
                 + "menge, bestelldatum, lieferdatum, status) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql,
+        Connection verbindung = DBConnection.getConnection();
+        try (PreparedStatement anweisung = verbindung.prepareStatement(sql,
                 Statement.RETURN_GENERATED_KEYS)) {
-            ps.setInt(1, bestellung.getMaterialId());
-            ps.setInt(2, bestellung.getLieferantId());
-            ps.setInt(3, bestellung.getLagerId());
-            ps.setInt(4, bestellung.getMenge());
-            ps.setDate(5, Date.valueOf(bestellung.getBestelldatum()));
+            anweisung.setInt(1, bestellung.getMaterialId());
+            anweisung.setInt(2, bestellung.getLieferantId());
+            anweisung.setInt(3, bestellung.getLagerId());
+            anweisung.setInt(4, bestellung.getMenge());
+            anweisung.setDate(5, Date.valueOf(bestellung.getBestelldatum()));
             if (bestellung.getLieferdatum() == null) {
-                ps.setNull(6, java.sql.Types.DATE);
+                anweisung.setNull(6, java.sql.Types.DATE);
             } else {
-                ps.setDate(6, Date.valueOf(bestellung.getLieferdatum()));
+                anweisung.setDate(6, Date.valueOf(bestellung.getLieferdatum()));
             }
-            ps.setString(7, bestellung.getStatus());
-            ps.executeUpdate();
-            try (ResultSet keys = ps.getGeneratedKeys()) {
-                if (keys.next()) {
-                    bestellung.setId(keys.getInt(1));
+            anweisung.setString(7, bestellung.getStatus());
+            anweisung.executeUpdate();
+            try (ResultSet schluessel = anweisung.getGeneratedKeys()) {
+                if (schluessel.next()) {
+                    bestellung.setId(schluessel.getInt(1));
                 }
             }
         }
@@ -44,15 +44,15 @@ public class BestellungDAO implements GenericDAO<Bestellung> {
         String sql = "SELECT bestellung_id, material_id, lieferant_id, lager_id, "
                 + "menge, bestelldatum, lieferdatum, status "
                 + "FROM bestellungen ORDER BY bestelldatum DESC";
-        List<Bestellung> result = new ArrayList<>();
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                result.add(mapRow(rs));
+        List<Bestellung> ergebnis = new ArrayList<>();
+        Connection verbindung = DBConnection.getConnection();
+        try (PreparedStatement anweisung = verbindung.prepareStatement(sql);
+             ResultSet datensatz = anweisung.executeQuery()) {
+            while (datensatz.next()) {
+                ergebnis.add(zeileLesen(datensatz));
             }
         }
-        return result;
+        return ergebnis;
     }
 
     @Override
@@ -60,47 +60,47 @@ public class BestellungDAO implements GenericDAO<Bestellung> {
         String sql = "UPDATE bestellungen SET material_id = ?, lieferant_id = ?, "
                 + "lager_id = ?, menge = ?, bestelldatum = ?, lieferdatum = ?, "
                 + "status = ? WHERE bestellung_id = ?";
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, bestellung.getMaterialId());
-            ps.setInt(2, bestellung.getLieferantId());
-            ps.setInt(3, bestellung.getLagerId());
-            ps.setInt(4, bestellung.getMenge());
-            ps.setDate(5, Date.valueOf(bestellung.getBestelldatum()));
+        Connection verbindung = DBConnection.getConnection();
+        try (PreparedStatement anweisung = verbindung.prepareStatement(sql)) {
+            anweisung.setInt(1, bestellung.getMaterialId());
+            anweisung.setInt(2, bestellung.getLieferantId());
+            anweisung.setInt(3, bestellung.getLagerId());
+            anweisung.setInt(4, bestellung.getMenge());
+            anweisung.setDate(5, Date.valueOf(bestellung.getBestelldatum()));
             if (bestellung.getLieferdatum() == null) {
-                ps.setNull(6, java.sql.Types.DATE);
+                anweisung.setNull(6, java.sql.Types.DATE);
             } else {
-                ps.setDate(6, Date.valueOf(bestellung.getLieferdatum()));
+                anweisung.setDate(6, Date.valueOf(bestellung.getLieferdatum()));
             }
-            ps.setString(7, bestellung.getStatus());
-            ps.setInt(8, bestellung.getId());
-            ps.executeUpdate();
+            anweisung.setString(7, bestellung.getStatus());
+            anweisung.setInt(8, bestellung.getId());
+            anweisung.executeUpdate();
         }
     }
 
     @Override
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM bestellungen WHERE bestellung_id = ?";
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ps.executeUpdate();
+        Connection verbindung = DBConnection.getConnection();
+        try (PreparedStatement anweisung = verbindung.prepareStatement(sql)) {
+            anweisung.setInt(1, id);
+            anweisung.executeUpdate();
         }
     }
 
-    private Bestellung mapRow(ResultSet rs) throws SQLException {
-        Date sqlBestelldatum = rs.getDate("bestelldatum");
-        Date sqlLieferdatum  = rs.getDate("lieferdatum");
+    private Bestellung zeileLesen(ResultSet datensatz) throws SQLException {
+        Date sqlBestelldatum = datensatz.getDate("bestelldatum");
+        Date sqlLieferdatum  = datensatz.getDate("lieferdatum");
         LocalDate bestelldatum = sqlBestelldatum == null ? null : sqlBestelldatum.toLocalDate();
         LocalDate lieferdatum  = sqlLieferdatum  == null ? null : sqlLieferdatum.toLocalDate();
         return new Bestellung(
-                rs.getInt("bestellung_id"),
-                rs.getInt("material_id"),
-                rs.getInt("lieferant_id"),
-                rs.getInt("lager_id"),
-                rs.getInt("menge"),
+                datensatz.getInt("bestellung_id"),
+                datensatz.getInt("material_id"),
+                datensatz.getInt("lieferant_id"),
+                datensatz.getInt("lager_id"),
+                datensatz.getInt("menge"),
                 bestelldatum,
                 lieferdatum,
-                rs.getString("status"));
+                datensatz.getString("status"));
     }
 }

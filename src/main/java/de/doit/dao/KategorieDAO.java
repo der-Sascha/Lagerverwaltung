@@ -12,14 +12,14 @@ public class KategorieDAO implements GenericDAO<Kategorie> {
     @Override
     public Kategorie create(Kategorie kategorie) throws SQLException {
         String sql = "INSERT INTO kategorien (name, beschreibung) VALUES (?, ?)";
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, kategorie.getName());
-            ps.setString(2, kategorie.getBeschreibung());
-            ps.executeUpdate();
-            try (ResultSet keys = ps.getGeneratedKeys()) {
-                if (keys.next()) {
-                    kategorie.setId(keys.getInt(1));
+        Connection verbindung = DBConnection.getConnection();
+        try (PreparedStatement anweisung = verbindung.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            anweisung.setString(1, kategorie.getName());
+            anweisung.setString(2, kategorie.getBeschreibung());
+            anweisung.executeUpdate();
+            try (ResultSet schluessel = anweisung.getGeneratedKeys()) {
+                if (schluessel.next()) {
+                    kategorie.setId(schluessel.getInt(1));
                 }
             }
         }
@@ -30,44 +30,44 @@ public class KategorieDAO implements GenericDAO<Kategorie> {
     public List<Kategorie> findAll() throws SQLException {
         String sql = "SELECT kategorie_id, name, beschreibung FROM kategorien "
                 + "ORDER BY name";
-        List<Kategorie> result = new ArrayList<>();
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                result.add(mapRow(rs));
+        List<Kategorie> ergebnis = new ArrayList<>();
+        Connection verbindung = DBConnection.getConnection();
+        try (PreparedStatement anweisung = verbindung.prepareStatement(sql);
+             ResultSet datensatz = anweisung.executeQuery()) {
+            while (datensatz.next()) {
+                ergebnis.add(zeileLesen(datensatz));
             }
         }
-        return result;
+        return ergebnis;
     }
 
     @Override
     public void update(Kategorie kategorie) throws SQLException {
         String sql = "UPDATE kategorien SET name = ?, beschreibung = ? "
                 + "WHERE kategorie_id = ?";
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, kategorie.getName());
-            ps.setString(2, kategorie.getBeschreibung());
-            ps.setInt(3, kategorie.getId());
-            ps.executeUpdate();
+        Connection verbindung = DBConnection.getConnection();
+        try (PreparedStatement anweisung = verbindung.prepareStatement(sql)) {
+            anweisung.setString(1, kategorie.getName());
+            anweisung.setString(2, kategorie.getBeschreibung());
+            anweisung.setInt(3, kategorie.getId());
+            anweisung.executeUpdate();
         }
     }
 
     @Override
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM kategorien WHERE kategorie_id = ?";
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ps.executeUpdate();
+        Connection verbindung = DBConnection.getConnection();
+        try (PreparedStatement anweisung = verbindung.prepareStatement(sql)) {
+            anweisung.setInt(1, id);
+            anweisung.executeUpdate();
         }
     }
 
-    private Kategorie mapRow(ResultSet rs) throws SQLException {
+    private Kategorie zeileLesen(ResultSet datensatz) throws SQLException {
         return new Kategorie(
-                rs.getInt("kategorie_id"),
-                rs.getString("name"),
-                rs.getString("beschreibung"));
+                datensatz.getInt("kategorie_id"),
+                datensatz.getString("name"),
+                datensatz.getString("beschreibung"));
     }
 }

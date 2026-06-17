@@ -58,7 +58,6 @@ public class Bestandsbewegung {
     public void setAblaufdatum(LocalDate ablaufdatum) { this.ablaufdatum = ablaufdatum; }
 
     public LocalDateTime getDatum() { return datum; }
-//    public void setDatum(LocalDateTime datum) { this.datum = datum; }
 
     public String getBemerkung() { return bemerkung; }
     public void setBemerkung(String bemerkung) { this.bemerkung = bemerkung; }

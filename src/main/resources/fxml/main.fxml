@@ -27,8 +27,6 @@
                     <Button text="Suchen"        onAction="#onSuchen"/>
                     <Button text="Zurücksetzen"  onAction="#onZuruecksetzen"/>
                     <Button text="Aktualisieren"  onAction="#onAktualisieren"/>
-                    <Button text="Warenentnahme" onAction="#onWarenentnahme"/>
-                    <Button text="Umlagerung"    onAction="#onUmlagerung"/>
                     <Region HBox.hgrow="ALWAYS"/>
                     <Label fx:id="lblWarnungAnzahl" text="Warnungen: 0"
                            style="-fx-font-weight: bold;"/>
