@@ -7,8 +7,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LieferantDAO {
+public class LieferantDAO implements GenericDAO<Lieferant> {
 
+    @Override
     public Lieferant create(Lieferant lieferant) throws SQLException {
         String sql = "INSERT INTO lieferanten (name, kontakt, telefon, email) "
                 + "VALUES (?, ?, ?, ?)";
@@ -29,21 +30,7 @@ public class LieferantDAO {
         return lieferant;
     }
 
-//    public Lieferant findById(int id) throws SQLException {
-//        String sql = "SELECT lieferant_id, name, kontakt, telefon, email FROM lieferanten "
-//                + "WHERE lieferant_id = ?";
-//        Connection conn = DBConnection.getConnection();
-//        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-//            ps.setInt(1, id);
-//            try (ResultSet rs = ps.executeQuery()) {
-//                if (rs.next()) {
-//                    return mapRow(rs);
-//                }
-//            }
-//        }
-//        return null;
-//    }
-
+    @Override
     public List<Lieferant> findAll() throws SQLException {
         String sql = "SELECT lieferant_id, name, kontakt, telefon, email FROM lieferanten "
                 + "ORDER BY name";
@@ -58,6 +45,7 @@ public class LieferantDAO {
         return result;
     }
 
+    @Override
     public void update(Lieferant lieferant) throws SQLException {
         String sql = "UPDATE lieferanten SET name = ?, kontakt = ?, telefon = ?, email = ? "
                 + "WHERE lieferant_id = ?";
@@ -72,6 +60,7 @@ public class LieferantDAO {
         }
     }
 
+    @Override
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM lieferanten WHERE lieferant_id = ?";
         Connection conn = DBConnection.getConnection();

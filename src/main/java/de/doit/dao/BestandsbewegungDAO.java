@@ -11,8 +11,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BestandsbewegungDAO {
+public class BestandsbewegungDAO implements GenericDAO<Bestandsbewegung> {
 
+    @Override
     public Bestandsbewegung create(Bestandsbewegung b) throws SQLException {
         String sql = "INSERT INTO bestandsbewegungen "
                 + "(material_id, lager_id, bewegungstyp, menge, ablaufdatum, datum, bemerkung) "
@@ -36,20 +37,7 @@ public class BestandsbewegungDAO {
         return b;
     }
 
-    public Bestandsbewegung findById(int id) throws SQLException {
-        String sql = "SELECT bestandsbewegung_id, material_id, lager_id, bewegungstyp, "
-                + "menge, ablaufdatum, datum, bemerkung "
-                + "FROM bestandsbewegungen WHERE bestandsbewegung_id = ?";
-        Connection conn = DBConnection.getConnection();
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) return mapRow(rs);
-            }
-        }
-        return null;
-    }
-
+    @Override
     public List<Bestandsbewegung> findAll() throws SQLException {
         String sql = "SELECT bestandsbewegung_id, material_id, lager_id, bewegungstyp, "
                 + "menge, ablaufdatum, datum, bemerkung "
@@ -63,6 +51,7 @@ public class BestandsbewegungDAO {
         return result;
     }
 
+    @Override
     public void update(Bestandsbewegung b) throws SQLException {
         String sql = "UPDATE bestandsbewegungen SET material_id=?, lager_id=?, bewegungstyp=?, "
                 + "menge=?, ablaufdatum=?, datum=?, bemerkung=? WHERE bestandsbewegung_id=?";
@@ -81,6 +70,7 @@ public class BestandsbewegungDAO {
         }
     }
 
+    @Override
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM bestandsbewegungen WHERE bestandsbewegung_id = ?";
         Connection conn = DBConnection.getConnection();

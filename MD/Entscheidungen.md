@@ -103,6 +103,49 @@ DBConnection.java
 
 ---
 
+## D-007: Generisches DAO-Interface `GenericDAO<T>`
+
+**Datum:** 2026-06
+**Entscheidung:** Der gemeinsame CRUD-Vertrag aller DAOs wird in einer generischen Schnittstelle `GenericDAO<T>` zentral definiert. Die sechs DAO-Klassen implementieren sie (`implements GenericDAO<Modellklasse>`) und kennzeichnen die vier Vertragsmethoden mit `@Override`.
+
+```java
+public interface GenericDAO<T> {
+    T       create(T obj)   throws SQLException;
+    List<T> findAll()       throws SQLException;
+    void    update(T obj)   throws SQLException;
+    void    delete(int id)  throws SQLException;
+}
+```
+
+**Begründung:**
+- Der wiederkehrende CRUD-Vertrag (in allen 6 DAOs identisch) steht an einer Stelle statt sechsfach implizit; der Compiler erzwingt die Einhaltung.
+- Demonstriert die OO-Konzepte Abstraktion, Schnittstelle und Generics (Typ-Platzhalter `<T>` = Referenztyp) — fachlich relevant fürs Fachgespräch.
+- Rein additive Änderung: Verhalten der App bleibt unverändert, geringes Risiko.
+- Knüpft an den Java-Unterricht zu Wertetypen/Referenztypen/Collections an (`delete(int)` = Wertetyp, `T`/`List<T>` = Referenztyp/Collection).
+
+**Abgrenzung:** Nicht-generische Sondermethoden (`findById`, `findBestandViews`, `getBestand`) bleiben außerhalb des Interface. Das Interface wird NICHT im Benutzerhandbuch dokumentiert (interne Architektur → Kap. 4/5 + Quellcodeverzeichnis).
+
+**Konsequenz:** Neue Datei `dao/GenericDAO.java`; Doku Kap. 4.2 + 5.2 und Quellcodeverzeichnis (jetzt 7 Listings) ergänzt.
+
+---
+
+## D-008: MainController aufgeteilt (schlanker Verteiler + CRUD-Klassen)
+
+**Datum:** 2026-06
+**Entscheidung:** Der über 700 Zeilen lange `MainController` wurde aufgeteilt. Der wiederkehrende CRUD-Ablauf (Laden, Anlegen, Bearbeiten, Löschen) steht jetzt einmal in der abstrakten Basisklasse `EntityCrud<T>`. Je Reiter gibt es eine kleine, gleich aufgebaute Klasse (`MaterialCrud`, `KategorieCrud`, `StationslagerCrud`, `LieferantCrud`, `BestellungCrud`, `BewegungCrud`) im Paket `de.doit.controller.crud`. Gemeinsame Dialoge/Meldungen liegen in `Dialoge`. Der `MainController` ist nur noch Verteiler (rund 330 Zeilen).
+
+**Begründung:**
+- 700 Zeilen waren schwer nachvollziehbar; jeder Reiter war fast identischer Code.
+- Gemeinsamer Ablauf an einer Stelle (Basisklasse) statt sechsfach → weniger Wiederholung, einheitlicher Aufbau.
+- Zeigt Vererbung + Generics (`EntityCrud<T>`) — gut fürs Fachgespräch.
+- Bewusst der „leichte Weg": eine FXML-Datei bleibt, nur Logik in eigene Klassen → geringes Risiko, App-Verhalten unverändert.
+
+**Abgrenzung:** Der Reiter „Bestandsübersicht" (berechnete, schreibgeschützte Sicht mit Suche, Filter, Warenentnahme, Umlagerung) bleibt im `MainController`, weil er kein normales Stammdaten-CRUD ist. Die zwei Komfortfunktionen Warenentnahme/Umlagerung bleiben erhalten.
+
+**Konsequenz:** Neues Paket `controller/crud/` (8 Klassen); Kompilierung mit JavaFX geprüft; Doku Kap. 4.2 + 8.2 ergänzt.
+
+---
+
 ## Vorlage für neue Einträge
 
 ```markdown

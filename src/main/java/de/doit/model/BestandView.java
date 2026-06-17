@@ -4,6 +4,7 @@ public class BestandView {
 
     private final int materialId;
     private final String materialName;
+    private final String einheit;
     private final int lagerId;
     private final String lagerName;
     private final int bestand;
@@ -14,6 +15,7 @@ public class BestandView {
                        int bestand, int mindestbestand) {
         this.materialId = materialId;
         this.materialName = materialName;
+        this.einheit = einheit;
         this.lagerId = lagerId;
         this.lagerName = lagerName;
         this.bestand = bestand;
@@ -21,15 +23,11 @@ public class BestandView {
     }
     public int getMaterialId()      { return materialId; }
     public String getMaterialName() { return materialName; }
-//    public String getEinheit()      { return einheit; }
+    public String getEinheit()      { return einheit; }
     public int getLagerId()         { return lagerId; }
     public String getLagerName()    { return lagerName; }
     public int getBestand()         { return bestand; }
-//    public int getMindestbestand()  { return mindestbestand; }
-    public boolean isWarnung() { return bestand <= mindestbestand; }
-//    public String getStatus() { return isWarnung() ? "WARNUNG" : "OK"; }
-
-    //@Override public String toString() {
-    //    return materialName + " @ " + lagerName + " = " + bestand + " (min " + mindestbestand + ")";
-    //}
+    public int getMindestbestand()  { return mindestbestand; }
+    public boolean isWarnung()      { return bestand <= mindestbestand; }
+    public String getStatus()       { return isWarnung() ? "WARNUNG" : "OK"; }
 }

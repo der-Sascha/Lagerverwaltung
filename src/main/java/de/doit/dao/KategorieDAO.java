@@ -7,20 +7,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KategorieDAO {
-    // Übermittelt wird die Referenz also die Speicheradresse im RAM wo es gespeichert ist
-    // Daß ist die Methode mit dem Namen create
-    //   Rückgabetyp       Parametertyp
-    //            Methodenname        Parameter
+public class KategorieDAO implements GenericDAO<Kategorie> {
+
+    @Override
     public Kategorie create(Kategorie kategorie) throws SQLException {
         String sql = "INSERT INTO kategorien (name, beschreibung) VALUES (?, ?)";
-        //  Typ für die Variable conn / Was ist conn? Ein String? Ein int? = daher der Typ
-        //        Variable (eine Referenz auf ein Connection-Objekt)
-        //                Methodenaufruf (eine Datenbankverbindung)
         Connection conn = DBConnection.getConnection();
-        //                              . ist der Methodenaufruf-Operator
-        //                                  eine Methode der Connection-Klasse (Java Standardbibliothek (JDK))
-        try (PreparedStatement ps = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, kategorie.getName());
             ps.setString(2, kategorie.getBeschreibung());
             ps.executeUpdate();
@@ -33,21 +26,7 @@ public class KategorieDAO {
         return kategorie;
     }
 
-//    public Kategorie findById(int id) throws SQLException {
-//        String sql = "SELECT kategorie_id, name, beschreibung FROM kategorien "
-//                + "WHERE kategorie_id = ?";
-//        Connection conn = DBConnection.getConnection();
-//        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-//            ps.setInt(1, id);
-//            try (ResultSet rs = ps.executeQuery()) {
-//                if (rs.next()) {
-//                    return mapRow(rs);
-//                }
-//            }
-//        }
-//        return null;
-//    }
-
+    @Override
     public List<Kategorie> findAll() throws SQLException {
         String sql = "SELECT kategorie_id, name, beschreibung FROM kategorien "
                 + "ORDER BY name";
@@ -62,6 +41,7 @@ public class KategorieDAO {
         return result;
     }
 
+    @Override
     public void update(Kategorie kategorie) throws SQLException {
         String sql = "UPDATE kategorien SET name = ?, beschreibung = ? "
                 + "WHERE kategorie_id = ?";
@@ -74,6 +54,7 @@ public class KategorieDAO {
         }
     }
 
+    @Override
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM kategorien WHERE kategorie_id = ?";
         Connection conn = DBConnection.getConnection();

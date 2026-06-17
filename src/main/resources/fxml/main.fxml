@@ -4,16 +4,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/25"
+<VBox xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="de.doit.controller.MainController"
       spacing="0"
       prefWidth="1100" prefHeight="720">
 
+    <!-- kein CSS nötig – JavaFX nutzt eingebautes Modena-Theme -->
+
     <TabPane VBox.vgrow="ALWAYS">
 
         <!-- TAB 1: Bestandsübersicht -->
-        <Tab text="Bestandsübersicht" closable="false">
+        <Tab text="Bestandsübersicht" closable="false"
+            onSelectionChanged="#onBestandTabSelected">
             <VBox spacing="10">
                 <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
                 <HBox spacing="10" alignment="CENTER_LEFT">

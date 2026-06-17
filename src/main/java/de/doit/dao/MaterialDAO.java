@@ -7,8 +7,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MaterialDAO {
+public class MaterialDAO implements GenericDAO<Material> {
 
+    @Override
     public Material create(Material material) throws SQLException {
         String sql = "INSERT INTO materialien (name, einheit, mindestbestand, kategorie_id) "
                 + "VALUES (?, ?, ?, ?)";
@@ -29,21 +30,7 @@ public class MaterialDAO {
         return material;
     }
 
-//    public Material findById(int id) throws SQLException {
-//        String sql = "SELECT material_id, name, einheit, mindestbestand, kategorie_id "
-//                + "FROM materialien WHERE material_id = ?";
-//        Connection conn = DBConnection.getConnection();
-//        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-//            ps.setInt(1, id);
-//            try (ResultSet rs = ps.executeQuery()) {
-//                if (rs.next()) {
-//                    return mapRow(rs);
-//                }
-//            }
-//        }
-//        return null;
-//    }
-
+    @Override
     public List<Material> findAll() throws SQLException {
         String sql = "SELECT material_id, name, einheit, mindestbestand, kategorie_id "
                 + "FROM materialien ORDER BY name";
@@ -58,22 +45,7 @@ public class MaterialDAO {
         return result;
     }
 
-//    public List<Material> findByName(String suchtext) throws SQLException {
-//        String sql = "SELECT material_id, name, einheit, mindestbestand, kategorie_id "
-//                + "FROM materialien WHERE name LIKE ? ORDER BY name";
-//        List<Material> result = new ArrayList<>();
-//        Connection conn = DBConnection.getConnection();
-//        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-//            ps.setString(1, "%" + suchtext + "%");
-//            try (ResultSet rs = ps.executeQuery()) {
-//                while (rs.next()) {
-//                    result.add(mapRow(rs));
-//                }
-//            }
-//        }
-//        return result;
-//    }
-
+    @Override
     public void update(Material material) throws SQLException {
         String sql = "UPDATE materialien SET name = ?, einheit = ?, mindestbestand = ?, "
                 + "kategorie_id = ? WHERE material_id = ?";
@@ -88,6 +60,7 @@ public class MaterialDAO {
         }
     }
 
+    @Override
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM materialien WHERE material_id = ?";
         Connection conn = DBConnection.getConnection();

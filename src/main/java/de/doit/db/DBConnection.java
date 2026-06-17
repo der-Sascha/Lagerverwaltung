@@ -66,9 +66,9 @@ public class DBConnection {
     }
 
     public static void closeConnection() {
-        if (connection != null) {
+        if (connection != null) { // der 1. (Sicherheits) Check
             try {
-                connection.close();
+                connection.close(); // der 2. Check das ist Java Standrt festgelegt mit close
             } catch (SQLException e) {
                 System.err.println("Verbindung konnte nicht geschlossen werden: "
                         + e.getMessage());

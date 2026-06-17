@@ -8,8 +8,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BestellungDAO {
+public class BestellungDAO implements GenericDAO<Bestellung> {
 
+    @Override
     public Bestellung create(Bestellung bestellung) throws SQLException {
         String sql = "INSERT INTO bestellungen (material_id, lieferant_id, lager_id, "
                 + "menge, bestelldatum, lieferdatum, status) "
@@ -38,22 +39,7 @@ public class BestellungDAO {
         return bestellung;
     }
 
-//    public Bestellung findById(int id) throws SQLException {
-//        String sql = "SELECT bestellung_id, material_id, lieferant_id, lager_id, "
-//                + "menge, bestelldatum, lieferdatum, status "
-//                + "FROM bestellungen WHERE bestellung_id = ?";
-//        Connection conn = DBConnection.getConnection();
-//        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-//            ps.setInt(1, id);
-//            try (ResultSet rs = ps.executeQuery()) {
-//                if (rs.next()) {
-//                    return mapRow(rs);
-//                }
-//            }
-//        }
-//        return null;
-//    }
-
+    @Override
     public List<Bestellung> findAll() throws SQLException {
         String sql = "SELECT bestellung_id, material_id, lieferant_id, lager_id, "
                 + "menge, bestelldatum, lieferdatum, status "
@@ -69,6 +55,7 @@ public class BestellungDAO {
         return result;
     }
 
+    @Override
     public void update(Bestellung bestellung) throws SQLException {
         String sql = "UPDATE bestellungen SET material_id = ?, lieferant_id = ?, "
                 + "lager_id = ?, menge = ?, bestelldatum = ?, lieferdatum = ?, "
@@ -91,6 +78,7 @@ public class BestellungDAO {
         }
     }
 
+    @Override
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM bestellungen WHERE bestellung_id = ?";
         Connection conn = DBConnection.getConnection();

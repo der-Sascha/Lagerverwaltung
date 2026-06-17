@@ -7,8 +7,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StationslagerDAO {
+public class StationslagerDAO implements GenericDAO<Stationslager> {
 
+    @Override
     public Stationslager create(Stationslager lager) throws SQLException {
         String sql = "INSERT INTO stationslager (name, standort, typ) VALUES (?, ?, ?)";
         Connection conn = DBConnection.getConnection();
@@ -27,21 +28,7 @@ public class StationslagerDAO {
         return lager;
     }
 
-//    public Stationslager findById(int id) throws SQLException {
-//        String sql = "SELECT lager_id, name, standort, typ FROM stationslager "
-//                + "WHERE lager_id = ?";
-//        Connection conn = DBConnection.getConnection();
-//        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-//            ps.setInt(1, id);
-//            try (ResultSet rs = ps.executeQuery()) {
-//                if (rs.next()) {
-//                    return mapRow(rs);
-//                }
-//            }
-//        }
-//        return null;
-//    }
-
+    @Override
     public List<Stationslager> findAll() throws SQLException {
         String sql = "SELECT lager_id, name, standort, typ FROM stationslager "
                 + "ORDER BY name";
@@ -56,6 +43,7 @@ public class StationslagerDAO {
         return result;
     }
 
+    @Override
     public void update(Stationslager lager) throws SQLException {
         String sql = "UPDATE stationslager SET name = ?, standort = ?, typ = ? "
                 + "WHERE lager_id = ?";
@@ -69,6 +57,7 @@ public class StationslagerDAO {
         }
     }
 
+    @Override
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM stationslager WHERE lager_id = ?";
         Connection conn = DBConnection.getConnection();

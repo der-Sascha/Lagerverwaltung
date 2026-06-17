@@ -3,7 +3,7 @@
 **WICHTIG:** Diese Datei enthält den Kontext für jeden neuen Chat. Schlank halten.
 
 **Ordnerstruktur (Stand 2026-06-09):**
-- `src/` — Java/Maven-Quellcode (`de.doit`: `db/`, `model/`, `dao/`, `controller/`, `Main.java`, `Launcher.java`; FXML unter `src/main/resources/fxml/`)
+- `src/` — Java/Maven-Quellcode (`de.doit`: `db/`, `model/`, `dao/` inkl. `GenericDAO<T>`, `controller/` + `controller/crud/` (schlanker MainController + `EntityCrud<T>`-Basis + 6 CRUD-Klassen + `Dialoge`), `Main.java`, `Launcher.java`; FXML unter `src/main/resources/fxml/`)
 - `Doku/` — Arbeits-Einzelteile Doku_A–E **+ Endabgabe `Projektdokumentation_Sascha_Schulz.docx`/`.pdf`**
 - `MD/` — alle Markdown-Notizen (Projektplan, Tagebuch, Entscheidungen, Dateiübersicht usw.)
 - `Projektdateien/` — drawio, ER-Bild (PNG/docx), SQL-Testdaten, Antrag v2, Wochenplan
@@ -116,7 +116,7 @@ Bei jedem Chat zur Dokumentation bitte folgenden Stand prüfen und aktualisieren
 | Tabellenverzeichnis vorhanden | ✅ vorhanden (9 Tabellen) |
 | Quellenverzeichnis vorhanden | ✅ vorhanden (13 Quellen, URL+Abruf bzw. Titel/Autor/Jahr) |
 | Benutzerhandbuch im Anhang (nicht separat) | ✅ Anhang C |
-| Quellcodeverzeichnis | ✅ vorhanden (6 Listings) |
+| Quellcodeverzeichnis | ✅ vorhanden (7 Listings, inkl. GenericDAO-Interface) |
 | Anhänge A–F | ✅ A ER-Diagramm, B SQL, C Benutzerhandbuch, D Wochenplan, E Projektantrag, F Glossar |
 | Abgabeerklärung | ✅ vorhanden |
 
