@@ -745,3 +745,9 @@ nen: alle Doku_A–E .docx-Dateien + Lernhandbuch-Teile. Master-Datei neu erzeug
 - [Erkenntnis] Vorabprüfung: alle `ps`/`rs`-Vorkommen sind Code (z. B. `ps.setString`, `rs.next()`), keine echten deutschen Wörter. 0 Tokens über Run-Grenzen zerteilt → keine übersehenen Stellen. Verifikation: 0 alte Tokens in allen `word/*.xml` (inkl. Kopf-/Fußzeilen/Textboxen), alle 9 Dateien öffnen fehlerfrei.
 - [Änderung] Backup vor Eingriff: `Archiv/_backup_2026-06-17_deutsche_variablen/` (Originale aller 9 docx).
 - [Problem/Offen] **PDF noch nicht neu erzeugt**: `Doku/Projektdokumentation_Sascha_Schulz.pdf` zeigt weiterhin die alten Namen → muss aus der aktualisierten docx neu exportiert werden, bevor es die finale Abgabe ist.
+
+## 2026-06-17 — [Problem + Lösung] BestellungCrud.java und BewegungCrud.java abgeschnitten
+
+- [Problem] Beide CRUD-Dateien (`controller/crud/BestellungCrud.java`, `controller/crud/BewegungCrud.java`) endeten mitten im `else`-Block der `formularAnzeigen`-Methode — die Setter für restliche Felder, `dao.update()`, `laden()`, `catch`-Block und schließende Klammern fehlten komplett. Ursache: vermutlich unterbrochener Speichervorgang.
+- [Lösung] Fehlende Abschnitte ergänzt: bei `BestellungCrud` die Setter für `menge`, `bestelldatum`, `lieferdatum`, `status` + `dao.update` + `laden()` + `catch`; bei `BewegungCrud` analog `ablaufdatum`, `bemerkung` + `dao.update` + `laden()` + `catch`.
+- [Erkenntnis] `mvn compile` → **BUILD SUCCESS**, 27 Dateien fehlerfrei kompiliert.
