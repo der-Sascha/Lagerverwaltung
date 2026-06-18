@@ -7,25 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KategorieDAO implements GenericDAO<Kategorie> {
-
-    // === Stufe 2 — ANLEGEN (Objekt → DB-INSERT) ===
-    @Override
-    public Kategorie create(Kategorie kategorie) throws SQLException {
-        String sql = "INSERT INTO kategorien (name, beschreibung) VALUES (?, ?)";
-        Connection verbindung = DBConnection.getConnection();
-        try (PreparedStatement anweisung = verbindung.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            anweisung.setString(1, kategorie.getName());
-            anweisung.setString(2, kategorie.getBeschreibung());
-            anweisung.executeUpdate();
-            try (ResultSet schluessel = anweisung.getGeneratedKeys()) {
-                if (schluessel.next()) {
-                    kategorie.setId(schluessel.getInt(1));
-                }
-            }
-        }
-        return kategorie;
-    }
+public class KategorieDAO implements LeseDAO<Kategorie> {
 
     // === Stufe 1 — LESEN (DB-SELECT → Liste) ===
     @Override
@@ -41,31 +23,6 @@ public class KategorieDAO implements GenericDAO<Kategorie> {
             }
         }
         return ergebnis;
-    }
-
-    // === Stufe 3 — BEARBEITEN (Objekt → DB-UPDATE) ===
-    @Override
-    public void update(Kategorie kategorie) throws SQLException {
-        String sql = "UPDATE kategorien SET name = ?, beschreibung = ? "
-                + "WHERE kategorie_id = ?";
-        Connection verbindung = DBConnection.getConnection();
-        try (PreparedStatement anweisung = verbindung.prepareStatement(sql)) {
-            anweisung.setString(1, kategorie.getName());
-            anweisung.setString(2, kategorie.getBeschreibung());
-            anweisung.setInt(3, kategorie.getId());
-            anweisung.executeUpdate();
-        }
-    }
-
-    // === Stufe 4 — LÖSCHEN (ID → DB-DELETE) ===
-    @Override
-    public void delete(int id) throws SQLException {
-        String sql = "DELETE FROM kategorien WHERE kategorie_id = ?";
-        Connection verbindung = DBConnection.getConnection();
-        try (PreparedStatement anweisung = verbindung.prepareStatement(sql)) {
-            anweisung.setInt(1, id);
-            anweisung.executeUpdate();
-        }
     }
 
     private Kategorie zeileLesen(ResultSet datensatz) throws SQLException {

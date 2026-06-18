@@ -49,11 +49,7 @@
              onSelectionChanged="#onMaterialienTabSelected">
             <VBox spacing="10">
                 <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
-                <HBox spacing="8">
-                    <Button text="Anlegen"    onAction="#onMaterialAnlegen"/>
-                    <Button text="Bearbeiten" onAction="#onMaterialBearbeiten"/>
-                    <Button text="Löschen"    onAction="#onMaterialLoeschen"/>
-                </HBox>
+                <Label text="Nur-Lese-Ansicht" style="-fx-font-style: italic; -fx-text-fill: #666;"/>
                 <TableView fx:id="tabMaterialien" VBox.vgrow="ALWAYS">
                     <columns>
                         <TableColumn fx:id="colMatName"      text="Name"           prefWidth="300"/>
@@ -70,11 +66,7 @@
              onSelectionChanged="#onKategorienTabSelected">
             <VBox spacing="10">
                 <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
-                <HBox spacing="8">
-                    <Button text="Anlegen"    onAction="#onKategorieAnlegen"/>
-                    <Button text="Bearbeiten" onAction="#onKategorieBearbeiten"/>
-                    <Button text="Löschen"    onAction="#onKategorieLoeschen"/>
-                </HBox>
+                <Label text="Nur-Lese-Ansicht" style="-fx-font-style: italic; -fx-text-fill: #666;"/>
                 <TableView fx:id="tabKategorien" VBox.vgrow="ALWAYS">
                     <columns>
                         <TableColumn fx:id="colKatName"   text="Name"         prefWidth="300"/>
@@ -89,11 +81,7 @@
              onSelectionChanged="#onStationslagerTabSelected">
             <VBox spacing="10">
                 <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
-                <HBox spacing="8">
-                    <Button text="Anlegen"    onAction="#onLagerAnlegen"/>
-                    <Button text="Bearbeiten" onAction="#onLagerBearbeiten"/>
-                    <Button text="Löschen"    onAction="#onLagerLoeschen"/>
-                </HBox>
+                <Label text="Nur-Lese-Ansicht" style="-fx-font-style: italic; -fx-text-fill: #666;"/>
                 <TableView fx:id="tabLager" VBox.vgrow="ALWAYS">
                     <columns>
                         <TableColumn fx:id="colLagerName"     text="Name"     prefWidth="300"/>
@@ -109,11 +97,7 @@
              onSelectionChanged="#onLieferantenTabSelected">
             <VBox spacing="10">
                 <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
-                <HBox spacing="8">
-                    <Button text="Anlegen"    onAction="#onLieferantAnlegen"/>
-                    <Button text="Bearbeiten" onAction="#onLieferantBearbeiten"/>
-                    <Button text="Löschen"    onAction="#onLieferantLoeschen"/>
-                </HBox>
+                <Label text="Nur-Lese-Ansicht" style="-fx-font-style: italic; -fx-text-fill: #666;"/>
                 <TableView fx:id="tabLieferanten" VBox.vgrow="ALWAYS">
                     <columns>
                         <TableColumn fx:id="colLiefName"    text="Name"    prefWidth="250"/>
@@ -130,11 +114,7 @@
              onSelectionChanged="#onBestellungenTabSelected">
             <VBox spacing="10">
                 <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
-                <HBox spacing="8">
-                    <Button text="Anlegen"    onAction="#onBestellungAnlegen"/>
-                    <Button text="Bearbeiten" onAction="#onBestellungBearbeiten"/>
-                    <Button text="Löschen"    onAction="#onBestellungLoeschen"/>
-                </HBox>
+                <Label text="Nur-Lese-Ansicht" style="-fx-font-style: italic; -fx-text-fill: #666;"/>
                 <TableView fx:id="tabBestellungen" VBox.vgrow="ALWAYS">
                     <columns>
                         <TableColumn fx:id="colBestMat"     text="Material-ID"  prefWidth="120"/>
@@ -154,11 +134,7 @@
              onSelectionChanged="#onBewegungTabSelected">
             <VBox spacing="10">
                 <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
-                <HBox spacing="8">
-                    <Button text="Anlegen"    onAction="#onBewegungAnlegen"/>
-                    <Button text="Bearbeiten" onAction="#onBewegungBearbeiten"/>
-                    <Button text="Löschen"    onAction="#onBewegungLoeschen"/>
-                </HBox>
+                <Label text="Nur-Lese-Ansicht" style="-fx-font-style: italic; -fx-text-fill: #666;"/>
                 <TableView fx:id="tabBewegungen" VBox.vgrow="ALWAYS">
                     <columns>
                         <TableColumn fx:id="colBewMat"    text="Material-ID"  prefWidth="120"/>

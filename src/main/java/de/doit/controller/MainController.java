@@ -95,13 +95,13 @@ public class MainController {
     private final BestellungDAO       bestellungDao = new BestellungDAO();
     private final BestandsbewegungDAO bewegungDao   = new BestandsbewegungDAO();
 
-    // ===== CRUD-Klassen je Reiter (gleicher Aufbau, siehe EntityCrud) =====
-    private MaterialCrud      materialCrud;
-    private KategorieCrud     kategorieCrud;
-    private StationslagerCrud lagerCrud;
-    private LieferantCrud     lieferantCrud;
-    private BestellungCrud    bestellungCrud;
-    private BewegungCrud      bewegungCrud;
+    // ===== Reiter-Lader je Tabelle (read-only, gemeinsame Basis EntityCrud) =====
+    private EntityCrud<Material>         materialCrud;
+    private EntityCrud<Kategorie>        kategorieCrud;
+    private EntityCrud<Stationslager>    lagerCrud;
+    private EntityCrud<Lieferant>        lieferantCrud;
+    private EntityCrud<Bestellung>       bestellungCrud;
+    private EntityCrud<Bestandsbewegung> bewegungCrud;
 
     // ===== Bestand (berechnete Sicht, bleibt hier) =====
     private final ObservableList<BestandView> bestandListe = FXCollections.observableArrayList();
@@ -154,12 +154,12 @@ public class MainController {
         colBewBem   .setCellValueFactory(new PropertyValueFactory<>("bemerkung"));
 
         // --- CRUD-Klassen erzeugen (jede setzt ihre Tabelle selbst) ---
-        materialCrud   = new MaterialCrud(tabMaterialien, materialDao);
-        kategorieCrud  = new KategorieCrud(tabKategorien, kategorieDao);
-        lagerCrud      = new StationslagerCrud(tabLager, lagerDao);
-        lieferantCrud  = new LieferantCrud(tabLieferanten, lieferantDao);
-        bestellungCrud = new BestellungCrud(tabBestellungen, bestellungDao, materialDao, lieferantDao, lagerDao);
-        bewegungCrud   = new BewegungCrud(tabBewegungen, bewegungDao, materialDao, lagerDao);
+        materialCrud   = new EntityCrud<>(tabMaterialien, materialDao, "Material");
+        kategorieCrud  = new EntityCrud<>(tabKategorien, kategorieDao, "Kategorie");
+        lagerCrud      = new EntityCrud<>(tabLager, lagerDao, "Stationslager");
+        lieferantCrud  = new EntityCrud<>(tabLieferanten, lieferantDao, "Lieferant");
+        bestellungCrud = new EntityCrud<>(tabBestellungen, bestellungDao, "Bestellung");
+        bewegungCrud   = new EntityCrud<>(tabBewegungen, bewegungDao, "Bestandsbewegung");
 
         // --- Bestand-Tab (berechnete Sicht mit Warnungs-Faerbung) ---
         tabBestand.setItems(bestandListe);
@@ -228,38 +228,17 @@ public class MainController {
     }
 
     // =========================================================================
-    // REITER MIT STAMMDATEN: nur noch Weiterleitung an die CRUD-Klassen
+    // REITER MIT STAMMDATEN: read-only — nur Laden beim Oeffnen des Reiters.
+    // Anlegen/Bearbeiten/Loeschen fuer Material + Kategorie traegst du selbst
+    // nach: siehe MD/Anleitung_CRUD_eintragen.md
     // =========================================================================
-    // === Stufen 1-4 — Weiterleitung je Reiter an EntityCrud (load/create/edit/delete) ===
+    // === Stufe 1 — LESEN: Reiter beim Aktivieren laden ===
     @FXML public void onMaterialienTabSelected(Event e)   { if (istAktiv(e)) materialCrud.load(); }
-    @FXML public void onMaterialAnlegen()                 { materialCrud.create(); }
-    @FXML public void onMaterialBearbeiten()              { materialCrud.edit(); }
-    @FXML public void onMaterialLoeschen()                { materialCrud.delete(); }
-
     @FXML public void onKategorienTabSelected(Event e)    { if (istAktiv(e)) kategorieCrud.load(); }
-    @FXML public void onKategorieAnlegen()                { kategorieCrud.create(); }
-    @FXML public void onKategorieBearbeiten()             { kategorieCrud.edit(); }
-    @FXML public void onKategorieLoeschen()               { kategorieCrud.delete(); }
-
     @FXML public void onStationslagerTabSelected(Event e) { if (istAktiv(e)) lagerCrud.load(); }
-    @FXML public void onLagerAnlegen()                    { lagerCrud.create(); }
-    @FXML public void onLagerBearbeiten()                 { lagerCrud.edit(); }
-    @FXML public void onLagerLoeschen()                   { lagerCrud.delete(); }
-
     @FXML public void onLieferantenTabSelected(Event e)   { if (istAktiv(e)) lieferantCrud.load(); }
-    @FXML public void onLieferantAnlegen()                { lieferantCrud.create(); }
-    @FXML public void onLieferantBearbeiten()             { lieferantCrud.edit(); }
-    @FXML public void onLieferantLoeschen()               { lieferantCrud.delete(); }
-
     @FXML public void onBestellungenTabSelected(Event e)  { if (istAktiv(e)) bestellungCrud.load(); }
-    @FXML public void onBestellungAnlegen()               { bestellungCrud.create(); }
-    @FXML public void onBestellungBearbeiten()            { bestellungCrud.edit(); }
-    @FXML public void onBestellungLoeschen()              { bestellungCrud.delete(); }
-
     @FXML public void onBewegungTabSelected(Event e)      { if (istAktiv(e)) bewegungCrud.load(); }
-    @FXML public void onBewegungAnlegen()                 { bewegungCrud.create(); }
-    @FXML public void onBewegungBearbeiten()              { bewegungCrud.edit(); }
-    @FXML public void onBewegungLoeschen()                { bewegungCrud.delete(); }
 
     /** true, wenn der ausloesende Reiter gerade aktiv geworden ist. */
     private boolean istAktiv(Event e) {

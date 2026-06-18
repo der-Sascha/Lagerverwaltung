@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="de.doit.controller.MainController"
+      spacing="0"
+      prefWidth="1100" prefHeight="720">
+
+    <!-- kein CSS nötig – JavaFX nutzt eingebautes Modena-Theme -->
+
+    <TabPane VBox.vgrow="ALWAYS">
+
+        <!-- TAB 1: Bestandsübersicht -->
+        <Tab text="Bestandsübersicht" closable="false"
+            onSelectionChanged="#onBestandTabSelected">
+            <VBox spacing="10">
+                <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Suche:"/>
+                    <TextField fx:id="txtSuche" prefWidth="220" onAction="#onSuchen"/>
+                    <Label text="Lager:"/>
+                    <ComboBox fx:id="cmbLager" prefWidth="220" onAction="#onLagerChanged"/>
+                    <Button text="Suchen"        onAction="#onSuchen"/>
+                    <Button text="Zurücksetzen"  onAction="#onZuruecksetzen"/>
+                    <Button text="Aktualisieren"  onAction="#onAktualisieren"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="lblWarnungAnzahl" text="Warnungen: 0"
+                           style="-fx-font-weight: bold;"/>
+                </HBox>
+                <TableView fx:id="tabBestand" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colMaterial" text="Material"       prefWidth="260"/>
+                        <TableColumn fx:id="colEinheit"  text="Einheit"        prefWidth="100"/>
+                        <TableColumn fx:id="colLager"    text="Lager"          prefWidth="240"/>
+                        <TableColumn fx:id="colBestand"  text="Bestand"        prefWidth="100"/>
+                        <TableColumn fx:id="colMindest"  text="Mindestbestand" prefWidth="120"/>
+                        <TableColumn fx:id="colStatus"   text="Status"         prefWidth="120"/>
+                    </columns>
+                </TableView>
+            </VBox>
+        </Tab>
+
+        <!-- TAB 2: Materialien -->
+        <Tab text="Materialien" closable="false"
+             onSelectionChanged="#onMaterialienTabSelected">
+            <VBox spacing="10">
+                <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+                <HBox spacing="8">
+                    <Button text="Anlegen"    onAction="#onMaterialAnlegen"/>
+                    <Button text="Bearbeiten" onAction="#onMaterialBearbeiten"/>
+                    <Button text="Löschen"    onAction="#onMaterialLoeschen"/>
+                </HBox>
+                <TableView fx:id="tabMaterialien" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colMatName"      text="Name"           prefWidth="300"/>
+                        <TableColumn fx:id="colMatEinheit"   text="Einheit"        prefWidth="150"/>
+                        <TableColumn fx:id="colMatMindest"   text="Mindestbestand" prefWidth="150"/>
+                        <TableColumn fx:id="colMatKategorie" text="Kategorie-ID"   prefWidth="150"/>
+                    </columns>
+                </TableView>
+            </VBox>
+        </Tab>
+
+        <!-- TAB 3: Kategorien -->
+        <Tab text="Kategorien" closable="false"
+             onSelectionChanged="#onKategorienTabSelected">
+            <VBox spacing="10">
+                <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+                <HBox spacing="8">
+                    <Button text="Anlegen"    onAction="#onKategorieAnlegen"/>
+                    <Button text="Bearbeiten" onAction="#onKategorieBearbeiten"/>
+                    <Button text="Löschen"    onAction="#onKategorieLoeschen"/>
+                </HBox>
+                <TableView fx:id="tabKategorien" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colKatName"   text="Name"         prefWidth="300"/>
+                        <TableColumn fx:id="colKatBeschr" text="Beschreibung" prefWidth="500"/>
+                    </columns>
+                </TableView>
+            </VBox>
+        </Tab>
+
+        <!-- TAB 4: Stationslager -->
+        <Tab text="Stationslager" closable="false"
+             onSelectionChanged="#onStationslagerTabSelected">
+            <VBox spacing="10">
+                <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+                <HBox spacing="8">
+                    <Button text="Anlegen"    onAction="#onLagerAnlegen"/>
+                    <Button text="Bearbeiten" onAction="#onLagerBearbeiten"/>
+                    <Button text="Löschen"    onAction="#onLagerLoeschen"/>
+                </HBox>
+                <TableView fx:id="tabLager" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colLagerName"     text="Name"     prefWidth="300"/>
+                        <TableColumn fx:id="colLagerStandort" text="Standort" prefWidth="300"/>
+                        <TableColumn fx:id="colLagerTyp"      text="Typ"      prefWidth="200"/>
+                    </columns>
+                </TableView>
+            </VBox>
+        </Tab>
+
+        <!-- TAB 5: Lieferanten -->
+        <Tab text="Lieferanten" closable="false"
+             onSelectionChanged="#onLieferantenTabSelected">
+            <VBox spacing="10">
+                <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+                <HBox spacing="8">
+                    <Button text="Anlegen"    onAction="#onLieferantAnlegen"/>
+                    <Button text="Bearbeiten" onAction="#onLieferantBearbeiten"/>
+                    <Button text="Löschen"    onAction="#onLieferantLoeschen"/>
+                </HBox>
+                <TableView fx:id="tabLieferanten" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colLiefName"    text="Name"    prefWidth="250"/>
+                        <TableColumn fx:id="colLiefKontakt" text="Kontakt" prefWidth="200"/>
+                        <TableColumn fx:id="colLiefTelefon" text="Telefon" prefWidth="150"/>
+                        <TableColumn fx:id="colLiefEmail"   text="E-Mail"  prefWidth="250"/>
+                    </columns>
+                </TableView>
+            </VBox>
+        </Tab>
+
+        <!-- TAB 6: Bestellungen -->
+        <Tab text="Bestellungen" closable="false"
+             onSelectionChanged="#onBestellungenTabSelected">
+            <VBox spacing="10">
+                <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+                <HBox spacing="8">
+                    <Button text="Anlegen"    onAction="#onBestellungAnlegen"/>
+                    <Button text="Bearbeiten" onAction="#onBestellungBearbeiten"/>
+                    <Button text="Löschen"    onAction="#onBestellungLoeschen"/>
+                </HBox>
+                <TableView fx:id="tabBestellungen" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colBestMat"     text="Material-ID"  prefWidth="120"/>
+                        <TableColumn fx:id="colBestLief"    text="Lieferant-ID" prefWidth="120"/>
+                        <TableColumn fx:id="colBestLager"   text="Lager-ID"     prefWidth="100"/>
+                        <TableColumn fx:id="colBestMenge"   text="Menge"        prefWidth="60"/>
+                        <TableColumn fx:id="colBestBestell" text="Bestelldatum" prefWidth="130"/>
+                        <TableColumn fx:id="colBestLiefer"  text="Lieferdatum"  prefWidth="130"/>
+                        <TableColumn fx:id="colBestStatus"  text="Status"       prefWidth="120"/>
+                    </columns>
+                </TableView>
+            </VBox>
+        </Tab>
+
+        <!-- TAB 7: Bestandsbewegungen -->
+        <Tab text="Bestandsbewegungen" closable="false"
+             onSelectionChanged="#onBewegungTabSelected">
+            <VBox spacing="10">
+                <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+                <HBox spacing="8">
+                    <Button text="Anlegen"    onAction="#onBewegungAnlegen"/>
+                    <Button text="Bearbeiten" onAction="#onBewegungBearbeiten"/>
+                    <Button text="Löschen"    onAction="#onBewegungLoeschen"/>
+                </HBox>
+                <TableView fx:id="tabBewegungen" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colBewMat"    text="Material-ID"  prefWidth="120"/>
+                        <TableColumn fx:id="colBewLager"  text="Lager-ID"     prefWidth="100"/>
+                        <TableColumn fx:id="colBewTyp"    text="Typ"          prefWidth="100"/>
+                        <TableColumn fx:id="colBewMenge"  text="Menge"        prefWidth="60"/>
+                        <TableColumn fx:id="colBewDatum"  text="Datum"        prefWidth="160"/>
+                        <TableColumn fx:id="colBewAblauf" text="Ablaufdatum"  prefWidth="130"/>
+                        <TableColumn fx:id="colBewBem"    text="Bemerkung"    prefWidth="200"/>
+                    </columns>
+                </TableView>
+            </VBox>
+        </Tab>
+
+    </TabPane>
+</VBox>

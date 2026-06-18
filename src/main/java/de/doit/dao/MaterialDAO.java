@@ -7,29 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MaterialDAO implements GenericDAO<Material> {
-
-    // === Stufe 2 — ANLEGEN (Objekt → DB-INSERT) ===
-    @Override
-    public Material create(Material material) throws SQLException {
-        String sql = "INSERT INTO materialien (name, einheit, mindestbestand, kategorie_id) "
-                + "VALUES (?, ?, ?, ?)";
-        Connection verbindung = DBConnection.getConnection();
-        try (PreparedStatement anweisung = verbindung.prepareStatement(sql,
-                Statement.RETURN_GENERATED_KEYS)) {
-            anweisung.setString(1, material.getName());
-            anweisung.setString(2, material.getEinheit());
-            anweisung.setInt(3, material.getMindestbestand());
-            anweisung.setInt(4, material.getKategorieId());
-            anweisung.executeUpdate();
-            try (ResultSet schluessel = anweisung.getGeneratedKeys()) {
-                if (schluessel.next()) {
-                    material.setId(schluessel.getInt(1));
-                }
-            }
-        }
-        return material;
-    }
+public class MaterialDAO implements LeseDAO<Material> {
 
     // === Stufe 1 — LESEN (DB-SELECT → Liste) ===
     @Override
@@ -45,33 +23,6 @@ public class MaterialDAO implements GenericDAO<Material> {
             }
         }
         return ergebnis;
-    }
-
-    // === Stufe 3 — BEARBEITEN (Objekt → DB-UPDATE) ===
-    @Override
-    public void update(Material material) throws SQLException {
-        String sql = "UPDATE materialien SET name = ?, einheit = ?, mindestbestand = ?, "
-                + "kategorie_id = ? WHERE material_id = ?";
-        Connection verbindung = DBConnection.getConnection();
-        try (PreparedStatement anweisung = verbindung.prepareStatement(sql)) {
-            anweisung.setString(1, material.getName());
-            anweisung.setString(2, material.getEinheit());
-            anweisung.setInt(3, material.getMindestbestand());
-            anweisung.setInt(4, material.getKategorieId());
-            anweisung.setInt(5, material.getId());
-            anweisung.executeUpdate();
-        }
-    }
-
-    // === Stufe 4 — LÖSCHEN (ID → DB-DELETE) ===
-    @Override
-    public void delete(int id) throws SQLException {
-        String sql = "DELETE FROM materialien WHERE material_id = ?";
-        Connection verbindung = DBConnection.getConnection();
-        try (PreparedStatement anweisung = verbindung.prepareStatement(sql)) {
-            anweisung.setInt(1, id);
-            anweisung.executeUpdate();
-        }
     }
 
     private Material zeileLesen(ResultSet datensatz) throws SQLException {

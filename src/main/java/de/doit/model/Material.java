@@ -39,4 +39,8 @@ public class Material {
     public void setMindestbestand(int mindestbestand) { this.mindestbestand = mindestbestand; }
 
     public int getKategorieId() { return kategorieId; }
-    public void setKategorieId(int k
+    public void setKategorieId(int kategorieId) { this.kategorieId = kategorieId; }
+
+    @Override
+    public String toString() { return name; }
+}

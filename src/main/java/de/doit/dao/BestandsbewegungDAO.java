@@ -11,32 +11,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BestandsbewegungDAO implements GenericDAO<Bestandsbewegung> {
-
-    // === Stufe 2 — ANLEGEN (Objekt → DB-INSERT) ===
-    @Override
-    public Bestandsbewegung create(Bestandsbewegung b) throws SQLException {
-        String sql = "INSERT INTO bestandsbewegungen "
-                + "(material_id, lager_id, bewegungstyp, menge, ablaufdatum, datum, bemerkung) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        Connection verbindung = DBConnection.getConnection();
-        try (PreparedStatement anweisung = verbindung.prepareStatement(sql,
-                Statement.RETURN_GENERATED_KEYS)) {
-            anweisung.setInt(1, b.getMaterialId());
-            anweisung.setInt(2, b.getLagerId());
-            anweisung.setString(3, b.getBewegungstyp().name());
-            anweisung.setInt(4, b.getMenge());
-            if (b.getAblaufdatum() == null) anweisung.setNull(5, java.sql.Types.DATE);
-            else anweisung.setDate(5, Date.valueOf(b.getAblaufdatum()));
-            anweisung.setTimestamp(6, Timestamp.valueOf(b.getDatum() == null ? LocalDateTime.now() : b.getDatum()));
-            anweisung.setString(7, b.getBemerkung());
-            anweisung.executeUpdate();
-            try (ResultSet schluessel = anweisung.getGeneratedKeys()) {
-                if (schluessel.next()) b.setId(schluessel.getInt(1));
-            }
-        }
-        return b;
-    }
+public class BestandsbewegungDAO implements LeseDAO<Bestandsbewegung> {
 
     // === Stufe 1 — LESEN (DB-SELECT → Liste) ===
     @Override
@@ -51,37 +26,6 @@ public class BestandsbewegungDAO implements GenericDAO<Bestandsbewegung> {
             while (datensatz.next()) ergebnis.add(zeileLesen(datensatz));
         }
         return ergebnis;
-    }
-
-    // === Stufe 3 — BEARBEITEN (Objekt → DB-UPDATE) ===
-    @Override
-    public void update(Bestandsbewegung b) throws SQLException {
-        String sql = "UPDATE bestandsbewegungen SET material_id=?, lager_id=?, bewegungstyp=?, "
-                + "menge=?, ablaufdatum=?, datum=?, bemerkung=? WHERE bestandsbewegung_id=?";
-        Connection verbindung = DBConnection.getConnection();
-        try (PreparedStatement anweisung = verbindung.prepareStatement(sql)) {
-            anweisung.setInt(1, b.getMaterialId());
-            anweisung.setInt(2, b.getLagerId());
-            anweisung.setString(3, b.getBewegungstyp().name());
-            anweisung.setInt(4, b.getMenge());
-            if (b.getAblaufdatum() == null) anweisung.setNull(5, java.sql.Types.DATE);
-            else anweisung.setDate(5, Date.valueOf(b.getAblaufdatum()));
-            anweisung.setTimestamp(6, Timestamp.valueOf(b.getDatum() == null ? LocalDateTime.now() : b.getDatum()));
-            anweisung.setString(7, b.getBemerkung());
-            anweisung.setInt(8, b.getId());
-            anweisung.executeUpdate();
-        }
-    }
-
-    // === Stufe 4 — LÖSCHEN (ID → DB-DELETE) ===
-    @Override
-    public void delete(int id) throws SQLException {
-        String sql = "DELETE FROM bestandsbewegungen WHERE bestandsbewegung_id = ?";
-        Connection verbindung = DBConnection.getConnection();
-        try (PreparedStatement anweisung = verbindung.prepareStatement(sql)) {
-            anweisung.setInt(1, id);
-            anweisung.executeUpdate();
-        }
     }
 
 

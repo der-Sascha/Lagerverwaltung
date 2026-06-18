@@ -1,38 +1,33 @@
 package de.doit.dao;
 
 import java.sql.SQLException;
-import java.util.List;
 
 /**
- * Generische DAO-Schnittstelle (Data Access Object).
+ * Generische DAO-Schnittstelle (Data Access Object) fuer das volle CRUD.
  *
- * <p>Definiert den gemeinsamen CRUD-Vertrag, den alle DAO-Klassen des Projekts
- * erfuellen. Ein Interface enthaelt nur die Methodenkoepfe (den "Vertrag"),
- * keine Implementierung. Jede Klasse, die {@code implements GenericDAO<T>}
- * schreibt, MUSS diese vier Methoden ausprogrammieren &ndash; der Compiler
- * erzwingt das.</p>
+ * <p>Erweitert {@link LeseDAO} (Lesen) um das Schreiben: Anlegen, Aendern,
+ * Loeschen. Ein DAO, das alle vier Operationen anbietet, schreibt
+ * {@code implements GenericDAO<T>}; ein reines Lese-DAO schreibt nur
+ * {@code implements LeseDAO<T>}.</p>
  *
- * <p>Der Typ-Platzhalter {@code <T>} (engl. <em>Type</em>) macht die Schnittstelle
- * generisch: Er wird erst beim {@code implements} mit einer konkreten Klasse
- * gefuellt, z.&nbsp;B. {@code MaterialDAO implements GenericDAO<Material>}. So
- * genuegt eine einzige Schnittstelle fuer alle sechs Tabellen-DAOs.</p>
+ * <p>Der Typ-Platzhalter {@code <T>} (engl. <em>Type</em>) macht die
+ * Schnittstelle generisch: Er wird erst beim {@code implements} mit einer
+ * konkreten Klasse gefuellt, z.&nbsp;B. {@code MaterialDAO implements
+ * GenericDAO<Material>}.</p>
  *
- * <p>Bezug zu Wertetypen/Referenztypen: {@code T} steht immer fuer einen
- * Referenztyp (ein Objekt, z.&nbsp;B. {@code Material}); die {@code id} in
- * {@link #delete(int)} ist ein Wertetyp ({@code int}). {@link java.util.List}
- * ist eine Collection und nimmt mehrere Referenzen desselben Typs auf.</p>
+ * <p><b>Hinweis (Lern-Stand 2026-06-18):</b> Aktuell ist die Anwendung
+ * read-only ausgeliefert &ndash; alle DAOs implementieren nur {@link LeseDAO}.
+ * Diese Schnittstelle beschreibt den vollen CRUD-Vertrag, den du beim
+ * Eintragen des Schreib-Codes (siehe {@code MD/Anleitung_CRUD_eintragen.md})
+ * fuer Material und Kategorie nutzt.</p>
  *
  * @param <T> der Modell-/Entitaetstyp, den das DAO verwaltet (Referenztyp)
  */
-public interface GenericDAO<T> {
+public interface GenericDAO<T> extends LeseDAO<T> {
 
     // === Stufe 2 — ANLEGEN (Vertrag) ===
     /** Legt einen neuen Datensatz an und gibt das Objekt inkl. erzeugter ID zurueck. */
     T create(T obj) throws SQLException;
-
-    // === Stufe 1 — LESEN (Vertrag) ===
-    /** Liest alle Datensaetze als Collection (Liste von Referenzen). */
-    List<T> findAll() throws SQLException;
 
     // === Stufe 3 — BEARBEITEN (Vertrag) ===
     /** Aktualisiert einen vorhandenen Datensatz anhand seiner ID. */

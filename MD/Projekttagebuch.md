@@ -766,3 +766,14 @@ nen: alle Doku_A–E .docx-Dateien + Lernhandbuch-Teile. Master-Datei neu erzeug
 - [Änderung] `src/_ORDNERINFO.md` korrigiert: stale `findById()` entfernt, `Main.java` als echter JavaFX-Einstieg statt „Demo" beschrieben, Stufen-Marker-Abschnitt ergänzt.
 - [Änderung] Backup vor Eingriff: `Archiv/_backup_2026-06-18_vor_stufenmarker_src/` (kompletter src-Stand).
 - [Offen] Compile-/GUI-Test in IntelliJ (Sandbox ohne Maven/JavaFX). Variante B (echte Verschlankung) bewusst nicht umgesetzt — A ändert kein Verhalten.
+
+## 2026-06-18 — [Änderung] App auf read-only verschlankt + CRUD-Anleitung (Selbst-Eintragen)
+
+- [Änderung] Auf Saschas Wunsch das volle CRUD komplett aus dem Code entfernt (sauberer Schnitt, löschen), App jetzt read-only. Material+Kategorie-CRUD soll er per Anleitung selbst eintippen ("denke dann komme ich dahinter").
+- [Änderung] DAO-Schicht: neues `dao/LeseDAO<T>` (nur `findAll`); `GenericDAO<T>` jetzt `extends LeseDAO<T>` (+create/update/delete, aktuell ungenutzt = Vorlage). Alle 6 DAOs auf `implements LeseDAO<T>` umgestellt, `create/update/delete` gelöscht (Skript, brace-genau). `BestandsbewegungDAO` behält `findBestandViews`/`getBestand`.
+- [Änderung] `EntityCrud<T>` von abstrakt+CRUD auf konkret+read-only (nur `load()`, nutzt `LeseDAO`). Die 6 Subklassen (`MaterialCrud`…`BewegungCrud`) gelöscht (über cowork-Lösch-Tool, da Sandbox-`rm` auf Mount „Operation not permitted").
+- [Änderung] `MainController`: CRUD-Felder → `EntityCrud<T>`, Erzeugung `new EntityCrud<>(tab, dao, "…")`, 24 Schreib-Handler (`onXAnlegen/Bearbeiten/Loeschen`) entfernt, Tab-Laden bleibt. `main.fxml`: 6 Button-HBoxen durch „Nur-Lese-Ansicht"-Label ersetzt.
+- [Änderung] Neue Anleitung `MD/Anleitung_CRUD_eintragen.md`: Schritt-für-Schritt CRUD für Material + Kategorie (DAO→Crud-Klasse→MainController→FXML) mit Code zum Abtippen + Checkliste.
+- [Erkenntnis] Verifikation statisch: 0 Verweise auf gelöschte Subklassen/Methoden, FXML ohne Schreib-Buttons (6× Nur-Lese-Label), keine `dao.create/update/delete`-Aufrufe mehr. Voller Compile/GUI in IntelliJ (Sandbox hat nur JRE, kein `javac`/JavaFX/Maven).
+- [Änderung] Backup vor Eingriff: `Archiv/_backup_2026-06-18_vor_readonly_src/`. Git-Restorepunkt davor: Commit `4778ce2` / Tag `stand-vor-variante-b`.
+- [Offen] **SRH-Pflicht CRUD**: aktueller Code hat kein funktionierendes Schreiben → vor Abgabe Anleitung umsetzen.

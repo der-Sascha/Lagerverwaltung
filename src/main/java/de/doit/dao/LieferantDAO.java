@@ -7,29 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LieferantDAO implements GenericDAO<Lieferant> {
-
-    // === Stufe 2 — ANLEGEN (Objekt → DB-INSERT) ===
-    @Override
-    public Lieferant create(Lieferant lieferant) throws SQLException {
-        String sql = "INSERT INTO lieferanten (name, kontakt, telefon, email) "
-                + "VALUES (?, ?, ?, ?)";
-        Connection verbindung = DBConnection.getConnection();
-        try (PreparedStatement anweisung = verbindung.prepareStatement(sql,
-                Statement.RETURN_GENERATED_KEYS)) {
-            anweisung.setString(1, lieferant.getName());
-            anweisung.setString(2, lieferant.getKontakt());
-            anweisung.setString(3, lieferant.getTelefon());
-            anweisung.setString(4, lieferant.getEmail());
-            anweisung.executeUpdate();
-            try (ResultSet schluessel = anweisung.getGeneratedKeys()) {
-                if (schluessel.next()) {
-                    lieferant.setId(schluessel.getInt(1));
-                }
-            }
-        }
-        return lieferant;
-    }
+public class LieferantDAO implements LeseDAO<Lieferant> {
 
     // === Stufe 1 — LESEN (DB-SELECT → Liste) ===
     @Override
@@ -45,33 +23,6 @@ public class LieferantDAO implements GenericDAO<Lieferant> {
             }
         }
         return ergebnis;
-    }
-
-    // === Stufe 3 — BEARBEITEN (Objekt → DB-UPDATE) ===
-    @Override
-    public void update(Lieferant lieferant) throws SQLException {
-        String sql = "UPDATE lieferanten SET name = ?, kontakt = ?, telefon = ?, email = ? "
-                + "WHERE lieferant_id = ?";
-        Connection verbindung = DBConnection.getConnection();
-        try (PreparedStatement anweisung = verbindung.prepareStatement(sql)) {
-            anweisung.setString(1, lieferant.getName());
-            anweisung.setString(2, lieferant.getKontakt());
-            anweisung.setString(3, lieferant.getTelefon());
-            anweisung.setString(4, lieferant.getEmail());
-            anweisung.setInt(5, lieferant.getId());
-            anweisung.executeUpdate();
-        }
-    }
-
-    // === Stufe 4 — LÖSCHEN (ID → DB-DELETE) ===
-    @Override
-    public void delete(int id) throws SQLException {
-        String sql = "DELETE FROM lieferanten WHERE lieferant_id = ?";
-        Connection verbindung = DBConnection.getConnection();
-        try (PreparedStatement anweisung = verbindung.prepareStatement(sql)) {
-            anweisung.setInt(1, id);
-            anweisung.executeUpdate();
-        }
     }
 
     private Lieferant zeileLesen(ResultSet datensatz) throws SQLException {
