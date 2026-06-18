@@ -9,6 +9,7 @@ import java.util.List;
 
 public class KategorieDAO implements GenericDAO<Kategorie> {
 
+    // === Stufe 2 — ANLEGEN (Objekt → DB-INSERT) ===
     @Override
     public Kategorie create(Kategorie kategorie) throws SQLException {
         String sql = "INSERT INTO kategorien (name, beschreibung) VALUES (?, ?)";
@@ -26,6 +27,7 @@ public class KategorieDAO implements GenericDAO<Kategorie> {
         return kategorie;
     }
 
+    // === Stufe 1 — LESEN (DB-SELECT → Liste) ===
     @Override
     public List<Kategorie> findAll() throws SQLException {
         String sql = "SELECT kategorie_id, name, beschreibung FROM kategorien "
@@ -41,6 +43,7 @@ public class KategorieDAO implements GenericDAO<Kategorie> {
         return ergebnis;
     }
 
+    // === Stufe 3 — BEARBEITEN (Objekt → DB-UPDATE) ===
     @Override
     public void update(Kategorie kategorie) throws SQLException {
         String sql = "UPDATE kategorien SET name = ?, beschreibung = ? "
@@ -54,6 +57,7 @@ public class KategorieDAO implements GenericDAO<Kategorie> {
         }
     }
 
+    // === Stufe 4 — LÖSCHEN (ID → DB-DELETE) ===
     @Override
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM kategorien WHERE kategorie_id = ?";

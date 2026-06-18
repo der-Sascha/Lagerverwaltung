@@ -1,5 +1,6 @@
 package de.doit.model;
 
+// === Stufe 5 — SUCHEN/FILTERN (berechnetes Anzeige-Modell, read-only) ===
 public class BestandView {
 
     private final int materialId;

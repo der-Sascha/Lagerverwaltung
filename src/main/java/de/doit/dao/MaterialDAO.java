@@ -9,6 +9,7 @@ import java.util.List;
 
 public class MaterialDAO implements GenericDAO<Material> {
 
+    // === Stufe 2 — ANLEGEN (Objekt → DB-INSERT) ===
     @Override
     public Material create(Material material) throws SQLException {
         String sql = "INSERT INTO materialien (name, einheit, mindestbestand, kategorie_id) "
@@ -30,6 +31,7 @@ public class MaterialDAO implements GenericDAO<Material> {
         return material;
     }
 
+    // === Stufe 1 — LESEN (DB-SELECT → Liste) ===
     @Override
     public List<Material> findAll() throws SQLException {
         String sql = "SELECT material_id, name, einheit, mindestbestand, kategorie_id "
@@ -45,6 +47,7 @@ public class MaterialDAO implements GenericDAO<Material> {
         return ergebnis;
     }
 
+    // === Stufe 3 — BEARBEITEN (Objekt → DB-UPDATE) ===
     @Override
     public void update(Material material) throws SQLException {
         String sql = "UPDATE materialien SET name = ?, einheit = ?, mindestbestand = ?, "
@@ -60,6 +63,7 @@ public class MaterialDAO implements GenericDAO<Material> {
         }
     }
 
+    // === Stufe 4 — LÖSCHEN (ID → DB-DELETE) ===
     @Override
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM materialien WHERE material_id = ?";

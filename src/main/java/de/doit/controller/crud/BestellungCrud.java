@@ -89,7 +89,7 @@ public class BestellungCrud extends EntityCrud<Bestellung> {
                 vorhanden.setStatus(cbStatus.getValue());
                 dao.update(vorhanden);
             }
-            laden();
+            load();
         } catch (Exception ex) {
             Dialoge.fehler("Speichern fehlgeschlagen", ex);
         }

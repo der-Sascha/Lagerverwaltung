@@ -751,3 +751,18 @@ nen: alle Doku_A–E .docx-Dateien + Lernhandbuch-Teile. Master-Datei neu erzeug
 - [Problem] Beide CRUD-Dateien (`controller/crud/BestellungCrud.java`, `controller/crud/BewegungCrud.java`) endeten mitten im `else`-Block der `formularAnzeigen`-Methode — die Setter für restliche Felder, `dao.update()`, `laden()`, `catch`-Block und schließende Klammern fehlten komplett. Ursache: vermutlich unterbrochener Speichervorgang.
 - [Lösung] Fehlende Abschnitte ergänzt: bei `BestellungCrud` die Setter für `menge`, `bestelldatum`, `lieferdatum`, `status` + `dao.update` + `laden()` + `catch`; bei `BewegungCrud` analog `ablaufdatum`, `bemerkung` + `dao.update` + `laden()` + `catch`.
 - [Erkenntnis] `mvn compile` → **BUILD SUCCESS**, 27 Dateien fehlerfrei kompiliert.
+
+## 2026-06-18 — [Erkenntnis/Manuell] Umbau-Plan: Code nach Schwierigkeit + Ablauf staffeln
+
+- [Manuell] Sascha will den Code nach Schwierigkeit UND Ablauf staffeln (beides zusammen), Funktionen ggf. entfernen (Projekt darf kleiner werden). 6 Tabellen bleiben Pflicht; Abfragen gedanklich „bei null" neu aufbauen.
+- [Erkenntnis] Kernidee festgehalten: vertikale **Stufen** statt horizontaler Schichten — eine Stufe = eine Operation komplett durch alle Schichten (DB→DAO→EntityCrud→Reiter→Controller→FXML). Stufenfolge: 0 Fundament, 1 LESEN, 2 ANLEGEN, 3 BEARBEITEN, 4 LÖSCHEN, 5 SUCHEN/FILTERN.
+- [Erkenntnis] Code ist bereits schlank: `findById()` existiert nicht mehr (nur `src/_ORDNERINFO.md` erwähnt es stale); `Main.java` ist echter JavaFX-Einstieg, kein Demo. GenericDAO-Vertrag = create/findAll/update/delete.
+- [Änderung] Plan-Dokument erstellt: `MD/Umbauplan_Staffelung.md` (Status: Entwurf, wartet auf Freigabe — Variante A sicher / B schlanker). Code noch unangetastet.
+
+## 2026-06-18 — [Änderung] Variante A umgesetzt: Stufen-Marker im Code
+
+- [Änderung] 37 additive `// === Stufe N — … ===`-Marker eingefügt (Schwierigkeit + Ablauf): Stufe 0 Fundament (Launcher, Main, DBConnection), 1 LESEN (findAll/load/Vertrag), 2 ANLEGEN (create), 3 BEARBEITEN (update/edit), 4 LÖSCHEN (delete), 5 SUCHEN/FILTERN (BestandsbewegungDAO.findBestandViews/getBestand, BestandView, MainController-Filter). Betroffen: 6 DAOs, GenericDAO, EntityCrud, DBConnection, Main, Launcher, BestandView, MainController.
+- [Erkenntnis] Saschas Vorgabe „meine Kommentare unberührt" eingehalten: Skript fügt nur eigenständige `//`-Zeilen ein (idempotent, Marker oberhalb @Override bzw. vorhandener Javadoc), löscht/ändert nichts. Verifikation: alle 37 Marker stehen allein auf einer Kommentarzeile (grep-Check bestanden) → keine Logik-/Compile-Auswirkung.
+- [Änderung] `src/_ORDNERINFO.md` korrigiert: stale `findById()` entfernt, `Main.java` als echter JavaFX-Einstieg statt „Demo" beschrieben, Stufen-Marker-Abschnitt ergänzt.
+- [Änderung] Backup vor Eingriff: `Archiv/_backup_2026-06-18_vor_stufenmarker_src/` (kompletter src-Stand).
+- [Offen] Compile-/GUI-Test in IntelliJ (Sandbox ohne Maven/JavaFX). Variante B (echte Verschlankung) bewusst nicht umgesetzt — A ändert kein Verhalten.

@@ -98,7 +98,7 @@ public class BewegungCrud extends EntityCrud<Bestandsbewegung> {
                 vorhanden.setBemerkung(tfBem.getText());
                 dao.update(vorhanden);
             }
-            laden();
+            load();
         } catch (Exception ex) {
             Dialoge.fehler("Speichern fehlgeschlagen", ex);
         }

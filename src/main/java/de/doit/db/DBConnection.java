@@ -22,6 +22,7 @@ public class DBConnection {
     // Privater Konstruktor: verhindert weitere Instanzen (Singleton).
     private DBConnection() { }
 
+    // === Stufe 0 — FUNDAMENT (DB-Verbindung, Singleton) ===
     /** Liefert die gemeinsame Verbindung; baut sie bei Bedarf auf (Lazy Initialization). */
     public static Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {

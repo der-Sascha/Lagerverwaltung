@@ -12,6 +12,7 @@ public class Main extends Application {
     @Override
     // JavaFX ruft start() automatisch beim Programmstart auf
     // primaryStage ist das Hauptfenster — JavaFX erstellt es und übergibt es dir hier als Parameter.
+    // === Stufe 0 — FUNDAMENT (App-Start: FXML laden, Fenster zeigen) ===
     public void start(Stage primaryStage) throws Exception {
         //Übergabe vom main Pfad - beginnt im resources ORdner
         FXMLLoader loader = new FXMLLoader(

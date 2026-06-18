@@ -184,11 +184,13 @@ public class MainController {
     // =========================================================================
     // BESTANDSUEBERSICHT (Suche, Filter)
     // =========================================================================
+    // === Stufe 5 — SUCHEN/FILTERN (berechnete Bestandssicht laden) ===
     private void ladeBestaende() throws SQLException {
         alleBestaende = bewegungDao.findBestandViews();
         anzeigeFiltern();
     }
 
+    // === Stufe 5 — SUCHEN/FILTERN (Such-/Filterlogik) ===
     private void anzeigeFiltern() {
         if (alleBestaende == null) return;
         String suchtext = txtSuche.getText() == null ? "" : txtSuche.getText().trim().toLowerCase();
@@ -228,38 +230,40 @@ public class MainController {
     // =========================================================================
     // REITER MIT STAMMDATEN: nur noch Weiterleitung an die CRUD-Klassen
     // =========================================================================
-    @FXML public void onMaterialienTabSelected(Event e)   { if (istAktiv(e)) materialCrud.laden(); }
-    @FXML public void onMaterialAnlegen()                 { materialCrud.anlegen(); }
-    @FXML public void onMaterialBearbeiten()              { materialCrud.bearbeiten(); }
-    @FXML public void onMaterialLoeschen()                { materialCrud.loeschen(); }
+    // === Stufen 1-4 — Weiterleitung je Reiter an EntityCrud (load/create/edit/delete) ===
+    @FXML public void onMaterialienTabSelected(Event e)   { if (istAktiv(e)) materialCrud.load(); }
+    @FXML public void onMaterialAnlegen()                 { materialCrud.create(); }
+    @FXML public void onMaterialBearbeiten()              { materialCrud.edit(); }
+    @FXML public void onMaterialLoeschen()                { materialCrud.delete(); }
 
-    @FXML public void onKategorienTabSelected(Event e)    { if (istAktiv(e)) kategorieCrud.laden(); }
-    @FXML public void onKategorieAnlegen()                { kategorieCrud.anlegen(); }
-    @FXML public void onKategorieBearbeiten()             { kategorieCrud.bearbeiten(); }
-    @FXML public void onKategorieLoeschen()               { kategorieCrud.loeschen(); }
+    @FXML public void onKategorienTabSelected(Event e)    { if (istAktiv(e)) kategorieCrud.load(); }
+    @FXML public void onKategorieAnlegen()                { kategorieCrud.create(); }
+    @FXML public void onKategorieBearbeiten()             { kategorieCrud.edit(); }
+    @FXML public void onKategorieLoeschen()               { kategorieCrud.delete(); }
 
-    @FXML public void onStationslagerTabSelected(Event e) { if (istAktiv(e)) lagerCrud.laden(); }
-    @FXML public void onLagerAnlegen()                    { lagerCrud.anlegen(); }
-    @FXML public void onLagerBearbeiten()                 { lagerCrud.bearbeiten(); }
-    @FXML public void onLagerLoeschen()                   { lagerCrud.loeschen(); }
+    @FXML public void onStationslagerTabSelected(Event e) { if (istAktiv(e)) lagerCrud.load(); }
+    @FXML public void onLagerAnlegen()                    { lagerCrud.create(); }
+    @FXML public void onLagerBearbeiten()                 { lagerCrud.edit(); }
+    @FXML public void onLagerLoeschen()                   { lagerCrud.delete(); }
 
-    @FXML public void onLieferantenTabSelected(Event e)   { if (istAktiv(e)) lieferantCrud.laden(); }
-    @FXML public void onLieferantAnlegen()                { lieferantCrud.anlegen(); }
-    @FXML public void onLieferantBearbeiten()             { lieferantCrud.bearbeiten(); }
-    @FXML public void onLieferantLoeschen()               { lieferantCrud.loeschen(); }
+    @FXML public void onLieferantenTabSelected(Event e)   { if (istAktiv(e)) lieferantCrud.load(); }
+    @FXML public void onLieferantAnlegen()                { lieferantCrud.create(); }
+    @FXML public void onLieferantBearbeiten()             { lieferantCrud.edit(); }
+    @FXML public void onLieferantLoeschen()               { lieferantCrud.delete(); }
 
-    @FXML public void onBestellungenTabSelected(Event e)  { if (istAktiv(e)) bestellungCrud.laden(); }
-    @FXML public void onBestellungAnlegen()               { bestellungCrud.anlegen(); }
-    @FXML public void onBestellungBearbeiten()            { bestellungCrud.bearbeiten(); }
-    @FXML public void onBestellungLoeschen()              { bestellungCrud.loeschen(); }
+    @FXML public void onBestellungenTabSelected(Event e)  { if (istAktiv(e)) bestellungCrud.load(); }
+    @FXML public void onBestellungAnlegen()               { bestellungCrud.create(); }
+    @FXML public void onBestellungBearbeiten()            { bestellungCrud.edit(); }
+    @FXML public void onBestellungLoeschen()              { bestellungCrud.delete(); }
 
-    @FXML public void onBewegungTabSelected(Event e)      { if (istAktiv(e)) bewegungCrud.laden(); }
-    @FXML public void onBewegungAnlegen()                 { bewegungCrud.anlegen(); }
-    @FXML public void onBewegungBearbeiten()              { bewegungCrud.bearbeiten(); }
-    @FXML public void onBewegungLoeschen()                { bewegungCrud.loeschen(); }
+    @FXML public void onBewegungTabSelected(Event e)      { if (istAktiv(e)) bewegungCrud.load(); }
+    @FXML public void onBewegungAnlegen()                 { bewegungCrud.create(); }
+    @FXML public void onBewegungBearbeiten()              { bewegungCrud.edit(); }
+    @FXML public void onBewegungLoeschen()                { bewegungCrud.delete(); }
 
     /** true, wenn der ausloesende Reiter gerade aktiv geworden ist. */
     private boolean istAktiv(Event e) {
         return ((Tab) e.getSource()).isSelected();
     }
 }
+                                                            

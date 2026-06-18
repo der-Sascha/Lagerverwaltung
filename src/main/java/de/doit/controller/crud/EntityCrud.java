@@ -31,6 +31,7 @@ public abstract class EntityCrud<T> {
     protected final GenericDAO<T>     dao;
     protected final String            bezeichnung;
 
+    // Konstruktor
     protected EntityCrud(TableView<T> tabelle, GenericDAO<T> dao, String bezeichnung) {
         this.tabelle     = tabelle;
         this.dao         = dao;
@@ -38,8 +39,10 @@ public abstract class EntityCrud<T> {
         tabelle.setItems(liste);
     }
 
+
+    // === Stufe 1 — LESEN (Liste → Tabelle) ===
     /** Laedt alle Datensaetze neu aus der Datenbank in die Tabelle. */
-    public void laden() {
+    public void load() {
         try {
             liste.setAll(dao.findAll());
         } catch (SQLException e) {
@@ -47,37 +50,41 @@ public abstract class EntityCrud<T> {
         }
     }
 
+    // === Stufe 2 — ANLEGEN (leeres Formular) ===
     /** Oeffnet das Formular fuer einen neuen Datensatz. */
-    public void anlegen() {
+    public void create() {
         formularAnzeigen(null);
     }
 
+
+    // === Stufe 3 — BEARBEITEN (vorbelegtes Formular) ===
     /** Oeffnet das Formular fuer den ausgewaehlten Datensatz. */
-    public void bearbeiten() {
+    public void edit() {
         T sel = tabelle.getSelectionModel().getSelectedItem();
         if (sel == null) { Dialoge.warnung("Bitte " + bezeichnung + " auswählen."); return; }
         formularAnzeigen(sel);
     }
 
+
+    // === Stufe 4 — LÖSCHEN (mit Rückfrage) ===
     /** Loescht den ausgewaehlten Datensatz nach Rueckfrage. */
-    public void loeschen() {
+    public void delete() {
         T sel = tabelle.getSelectionModel().getSelectedItem();
         if (sel == null) { Dialoge.warnung("Bitte " + bezeichnung + " auswählen."); return; }
         if (!Dialoge.bestaetigen(bezeichnung + " löschen", bezeichnung + " wirklich löschen?")) return;
         try {
             dao.delete(idVon(sel));
-            laden();
+            load();
         } catch (SQLException e) {
             Dialoge.fehler("Löschen fehlgeschlagen", e);
         }
     }
 
+    // Konvention Template-Method-Muster. erst fertige Methoden dann abstrakte Klassen
     /** Liefert die ID eines Datensatzes (fuer das Loeschen). */
     protected abstract int idVon(T obj);
 
+
     /**
      * Zeigt das Eingabeformular. Bei {@code vorhanden == null} wird ein neuer
-     * Datensatz angelegt, sonst der uebergebene bearbeitet.
-     */
-    protected abstract void formularAnzeigen(T vorhanden);
-}
+     * Datensatz angelegt, sonst der uebergebene b

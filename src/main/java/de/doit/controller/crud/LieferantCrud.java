@@ -48,7 +48,7 @@ public class LieferantCrud extends EntityCrud<Lieferant> {
                 vorhanden.setEmail(tfEmail.getText());
                 dao.update(vorhanden);
             }
-            laden();
+            load();
         } catch (Exception ex) {
             Dialoge.fehler("Speichern fehlgeschlagen", ex);
         }

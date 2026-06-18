@@ -13,6 +13,7 @@ import java.util.List;
 
 public class BestandsbewegungDAO implements GenericDAO<Bestandsbewegung> {
 
+    // === Stufe 2 — ANLEGEN (Objekt → DB-INSERT) ===
     @Override
     public Bestandsbewegung create(Bestandsbewegung b) throws SQLException {
         String sql = "INSERT INTO bestandsbewegungen "
@@ -37,6 +38,7 @@ public class BestandsbewegungDAO implements GenericDAO<Bestandsbewegung> {
         return b;
     }
 
+    // === Stufe 1 — LESEN (DB-SELECT → Liste) ===
     @Override
     public List<Bestandsbewegung> findAll() throws SQLException {
         String sql = "SELECT bestandsbewegung_id, material_id, lager_id, bewegungstyp, "
@@ -51,6 +53,7 @@ public class BestandsbewegungDAO implements GenericDAO<Bestandsbewegung> {
         return ergebnis;
     }
 
+    // === Stufe 3 — BEARBEITEN (Objekt → DB-UPDATE) ===
     @Override
     public void update(Bestandsbewegung b) throws SQLException {
         String sql = "UPDATE bestandsbewegungen SET material_id=?, lager_id=?, bewegungstyp=?, "
@@ -70,6 +73,7 @@ public class BestandsbewegungDAO implements GenericDAO<Bestandsbewegung> {
         }
     }
 
+    // === Stufe 4 — LÖSCHEN (ID → DB-DELETE) ===
     @Override
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM bestandsbewegungen WHERE bestandsbewegung_id = ?";
@@ -81,6 +85,7 @@ public class BestandsbewegungDAO implements GenericDAO<Bestandsbewegung> {
     }
 
 
+    // === Stufe 5 — SUCHEN/FILTERN (Aggregation: SUM EINGANG − AUSGANG, JOINs) ===
     public List<BestandView> findBestandViews() throws SQLException {
         String sql =
                 "SELECT m.material_id AS material_id, "
@@ -115,6 +120,7 @@ public class BestandsbewegungDAO implements GenericDAO<Bestandsbewegung> {
         return ergebnis;
     }
 
+    // === Stufe 5 — SUCHEN/FILTERN (Bestand je Material+Lager) ===
     public int getBestand(int materialId, int lagerId) throws SQLException {
         String sql = "SELECT COALESCE(SUM(CASE WHEN bewegungstyp = 'EINGANG' THEN menge "
                    + "                        WHEN bewegungstyp = 'AUSGANG' THEN -menge "

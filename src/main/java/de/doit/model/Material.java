@@ -8,6 +8,9 @@ public class Material {
     private int mindestbestand;
     private int kategorieId;
 
+
+    // 2 Konstruktoren 1te für neu anlegen (ID auto_increment)
+    // der 2te für laden - die ID zieht er mit
     public Material(String name, String einheit, int mindestbestand, int kategorieId) {
         this.name = name;
         this.einheit = einheit;
@@ -36,8 +39,4 @@ public class Material {
     public void setMindestbestand(int mindestbestand) { this.mindestbestand = mindestbestand; }
 
     public int getKategorieId() { return kategorieId; }
-    public void setKategorieId(int kategorieId) { this.kategorieId = kategorieId; }
-
-    @Override
-    public String toString() { return name; }
-}
+    public void setKategorieId(int k

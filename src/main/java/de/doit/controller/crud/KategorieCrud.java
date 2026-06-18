@@ -42,7 +42,7 @@ public class KategorieCrud extends EntityCrud<Kategorie> {
                 vorhanden.setBeschreibung(tfBeschr.getText());
                 dao.update(vorhanden);
             }
-            laden();
+            load();
         } catch (Exception ex) {
             Dialoge.fehler("Speichern fehlgeschlagen", ex);
         }

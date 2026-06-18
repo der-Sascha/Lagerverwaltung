@@ -44,7 +44,7 @@ public class StationslagerCrud extends EntityCrud<Stationslager> {
                 vorhanden.setTyp(tfTyp.getText());
                 dao.update(vorhanden);
             }
-            laden();
+            load();
         } catch (Exception ex) {
             Dialoge.fehler("Speichern fehlgeschlagen", ex);
         }

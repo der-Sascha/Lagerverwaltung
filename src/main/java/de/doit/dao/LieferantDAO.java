@@ -9,6 +9,7 @@ import java.util.List;
 
 public class LieferantDAO implements GenericDAO<Lieferant> {
 
+    // === Stufe 2 — ANLEGEN (Objekt → DB-INSERT) ===
     @Override
     public Lieferant create(Lieferant lieferant) throws SQLException {
         String sql = "INSERT INTO lieferanten (name, kontakt, telefon, email) "
@@ -30,6 +31,7 @@ public class LieferantDAO implements GenericDAO<Lieferant> {
         return lieferant;
     }
 
+    // === Stufe 1 — LESEN (DB-SELECT → Liste) ===
     @Override
     public List<Lieferant> findAll() throws SQLException {
         String sql = "SELECT lieferant_id, name, kontakt, telefon, email FROM lieferanten "
@@ -45,6 +47,7 @@ public class LieferantDAO implements GenericDAO<Lieferant> {
         return ergebnis;
     }
 
+    // === Stufe 3 — BEARBEITEN (Objekt → DB-UPDATE) ===
     @Override
     public void update(Lieferant lieferant) throws SQLException {
         String sql = "UPDATE lieferanten SET name = ?, kontakt = ?, telefon = ?, email = ? "
@@ -60,6 +63,7 @@ public class LieferantDAO implements GenericDAO<Lieferant> {
         }
     }
 
+    // === Stufe 4 — LÖSCHEN (ID → DB-DELETE) ===
     @Override
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM lieferanten WHERE lieferant_id = ?";
