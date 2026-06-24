@@ -6,6 +6,22 @@ Dient als Grundlage für Reflexion, Lernzuwachs und Quellenverzeichnis.
 
 ---
 
+## 2026-06-23 — [Änderung] Prüfungsvorbereitung erstellt
+
+Frau Cramer hat die Prüfungsthemen bekannt gegeben: OOP vollständig, Vererbung, Zugriffsmodifikatoren, Array/List-Syntax, JavaFX Buttons, abstrakte Klassen + Interface — alles als praktische Aufgaben, DAO-Muster als Vorlage.
+
+Neu erstellte Dateien in `Lernmaterial/`:
+- `Zugriffsmodifikatoren_Spickzettel.html` — private/package-private/protected/public mit Vergleichstabelle, DAO-Beispiel, Fallen
+- `JavaFX_Buttons_Spickzettel.html` — @FXML, onAction, setOnAction, Lambda, initialize(), vollständiges Controller-Beispiel
+- `Pruefung_Theoretisch.html` — 31 Fragen + aufklappbare Antworten, 7 Themenblöcke
+- `Pruefung_Praktisch_Aufgaben.html` — Aufgabenblatt (A1–A6, 70 Punkte), Tierpension-Szenario
+- `Pruefung_Praktisch/` — 6 Java-Starterdateien mit TODO-Markierungen für IntelliJ
+
+`Roter_Faden_Java.html` um Abschnitt 3 „Prüfungsthemen & Lernblätter-Index" erweitert.
+`Lernmaterial/_ORDNERINFO.md` aktualisiert.
+
+---
+
 ## 2026-06-09 — [Änderung] _ORDNERINFO.md je Ordner angelegt
 
 - [Änderung] In 11 Ordnern eine `_ORDNERINFO.md` angelegt (`src/`, `Doku/`, `MD/`, `Projektdateien/`, `Lernhandbuch/`, `Lernmaterial/`, `Vorgaben/`, `Projektmanagement/`, `Ablage/`, `Archiv/`, `Präsentationen/`) — je eine Tabelle Datei → Zweck.
@@ -777,3 +793,130 @@ nen: alle Doku_A–E .docx-Dateien + Lernhandbuch-Teile. Master-Datei neu erzeug
 - [Erkenntnis] Verifikation statisch: 0 Verweise auf gelöschte Subklassen/Methoden, FXML ohne Schreib-Buttons (6× Nur-Lese-Label), keine `dao.create/update/delete`-Aufrufe mehr. Voller Compile/GUI in IntelliJ (Sandbox hat nur JRE, kein `javac`/JavaFX/Maven).
 - [Änderung] Backup vor Eingriff: `Archiv/_backup_2026-06-18_vor_readonly_src/`. Git-Restorepunkt davor: Commit `4778ce2` / Tag `stand-vor-variante-b`.
 - [Offen] **SRH-Pflicht CRUD**: aktueller Code hat kein funktionierendes Schreiben → vor Abgabe Anleitung umsetzen.
+
+## 2026-06-18 — [Erkenntnis] Stufen-Marker nach read-only-Umbau geprüft
+
+- [Erkenntnis] Code-Marker sind konsistent: aktiv vorhanden Stufe 0/1/5; Stufe 2/3/4 nur noch als Vertrag in `GenericDAO` (kein DAO implementiert) + in der Anleitung. Kein Marker zeigt auf gelöschten Code.
+- [Änderung] `src/_ORDNERINFO.md`: Stufen-Absatz korrigiert — vorher stand fälschlich, Stufe 2/3/4 seien über alle Schichten im Code; jetzt klar getrennt „aktiv vorhanden" vs. „nur Vertrag".
+
+## 2026-06-18 — [Änderung] GenericDAO gelöscht (nur LeseDAO bleibt)
+
+- [Änderung] `dao/GenericDAO.java` entfernt (war ungenutzter CRUD-Vertrag). Einzige DAO-Schnittstelle jetzt `LeseDAO<T>` (findAll). LeseDAO-Javadoc, `src/_ORDNERINFO.md` und `MD/Anleitung_CRUD_eintragen.md` angepasst: Schreib-Methoden werden direkt ins DAO ergänzt (ohne `@Override`, da kein Interface sie deklariert).
+
+## 2026-06-18 [Erkenntnis] Roter Faden Java erstellt
+Visualisierung des aktuellen (read-only) Programmablaufs als interaktive HTML: `MD/Roter_Faden_Java.html`. Inhalt: (1) Schichten View→Controller→EntityCrud/Dialoge→LeseDAO/DAOs→DBConnection→MySQL, (2) Vererbung/Zugehoerigkeit (Main extends Application; 6 DAOs implements LeseDAO<T>; MainController hat 6 DAOs + 6 EntityCrud; EntityCrud hat LeseDAO+TableView), (3) Klick-zu-Ergebnis-Sequenzen: Programmstart, Reiter oeffnen, Suchen/Filtern. Basis: Analyse aller Klassen in src/.
+
+## 2026-06-19 — [Änderung] Generics in Doku + Glossar ergänzt
+
+- [Änderung] `Doku/Doku_D_Ergebnisse.docx` + `Doku/Projektdokumentation_Sascha_Schulz.docx` (Lessons Learned): Generics als neu gelerntes Konzept beschrieben (Problem: `<T>` anfangs unklar → Lösung: über Java-Tutorial erarbeitet, am eigenen Code nachvollzogen). Inline-Quelle [14].
+- [Änderung] `Doku/Doku_A_Verzeichnisse.docx` + `Projektdokumentation`: Quellenverzeichnis um [14] erweitert — Czeschla, Jörg: Was sind Generics? javabeginners.de, Abruf 19.06.2026.
+- [Änderung] `Lernhandbuch/Glossar_Vereinigt.docx`: eigener Glossar-Eintrag „Generics" (Kat. Java) ergänzt (war zuvor nur in Lernhandbuch Teil 4, nicht im vereinigten Glossar).
+- [Erkenntnis] Doku nutzt durchgehend `GenericDAO<T>` als Generics-Beispiel; der Quellcode verwendet seit 18.06. jedoch `LeseDAO<T>`. Begriff/Beispiel in der Doku ggf. noch angleichen.
+
+## 2026-06-19 [Erkenntnis] Erklär-Stil als Vorlage verankert
+Sascha mag die A4-Erklär-Blätter (Code links / Erklärung rechts, Darcula-Farben, Grundidee- + Erkennen- + Wozu-Box). Festgehalten als `MD/Erklaer-Stil.md` (Trigger, Aufbau, Inhaltsregeln, Farbtabelle, A4-Druck). In `CLAUDE.md` neue "Erklär-Stil-Regel" mit Verweis ergänzt → greift in neuen Chats.
+
+## 2026-06-19 [Änderung] Lern-Erklär-Blätter erstellt
+- `Lernmaterial/Code_lesen_Spickzettel.html` — Code Zeile für Zeile (cmbLager.getItems().add(null) u.a.), groß/klein, Klammern, "was macht eine Methode zur Methode".
+- `Lernmaterial/Generics_Spickzettel.html` — Generics <T>: aufstellen, ausfüllen, Diamant, zwei Typen, Wozu.
+- `MD/Roter_Faden_Java.html` (Übersicht+Guide) und `MD/Roter_Faden_Diagramme.html` (SVG-Diagramme); im Architektur-Diagramm Pfeil "DAO befüllt model" korrigiert (saß fälschlich bei Dialoge).
+- `_ORDNERINFO.md` in MD/ und Lernmaterial/ aktualisiert.
+
+## 2026-06-19 — [Änderung] Generics-Absatz vereinfacht + Schreibstil-Regel
+
+- [Änderung] Generics-Absatz in Doku_D + Projektdokumentation auf Saschas Ton umgeschrieben (kürzere Sätze, „angelesen/ausprobiert", weniger Gedankenstriche).
+- [Änderung] CLAUDE.md: neue Sektion „Schreibstil Doku-Texte" — Doku/Lernhandbuch immer einfach, kurze Sätze, Ich-Form, Alltagssprache, sparsam mit Gedankenstrichen. Quellen-Checkliste auf 14 Quellen aktualisiert.
+
+## 2026-06-19 [Änderung] Lernblätter vereinheitlicht & gebündelt
+- Regel: ein Thema = ein Lernblatt, gleiches Layout/Vorgehen, alle in `Lernmaterial/`.
+- `Farben_Uebersicht_Java.html` → ersetzt durch `Farben_Spickzettel.html` (Standard-Layout, selbsterklärend, alte Datei gelöscht).
+- `Roter_Faden_Java.html` + `Roter_Faden_Diagramme.html` von `MD/` nach `Lernmaterial/` verschoben.
+- Selbsterklärend gemacht: Generics- + Code-lesen-Blatt kennzeichnen jetzt selbst geschriebene Namen (findAll, LeseDAO) vs. Java-Standard; Intro-Beispiel mit String statt projekt-eigenem Typ.
+- `MD/Erklaer-Stil.md` um Grundprinzip (ein Thema/ein Blatt/ein Ordner) + Referenzliste (5 Blätter) erweitert.
+- `_ORDNERINFO.md` in `Lernmaterial/` (5 Blätter gelistet) und `MD/` (Roter-Faden-Zeilen entfernt) aktualisiert.
+
+## 2026-06-19 [Änderung] Lernblätter vereinheitlicht & zusammengeführt
+Prinzip "ein Thema = ein Lernblatt, gleiches Layout, ein Ordner" umgesetzt.
+- `Farben_Uebersicht_Java.html` (altes Layout) → neu als `Farben_Spickzettel.html` im Standard-Layout (selbsterklärend); alte Datei gelöscht.
+- `Roter_Faden_Java.html` + `Roter_Faden_Diagramme.html` von `MD/` nach `Lernmaterial/` verschoben.
+- Alle 5 Lernblätter liegen jetzt in `Lernmaterial/`: Code_lesen, Generics, Farben, Roter_Faden_Java, Roter_Faden_Diagramme.
+- Generics-/Code-lesen-Blatt selbsterklärend gemacht (Java- vs. selbst-geschriebene Namen gekennzeichnet, findAll()-Herkunft erklärt).
+- `MD/Erklaer-Stil.md` um Grundprinzip (ein Thema/ein Ordner) + aktuelle Referenzliste ergänzt; `_ORDNERINFO.md` in MD/ und Lernmaterial/ aktualisiert.
+
+## 2026-06-19 — [Änderung] Doppel-Gedankenstriche entschärft
+
+- [Änderung] 6 Fließtextsätze mit doppeltem Gedankenstrich-Einschub in Doku_B (2), Doku_C (3), Doku_D (1) und der Projektdokumentation umgeschrieben — jetzt kurze Sätze / Komma / „zum Beispiel" statt Einschub. Keine Doppel-Gedankenstriche im Fließtext mehr (Gesamt-Gedankenstriche 51 → 39).
+
+## 2026-06-19 [Änderung] Lernblätter zu Nachschlagewerk ausgebaut
+Ziel laut Sascha: Nachschlagewerk für ihn UND andere; eine Seite ist kein Muss.
+- `MD/Erklaer-Stil.md`: Länge = so viel wie nötig (kein Ein-Seiten-Limit), A4 nur Druckformat; neuer Pflicht-Abschnitt "Begriffe zum Nachschlagen" (Glossar) + Ziel "Nachschlagewerk".
+- `Code_lesen_Spickzettel.html`: Glossar-Box ergänzt (Deklaration, Zuweisung, Argument, Punkt-Operator, Verkettung, statisch/Instanz, Anweisung, Rückgabewert).
+- `Generics_Spickzettel.html`: Glossar-Box ergänzt (Generics, Typ-Parameter, Typ-Argument, Diamant, Typsicherheit, Cast, Interface).
+- Hinweis: Bash-Mount zeigte zwischenzeitlich abgeschnittene Dateien (Sync-Verzögerung); über das Datei-Tool sind beide vollständig (enden mit </html>, div-Tiefe 0).
+
+## 2026-06-19 — [Änderung] Inhaltsverzeichnis: Punktführung (dot leader)
+
+- [Problem] In allen Verzeichnissen (Inhalt, Abbildungen, Tabellen, Quellcode) stand die Seitenzahl direkt hinter dem Titel. Ursache: im Text saß ein echtes Tab-Zeichen statt eines `<w:tab/>`-Elements, daher griff der vorhandene rechte Punkt-Tabstopp (pos 9050) nicht.
+- [Änderung] In Projektdokumentation + Doku_A je 62 Einträge korrigiert: Tab-Zeichen im selben Run durch `<w:tab/>` ersetzt (`<w:t>Titel</w:t><w:tab/><w:t>Seite</w:t>`). Jetzt Punkte bis zum Rand, Zahl rechtsbündig — wie SRH-Vorlage.
+- [Erkenntnis] Einträge NICHT in drei separate Runs splitten — das hat beim ersten Versuch das Layout zerschossen (Deckblatt rutschte in den ersten TOC-Eintrag). Minimal im selben Run bleiben.
+
+## 2026-06-19 — [Änderung] Lernblatt „Static vs. Instanz" erstellt
+
+- [Änderung] Neues A4-HTML-Erklär-Blatt `Lernmaterial/Static_vs_Instanz_Spickzettel.html` im festen Erklär-Stil (Darcula-Code, Code links/Erklärung rechts). Thema: statischer Aufruf (Klasse, kein Objekt) vs. Instanz-Aufruf (Objekt mit `new`).
+- [Erkenntnis] Verlässliche Leseregel: was vor dem Punkt steht — Großbuchstabe = Klasse → static (kein Objekt), kleine Variable = Objekt → Instanz. DoIT-Beispiele: `DBConnection.getConnection()` (static, Singleton) vs. `dao.findAll()` (Instanz). `_ORDNERINFO.md` aktualisiert (jetzt 6 Lernblätter).
+
+## 2026-06-19 — [Änderung] Eigenes Lernblatt „Methodensignatur"
+
+- [Änderung] Neues A4-HTML `Lernmaterial/Methodensignatur_Spickzettel.html` (fester Erklär-Stil). Thema: Methodensignatur = Rückgabetyp + Name + `()`, warum kein `=` (Bauplan, keine Zuweisung), Ankündigung im Interface (`LeseDAO`, mit `;`) vs. Umsetzung in der Klasse (`KategorieDAO`, mit `{}`), Signatur ≠ Aufruf. Eigenes Blatt, damit unter „Methodensignatur" auffindbar.
+- [Änderung] Entsprechende Box aus `Static_vs_Instanz_Spickzettel.html` wieder entfernt (jetzt eigenes Blatt). `_ORDNERINFO.md` aktualisiert (7 Lernblätter).
+
+## 2026-06-19 — [Erkenntnis] Review aller 7 Lernblätter
+
+- [Erkenntnis] Alle 7 Blätter in `Lernmaterial/` durchgesehen. Die 5 Token-Erklärblätter (Code_lesen, Generics, Farben, Static_vs_Instanz, Methodensignatur) sind stilistisch einheitlich: gleiche CSS-Basis, Darcula-Farben, Grundidee-/Woran-erkenne-ich-Box, Beispiele Code links/Erklärung rechts, Glossar, Footer, Selbstgeschrieben-Kennzeichnung. Die 2 Roter_Faden-Blätter sind bewusst andere Kategorie (Übersicht/Diagramme), teilen aber Palette/Ton.
+- [Änderung] Fachliche Korrektur in `Methodensignatur_Spickzettel.html`: Signatur i.e.S. = nur Name + Parametertypen; Rückgabetyp/`throws` gehören zum Methodenkopf, nicht zur Signatur. In Beispiel 1 und Glossar klargestellt. Inhalte sonst korrekt (gegen echten src/-Code geprüft: DBConnection static, KategorieDAO/LeseDAO findAll).
+
+## 2026-06-19 — [Erkenntnis] Abgleich Spickzettel ↔ SRH-Kursblätter (Java 01–06)
+
+- [Quelle] Ordner `C:\Users\schul\Documents\WI\Sprachen\Java\IntelliJ\Java Blätter` (6 PDFs: 01 IntelliJ, 02 OOP-Grundlagen, 03 Kapselung/Überladung, 04 Vererbung/Polymorphie, 05 JavaFX/MVC, 06 Referenztypen/Collections) gelesen und mit den 7 Lernblättern verglichen.
+- [Erkenntnis] Definitionen stimmen mit dem Kurs überein, keine Widersprüche. Wichtig: Kurs (Blatt 03) definiert Methodensignatur = Name + Parameter (Anzahl/Typ/Reihenfolge), Rückgabetyp NICHT enthalten — deckt sich mit der zuvor eingebauten Korrektur. static-Definition (Blatt 06: „Methoden, die kein Objekt brauchen") deckt sich wörtlich mit Static-Blatt.
+- [Änderung] Kleine Begriffs-Angleichungen an Kurs-Vokabular eingebaut: Static-Blatt „Wertetyp"/„komplexe Datentypen"/`null`; Generics-Blatt „Typinferenz" + „raw type"; Farben-Blatt Feld-Synonyme (Attribut/Eigenschaft/Instanzvariable); Methodensignatur-Blatt Überladung-Bezug + Konstruktor (kein Rückgabetyp).
+- [Erkenntnis] Nicht abgedeckte Kurs-Fachwörter (eigene Blätter denkbar): Kapselung/Getter-Setter/Zugriffsmodifikatoren (Blatt 03), Überladung vs. Überschreiben/@Override (03/04), Vererbung/Polymorphie/extends/super (04), Wrapperklassen/Autoboxing + Collections Queue/Set/Map/HashMap (06), this/super. Mehrere davon (extends/super/Vererbung, Queue/Set/Map) werden im DoIT-Projekt nicht genutzt.
+
+## 2026-06-19 — [Änderung] 5 neue Lernblätter aus Kurs-Lücken
+
+- [Änderung] Nach dem Abgleich mit den SRH-Kursblättern 5 neue A4-Lernblätter im festen Stil erstellt (jetzt 12 in `Lernmaterial/`): `Kapselung_Spickzettel.html` (private/Getter/Setter/Modifikatoren), `Collections_Spickzettel.html` (Wrapper/Autoboxing + List/Set/Queue/Map), `Vererbung_Polymorphie_Spickzettel.html` (extends/super/@Override/Polymorphie), `Annotationen_Spickzettel.html` (@FXML/@Override/this), `Fachwoerter_Zusammenhaenge_Spickzettel.html` (Übersicht + Begriffs-Index → welches Blatt).
+- [Erkenntnis] Echte DoIT-Beispiele verwendet: Material (private Felder, Getter/Setter, Konstruktoren, @Override toString), MainController (@FXML), KategorieDAO/LeseDAO. Projekt nutzt nur `Main extends Application` als echtes extends, sonst Interface (`implements LeseDAO<T>`) + Generics — im Vererbungs-Blatt so vermerkt (Composition over Inheritance).
+- [Manuell] `_ORDNERINFO.md` aktualisiert (12 Blätter, Hinweis auf Kurs-Abgleich).
+
+## 2026-06-19 — [Änderung] Glossar-Blatt Fachwörter
+
+- [Änderung] Neues A4-Blatt `Lernmaterial/Glossar_Fachwoerter_Spickzettel.html` (jetzt 13 Blätter): Tabelle Fachwort | einfaches Synonym | kurze Erklärung, in 9 Gruppen (OOP-Grundlagen, Variablen/Typen, static/Signatur, Kapselung, Vererbung, Generics, Collections, Architektur/JavaFX, Werkzeuge). Deckt die Fachwörter aus Kursblättern 01–06 + allen Spickzetteln ab. `_ORDNERINFO.md` aktualisiert.
+
+## 2026-06-19 — [Änderung] Ternär-Blatt + ORDNERINFO-Korrektur
+
+- [Änderung] Neues Blatt `Lernmaterial/Ternaerer_Operator_Spickzettel.html`: ternärer Operator `Bedingung ? WertA : WertB` als Kurzform fürs if/else, mit ausgeschriebenem Gegenstück und echten DoIT-Beispielen (BestellungDAO null-Prüfung, BestandView Status, MainController Suchtext). Begriff zusätzlich ins Glossar-Blatt aufgenommen.
+- [Problem] Bestehendes `Wann_static_Spickzettel.html` fehlte in `_ORDNERINFO.md`. Nachgetragen. Lernblatt-Zähler korrigiert auf 15.
+
+## 2026-06-19 — [Änderung] Eigenes Überladungs-Blatt
+
+- [Änderung] Neues Blatt `Lernmaterial/Ueberladung_Spickzettel.html` (jetzt 16 Blätter): Überladung mit echtem DoIT-Beispiel (zwei `Material`-Konstruktoren: ohne ID fürs Anlegen / mit ID fürs Laden) + Methoden-Überladung (add int/double), drei Eindeutigkeits-Kriterien, Hinweis Rückgabetyp zählt nicht, Abgrenzung Überladung≠Überschreiben. `_ORDNERINFO.md` aktualisiert.
+
+## 2026-06-19 — [Änderung] Überladung vs. Generics/Wrapper in beiden Blättern
+
+- [Änderung] In `Ueberladung_Spickzettel.html` neuer Abschnitt 4 „Überladung sparen: Wrapper & Generics" (Weg 1 Number-Obertyp, Weg 2 `<T extends Number>`, je mit Token-Erklärung, DoIT-Bezug LeseDAO<T>/EntityCrud<T>). In `Generics_Spickzettel.html` neuer Abschnitt 5 „Generics statt Methoden überladen" (vorher 2× add / nachher 1× generisch). Kernaussage einfach erklärt: eine Methode für eine Typ-Familie statt Kopie pro Typ; Wrapper sind die Brücke (Primitive→Objekt→Obertyp Number). Hinweis ergänzt, dass Generics Überladung nicht immer ersetzen.
+
+## 2026-06-22 — [Änderung] Einheitlichkeitsprüfung aller Spickzettel
+
+- [Erkenntnis] Alle 16 HTML-Spickzettel in `Lernmaterial/` geprüft: Basis-Layout (CSS-Variablen, Schrift `Segoe UI`, Darcula-Farben, `max-width:900px`, Code-Grid `0.92fr 1.08fr`, `.note`/`.note.warn`-Boxen) ist über alle Blätter einheitlich und inhaltlich korrekt (Stichprobe Collections/Static/Ternär sauber). Zwei Blatt-Typen: Lehrblatt (Einzelthema) und Übersichts-/Index-Blatt — beide gleiche Basis-CSS.
+- [Problem→Änderung] Drei Abweichungen beim A4-Druck gefunden und behoben: `Roter_Faden_Java.html` (kein `@media print`/`@page`, `max-width` 880→900) und `Roter_Faden_Diagramme.html` (kein `@media print`/`@page`) je um A4-Druckblock ergänzt; `Fachwoerter_Zusammenhaenge_Spickzettel.html` fehlte `print-color-adjust` (farbige Boxen druckten grau) — ergänzt.
+- [Änderung] `MD/Erklaer-Stil.md`: neue Abschnitte „Pflicht-Layout (Checkliste)" + „Zwei Blatt-Typen" — Einheitlichkeit ist jetzt verbindlich dokumentiert. Veraltete „5 Stück"-Liste auf aktuellen Stand (16) gebracht.
+
+## 2026-06-22 — [Problem→Änderung] Druck: Überschriften wurden abgetrennt
+
+- [Problem] Beim Drucken stand eine Überschrift unten auf einer Seite, der zugehörige Inhalt rutschte auf die nächste Seite (verwaiste Überschrift). Die `.ex`/`.guide`/`figure`-Boxen blieben zwar zusammen, aber die davorstehende `<h2>` nicht.
+- [Änderung] In allen 16 Blättern im `@media print`-Block ergänzt: `h1,h2,h3{break-after:avoid;page-break-after:avoid;break-inside:avoid}` — bindet die Überschrift an den folgenden Block. Regel als Pflicht in `MD/Erklaer-Stil.md` (Checkliste) aufgenommen.
+
+## 2026-06-22 — [Änderung] Neues Blatt: Interface / Abstrakte Klasse / enum
+
+- [Erkenntnis] Prüfung ergab: Interface war erklärt (Glossar + verstreut), enum nur namentlich (BewegungsTyp), abstrakte Klassen gar nicht.
+- [Änderung] Neues kombiniertes Lernblatt `Lernmaterial/Interface_Abstrakt_Enum_Spickzettel.html` (jetzt 17 Blätter) im einheitlichen Stil: Interface (echtes `LeseDAO<T>`, `implements`), abstrakte Klasse (allgemeines Tier/Hund-Beispiel, `extends`; Hinweis dass DoIT stattdessen Interface+Generics nutzt), enum (echtes `BewegungsTyp` EINGANG/AUSGANG), Vergleichstabelle, Fallen, Glossar. Selbst-geschriebene Namen gekennzeichnet. `_ORDNERINFO.md` aktualisiert.

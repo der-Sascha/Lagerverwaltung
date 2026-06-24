@@ -1,9 +1,9 @@
 package de.doit.dao;
 
 import de.doit.db.DBConnection;
-import de.doit.model.BestandView;
-import de.doit.model.Bestandsbewegung;
-import de.doit.model.BewegungsTyp;
+import de.doit.modele.BestandView;
+import de.doit.modele.Bestandsbewegung;
+import de.doit.modele.BewegungsTyp;
 
 import java.sql.*;
 import java.time.LocalDate;

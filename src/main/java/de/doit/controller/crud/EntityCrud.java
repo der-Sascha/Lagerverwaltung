@@ -35,16 +35,19 @@ public class EntityCrud<T> {
         this.tabelle     = tabelle;
         this.dao         = dao;
         this.bezeichnung = bezeichnung;
+        // umwandlung von Liste (ein rufendes Datenmodell) zu tabelle (eine reine Darstellung/View)
+        // dao kann nur auf ein Datenmodell weitergeben werden
+        // und diese gibt es als TableView (Liste zum anschauen für den Benutzer) zurück
         tabelle.setItems(liste);
     }
 
     // === Stufe 1 — LESEN (Liste → Tabelle) ===
-    /** Laedt alle Datensaetze neu aus der Datenbank in die Tabelle. */
+    // Lädt alle Datensätze neu aus der Datenbank in die Tabelle
     public void load() {
         try {
             liste.setAll(dao.findAll());
         } catch (SQLException e) {
-            Dialoge.fehler("Laden fehlgeschlagen", e);
+            Dialoge.zeigeFehlerfenster("Laden fehlgeschlagen", e);
         }
     }
 }

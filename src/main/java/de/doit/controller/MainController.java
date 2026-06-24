@@ -2,7 +2,7 @@ package de.doit.controller;
 
 import de.doit.controller.crud.*;
 import de.doit.dao.*;
-import de.doit.model.*;
+import de.doit.modele.*;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,11 +30,12 @@ import java.util.List;
  */
 public class MainController {
 
-    // ===== BESTAND =====
+    // ===== BESTANDSÜBERSICHT =====
     @FXML private TextField               txtSuche;
-    @FXML private ComboBox<Stationslager> cmbLager;
+    @FXML private ComboBox<Stationslager> comboBoxLager;
     @FXML private Label                   lblWarnungAnzahl;
     @FXML private TableView<BestandView>           tabBestand;
+    // ich bin eine Tabellenspalte und (generics) alles aus dem Objekt BestandView und gebe es als String wieder :)
     @FXML private TableColumn<BestandView, String>  colMaterial;
     @FXML private TableColumn<BestandView, String>  colEinheit;
     @FXML private TableColumn<BestandView, String>  colLager;
@@ -87,10 +88,10 @@ public class MainController {
     @FXML private TableColumn<Bestandsbewegung, LocalDate>     colBewAblauf;
     @FXML private TableColumn<Bestandsbewegung, String>        colBewBem;
 
-    // ===== DAOs =====
+    // geht ohne Konstruktor weil beim erzeugen der DAOs keine Parameter benötigt werden
     private final MaterialDAO         materialDao   = new MaterialDAO();
     private final KategorieDAO        kategorieDao  = new KategorieDAO();
-    private final StationslagerDAO    lagerDao      = new StationslagerDAO();
+    private final StationslagerDAO stationslagerDao = new StationslagerDAO();
     private final LieferantDAO        lieferantDao  = new LieferantDAO();
     private final BestellungDAO       bestellungDao = new BestellungDAO();
     private final BestandsbewegungDAO bewegungDao   = new BestandsbewegungDAO();
@@ -98,7 +99,7 @@ public class MainController {
     // ===== Reiter-Lader je Tabelle (read-only, gemeinsame Basis EntityCrud) =====
     private EntityCrud<Material>         materialCrud;
     private EntityCrud<Kategorie>        kategorieCrud;
-    private EntityCrud<Stationslager>    lagerCrud;
+    private EntityCrud<Stationslager> stationslagerCrud;
     private EntityCrud<Lieferant>        lieferantCrud;
     private EntityCrud<Bestellung>       bestellungCrud;
     private EntityCrud<Bestandsbewegung> bewegungCrud;
@@ -113,7 +114,7 @@ public class MainController {
     @FXML
     public void initialize() {
         // --- Spalten der Tabellen mit den Modell-Eigenschaften verbinden ---
-        colMaterial.setCellValueFactory(new PropertyValueFactory<>("materialName"));
+        colMaterial.setCellValueFactory(new PropertyValueFactory<BestandView, String>("materialName"));
         colEinheit .setCellValueFactory(new PropertyValueFactory<>("einheit"));
         colLager   .setCellValueFactory(new PropertyValueFactory<>("lagerName"));
         colBestand .setCellValueFactory(new PropertyValueFactory<>("bestand"));
@@ -156,12 +157,13 @@ public class MainController {
         // --- CRUD-Klassen erzeugen (jede setzt ihre Tabelle selbst) ---
         materialCrud   = new EntityCrud<>(tabMaterialien, materialDao, "Material");
         kategorieCrud  = new EntityCrud<>(tabKategorien, kategorieDao, "Kategorie");
-        lagerCrud      = new EntityCrud<>(tabLager, lagerDao, "Stationslager");
+        stationslagerCrud = new EntityCrud<>(tabLager, stationslagerDao, "Stationslager");
         lieferantCrud  = new EntityCrud<>(tabLieferanten, lieferantDao, "Lieferant");
         bestellungCrud = new EntityCrud<>(tabBestellungen, bestellungDao, "Bestellung");
         bewegungCrud   = new EntityCrud<>(tabBewegungen, bewegungDao, "Bestandsbewegung");
 
-        // --- Bestand-Tab (berechnete Sicht mit Warnungs-Faerbung) ---
+        // wir sofort be start gebraucht das schon was steht und gleich in Farbe
+        // alles andere mit "beim Klicken" -> muss mit "on" anfangen
         tabBestand.setItems(bestandListe);
         tabBestand.setRowFactory(tv -> new TableRow<BestandView>() {
             @Override protected void updateItem(BestandView item, boolean empty) {
@@ -173,11 +175,13 @@ public class MainController {
         });
 
         try {
-            cmbLager.getItems().add(null);
-            cmbLager.getItems().addAll(lagerDao.findAll());
+            // fügt einen leeren Eintrag/Feld oben in die ComboBox ein
+            comboBoxLager.getItems().add(null);
+            // danch alle Objekte aus LAger und in die Variable comboBoxLAger
+            comboBoxLager.getItems().addAll(stationslagerDao.findAll());
             ladeBestaende();
         } catch (SQLException e) {
-            Dialoge.fehler("Laden fehlgeschlagen", e);
+            Dialoge.zeigeFehlerfenster("Laden fehlgeschlagen", e);
         }
     }
 
@@ -194,7 +198,7 @@ public class MainController {
     private void anzeigeFiltern() {
         if (alleBestaende == null) return;
         String suchtext = txtSuche.getText() == null ? "" : txtSuche.getText().trim().toLowerCase();
-        Stationslager gewaehltesLager = cmbLager.getValue();
+        Stationslager gewaehltesLager = comboBoxLager.getValue();
         ObservableList<BestandView> gefiltert = FXCollections.observableArrayList();
         int warnungen = 0;
         for (BestandView v : alleBestaende) {
@@ -206,24 +210,24 @@ public class MainController {
             }
         }
         bestandListe.setAll(gefiltert);
-        lblWarnungAnzahl.setText("Warnungen: " + warnungen);
+        lblWarnungAnzahl.setText("Pass Uff: " + warnungen);
     }
 
     @FXML public void onSuchen()       { anzeigeFiltern(); }
     @FXML public void onLagerChanged() { anzeigeFiltern(); }
 
     @FXML public void onAktualisieren() {
-        try { ladeBestaende(); } catch (SQLException e) { Dialoge.fehler("Aktualisieren fehlgeschlagen", e); }
+        try { ladeBestaende(); } catch (SQLException e) { Dialoge.zeigeFehlerfenster("Aktualisieren fehlgeschlagen", e); }
     }
 
     @FXML public void onBestandTabSelected(Event e) {
         if (((Tab) e.getSource()).isSelected())
-            try { ladeBestaende(); } catch (SQLException ex) { Dialoge.fehler("Laden fehlgeschlagen", ex); }
+            try { ladeBestaende(); } catch (SQLException ex) { Dialoge.zeigeFehlerfenster("Laden fehlgeschlagen", ex); }
     }
 
     @FXML public void onZuruecksetzen() {
         txtSuche.clear();
-        cmbLager.getSelectionModel().clearSelection();
+        comboBoxLager.getSelectionModel().clearSelection();
         anzeigeFiltern();
     }
 
@@ -235,7 +239,7 @@ public class MainController {
     // === Stufe 1 — LESEN: Reiter beim Aktivieren laden ===
     @FXML public void onMaterialienTabSelected(Event e)   { if (istAktiv(e)) materialCrud.load(); }
     @FXML public void onKategorienTabSelected(Event e)    { if (istAktiv(e)) kategorieCrud.load(); }
-    @FXML public void onStationslagerTabSelected(Event e) { if (istAktiv(e)) lagerCrud.load(); }
+    @FXML public void onStationslagerTabSelected(Event e) { if (istAktiv(e)) stationslagerCrud.load(); }
     @FXML public void onLieferantenTabSelected(Event e)   { if (istAktiv(e)) lieferantCrud.load(); }
     @FXML public void onBestellungenTabSelected(Event e)  { if (istAktiv(e)) bestellungCrud.load(); }
     @FXML public void onBewegungTabSelected(Event e)      { if (istAktiv(e)) bewegungCrud.load(); }
@@ -245,4 +249,3 @@ public class MainController {
         return ((Tab) e.getSource()).isSelected();
     }
 }
-                                                            

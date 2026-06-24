@@ -1,7 +1,7 @@
 package de.doit.dao;
 
 import de.doit.db.DBConnection;
-import de.doit.model.Bestellung;
+import de.doit.modele.Bestellung;
 
 import java.sql.*;
 import java.time.LocalDate;

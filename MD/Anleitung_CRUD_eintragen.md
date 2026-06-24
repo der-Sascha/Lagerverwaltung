@@ -25,17 +25,12 @@ Reihenfolge zum Eintippen: **DAO → Crud-Klasse → MainController → FXML**. 
 
 Datei `src/main/java/de/doit/dao/MaterialDAO.java`.
 
-**1a.** Die Klassen-Zeile von `LeseDAO` auf `GenericDAO` ändern:
+`MaterialDAO` bleibt bei `implements LeseDAO<Material>` (read-only-Vertrag). Du fügst die Schreib-Methoden einfach als zusätzliche Methoden hinzu (z. B. direkt nach `findAll`, vor `zeileLesen`):
 
-```java
-public class MaterialDAO implements GenericDAO<Material> {
-```
-
-**1b.** Diese drei Methoden in die Klasse einfügen (z. B. direkt nach `findAll`, vor `zeileLesen`):
+> **Kein `@Override`:** `findAll` hat `@Override`, weil es aus `LeseDAO` kommt. `create/update/delete` stehen in keiner Schnittstelle — sie sind neue, eigene Methoden des DAO, also **ohne** `@Override`.
 
 ```java
     // === Stufe 2 — ANLEGEN (Objekt → DB-INSERT) ===
-    @Override
     public Material create(Material material) throws SQLException {
         String sql = "INSERT INTO materialien (name, einheit, mindestbestand, kategorie_id) "
                 + "VALUES (?, ?, ?, ?)";
@@ -57,7 +52,6 @@ public class MaterialDAO implements GenericDAO<Material> {
     }
 
     // === Stufe 3 — BEARBEITEN (Objekt → DB-UPDATE) ===
-    @Override
     public void update(Material material) throws SQLException {
         String sql = "UPDATE materialien SET name = ?, einheit = ?, mindestbestand = ?, "
                 + "kategorie_id = ? WHERE material_id = ?";
@@ -73,7 +67,6 @@ public class MaterialDAO implements GenericDAO<Material> {
     }
 
     // === Stufe 4 — LÖSCHEN (ID → DB-DELETE) ===
-    @Override
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM materialien WHERE material_id = ?";
         Connection verbindung = DBConnection.getConnection();
@@ -223,11 +216,10 @@ ersetzen durch:
 
 ## Schritt 1: `KategorieDAO` auf volles CRUD
 
-`dao/KategorieDAO.java`: Klassenzeile auf `implements GenericDAO<Kategorie>` und die drei Methoden einfügen:
+`dao/KategorieDAO.java` bleibt bei `implements LeseDAO<Kategorie>`. Die drei Schreib-Methoden ergänzen (ohne `@Override`):
 
 ```java
     // === Stufe 2 — ANLEGEN ===
-    @Override
     public Kategorie create(Kategorie kategorie) throws SQLException {
         String sql = "INSERT INTO kategorien (name, beschreibung) VALUES (?, ?)";
         Connection verbindung = DBConnection.getConnection();
@@ -245,7 +237,6 @@ ersetzen durch:
     }
 
     // === Stufe 3 — BEARBEITEN ===
-    @Override
     public void update(Kategorie kategorie) throws SQLException {
         String sql = "UPDATE kategorien SET name = ?, beschreibung = ? WHERE kategorie_id = ?";
         Connection verbindung = DBConnection.getConnection();
@@ -258,7 +249,6 @@ ersetzen durch:
     }
 
     // === Stufe 4 — LÖSCHEN ===
-    @Override
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM kategorien WHERE kategorie_id = ?";
         Connection verbindung = DBConnection.getConnection();
@@ -373,7 +363,7 @@ Das `Nur-Lese-Ansicht`-Label im Kategorie-Tab ersetzen durch:
 
 # Checkliste / Test
 
-- [ ] `MaterialDAO` + `KategorieDAO` → `implements GenericDAO<…>` und je 3 Methoden ergänzt
+- [ ] `MaterialDAO` + `KategorieDAO`: je 3 Schreib-Methoden ergänzt (bleiben `implements LeseDAO<…>`, ohne `@Override`)
 - [ ] `MaterialCrud.java` + `KategorieCrud.java` neu angelegt
 - [ ] `MainController`: 2 Feldtypen, 2 `new …Crud(…)`, 6 `@FXML`-Methoden
 - [ ] FXML: 2× Label durch Button-HBox ersetzt
@@ -382,4 +372,4 @@ Das `Nur-Lese-Ansicht`-Label im Kategorie-Tab ersetzen durch:
 
 # Wenn du es selbst weiterführen willst
 
-Die anderen 4 Reiter (Stationslager, Lieferanten, Bestellungen, Bestandsbewegungen) gehen **exakt gleich**: DAO auf `GenericDAO` + 3 Methoden, eigene `…Crud`-Klasse mit Formular, MainController-Verdrahtung, FXML-Buttons. Die SQL-Spalten je Tabelle stehen in `Projektdateien/testdaten_krankenhaus_lager.sql`.
+Die anderen 4 Reiter (Stationslager, Lieferanten, Bestellungen, Bestandsbewegungen) gehen **exakt gleich**: 3 Schreib-Methoden ins DAO (ohne `@Override`), eigene `…Crud`-Klasse mit Formular, MainController-Verdrahtung, FXML-Buttons. Die SQL-Spalten je Tabelle stehen in `Projektdateien/testdaten_krankenhaus_lager.sql`.

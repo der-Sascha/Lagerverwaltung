@@ -1,4 +1,4 @@
-package de.doit.model;
+package de.doit.modele;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -61,4 +61,6 @@ public class Bestandsbewegung {
 
     public String getBemerkung() { return bemerkung; }
     public void setBemerkung(String bemerkung) { this.bemerkung = bemerkung; }
+
+
 }

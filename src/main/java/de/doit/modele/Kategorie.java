@@ -1,4 +1,4 @@
-package de.doit.model;
+package de.doit.modele;
 
 public class Kategorie {
 
@@ -24,7 +24,7 @@ public class Kategorie {
     public String getBeschreibung() {return beschreibung; }
     public void setBeschreibung(String beschreibung) {this.beschreibung = beschreibung; }
 
-
+    // hier wird einfach nur der name zurückgegeben - ohne weitere Zeichen
     @Override
     public String toString() { return name; }
 }

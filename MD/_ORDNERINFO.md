@@ -13,5 +13,6 @@ Alle Markdown-Notizen (Projektsteuerung, Doku-Planung, Lernspickzettel).
 | `FARB_ANALYSE.md` | Farbanalyse (Präsentation/Design) |
 | `LERNMATERIAL_README.md` | Übersicht zum Lernmaterial |
 | `SPICKZETTEL.md` / `SPICKZETTEL_ERWEITERUNG.md` | Java/DB-Spickzettel |
+| `Erklaer-Stil.md` | Vorlage/Regeln für A4-Erklär-Blätter (Trigger, Aufbau, Darcula-Farben). Alle Lernblätter selbst liegen in `Lernmaterial/`. — siehe Erklär-Stil-Regel in CLAUDE.md |
 
 **Regel:** Bei jeder Analyse/Änderung/Erkenntnis Eintrag in `Projekttagebuch.md` (Datum + Kategorie).

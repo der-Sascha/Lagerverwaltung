@@ -1,4 +1,4 @@
-package de.doit.model;
+package de.doit.modele;
 
 public class Lieferant {
 
@@ -38,6 +38,7 @@ public class Lieferant {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
+    // hier wird einfach nur der name zurückgegeben - ohne weitere Zeichen
     @Override
     public String toString() { return name; }
 }

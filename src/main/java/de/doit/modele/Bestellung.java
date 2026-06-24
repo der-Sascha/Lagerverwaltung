@@ -1,4 +1,4 @@
-package de.doit.model;
+package de.doit.modele;
 
 import java.time.LocalDate;
 
@@ -57,3 +57,4 @@ public class Bestellung {
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 }
+

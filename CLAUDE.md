@@ -83,6 +83,21 @@ Bei Java/MySQL-Themen immer **DAO-Muster** als Erklärungsgrundlage (Sascha kenn
 
 Neue Konzepte daran andocken.
 
+**Erklär-Stil-Regel:** Wenn Sascha nach einer Erklärung fragt („erklär mir…", „was ist…", „woran erkenne ich…", „mach mir dazu so ein Blatt") und das Thema passt, ein A4-druckbares HTML-Erklär-Blatt im festen Stil bauen (nicht nur Chat-Antwort). Vorlage + Regeln + Darcula-Farben: `MD/Erklaer-Stil.md`. Speichern in `Lernmaterial/`.
+
+## Schreibstil Doku-Texte (wichtig — immer so umsetzen)
+
+Texte, die in die Projektdokumentation oder ins Lernhandbuch kommen, in Saschas eigenem Ton schreiben — nicht „nach KI" klingend. Regeln:
+
+- **Einfache, kurze Sätze.** Lieber zwei kurze Sätze als einen verschachtelten. Keine langen Schachtelsätze mit mehreren Nebensätzen.
+- **Ich-Form im Rückblick** für eigene Erfahrungen/Probleme: „Mir fiel auf…", „Am Anfang war mir nicht klar…", „also habe ich…", „danach fiel mir … leicht". Präteritum/Perfekt.
+- **Präsens** nur für allgemeingültige Sachverhalte/Produktbeschreibung („Der Bestand wird … berechnet").
+- **Alltagssprache statt Lehrbuch.** „angelesen", „ausprobiert", „nachgeschaut" statt „erarbeitet", „Typsicherheit gewinnt", „zur Übersetzungszeit verifiziert".
+- **Sparsam mit Gedankenstrichen.** Keine zwei Gedankenstrich-Einschübe dicht hintereinander. Lieber Komma, Punkt oder „zum Beispiel".
+- **Keine zu glatten Schlusssätze** wie „Erst mit diesem Verständnis konnte ich…". Locker bleiben.
+- **Probleme ehrlich benennen:** erst das Problem (was war unklar/ging schief), dann wie ich es gelöst habe, mit Quelle falls vorhanden.
+- Faustregel: liest es sich wie meine Nachbarsätze in der Doku? Wenn der neue Absatz polierter/technischer klingt als der Rest, vereinfachen.
+
 ## Dokumentationsvorgaben (Quelle: `11_DOIT_2551_Dokumentationsvorgaben.pdf`)
 
 **Abgabe:** 17.07.2026 als PDF-Upload in Moodle — Verspätung wirkt sich negativ auf Note aus.
@@ -114,7 +129,7 @@ Bei jedem Chat zur Dokumentation bitte folgenden Stand prüfen und aktualisieren
 | Inhaltsverzeichnis vorhanden | ✅ vorhanden (echte Seitenzahlen) |
 | Abbildungsverzeichnis vorhanden | ✅ vorhanden |
 | Tabellenverzeichnis vorhanden | ✅ vorhanden (9 Tabellen) |
-| Quellenverzeichnis vorhanden | ✅ vorhanden (13 Quellen, URL+Abruf bzw. Titel/Autor/Jahr) |
+| Quellenverzeichnis vorhanden | ✅ vorhanden (14 Quellen, URL+Abruf bzw. Titel/Autor/Jahr) |
 | Benutzerhandbuch im Anhang (nicht separat) | ✅ Anhang C |
 | Quellcodeverzeichnis | ✅ vorhanden (7 Listings, inkl. GenericDAO-Interface) |
 | Anhänge A–F | ✅ A ER-Diagramm, B SQL, C Benutzerhandbuch, D Wochenplan, E Projektantrag, F Glossar |

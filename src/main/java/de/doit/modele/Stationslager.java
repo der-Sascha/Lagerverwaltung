@@ -1,4 +1,4 @@
-package de.doit.model;
+package de.doit.modele;
 
 public class Stationslager {
 
@@ -32,7 +32,7 @@ public class Stationslager {
     public String getTyp() { return typ; }
     public void setTyp(String typ) { this.typ = typ; }
 
-
+    // hier wird einfach nur der name zurückgegeben - ohne weitere Zeichen
     @Override
     public String toString() { return name + " (" + standort + ")"; }
 }

@@ -1,7 +1,7 @@
 package de.doit.dao;
 
 import de.doit.db.DBConnection;
-import de.doit.model.Stationslager;
+import de.doit.modele.Stationslager;
 
 import java.sql.*;
 import java.util.ArrayList;

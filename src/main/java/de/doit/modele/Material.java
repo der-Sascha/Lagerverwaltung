@@ -1,4 +1,4 @@
-package de.doit.model;
+package de.doit.modele;
 
 public class Material {
 
@@ -10,7 +10,7 @@ public class Material {
 
 
     // 2 Konstruktoren 1te für neu anlegen (ID auto_increment)
-    // der 2te für laden - die ID zieht er mit
+    // der 2te für laden - die ID zieht er mit weil vorhanden
     public Material(String name, String einheit, int mindestbestand, int kategorieId) {
         this.name = name;
         this.einheit = einheit;
@@ -41,6 +41,7 @@ public class Material {
     public int getKategorieId() { return kategorieId; }
     public void setKategorieId(int kategorieId) { this.kategorieId = kategorieId; }
 
+    // hier wird einfach nur der name zurückgegeben - ohne weitere Zeichen
     @Override
     public String toString() { return name; }
 }

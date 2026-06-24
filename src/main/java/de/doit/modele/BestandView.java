@@ -1,4 +1,4 @@
-package de.doit.model;
+package de.doit.modele;
 
 // === Stufe 5 — SUCHEN/FILTERN (berechnetes Anzeige-Modell, read-only) ===
 public class BestandView {
@@ -30,5 +30,7 @@ public class BestandView {
     public int getBestand()         { return bestand; }
     public int getMindestbestand()  { return mindestbestand; }
     public boolean isWarnung()      { return bestand <= mindestbestand; }
+    // Zugriff durch Reflection vorhanden, Code zur Laufzeit analysiert und Methode erstellt und diese
+    // greift auf den getStatus zu. IDE erkennt das nicht - daher no usages
     public String getStatus()       { return isWarnung() ? "WARNUNG" : "OK"; }
 }

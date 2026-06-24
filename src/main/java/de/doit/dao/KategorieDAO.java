@@ -1,7 +1,7 @@
 package de.doit.dao;
 
 import de.doit.db.DBConnection;
-import de.doit.model.Kategorie;
+import de.doit.modele.Kategorie;
 
 import java.sql.*;
 import java.util.ArrayList;

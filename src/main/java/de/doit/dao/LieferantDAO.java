@@ -1,7 +1,7 @@
 package de.doit.dao;
 
 import de.doit.db.DBConnection;
-import de.doit.model.Lieferant;
+import de.doit.modele.Lieferant;
 
 import java.sql.*;
 import java.util.ArrayList;
