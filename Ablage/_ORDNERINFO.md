@@ -1,7 +1,3 @@
 # Ordner: Ablage/
 
-Audits & Entwürfe (Zwischenstände, keine finalen Abgaben).
-
-| Datei | Inhalt |
-|---|---|
-| `Audits_und_Entwuerfe/DONNERSTAGS_AUDIT.md` | Wiederkehrendes Donnerstags-Audit |
+Zwischenablage für Audits und Entwürfe. Aktuell keine getrackten Dateien im Repo (lokale Hilfsdateien bleiben unversioniert).

@@ -8,11 +8,12 @@ Alle Markdown-Notizen (Projektsteuerung, Doku-Planung, Lernspickzettel).
 | `Entscheidungen.md` | Designentscheidungen + Begründung |
 | `Projekttagebuch.md` | Laufendes Log: Änderungen / Probleme / Erkenntnisse / Quellen (immer pflegen!) |
 | `Projektplan.md` | Phasen, Stunden, Wochenplan, Zeitplan |
-| `PROJEKT_ANALYSE_VOLLSTAENDIG.md` | Vollständige Projektanalyse |
 | `KAPITEL_5_6_PLAN.md` | Planung Doku-Kapitel 5/6 |
 | `FARB_ANALYSE.md` | Farbanalyse (Präsentation/Design) |
 | `LERNMATERIAL_README.md` | Übersicht zum Lernmaterial |
 | `SPICKZETTEL.md` / `SPICKZETTEL_ERWEITERUNG.md` | Java/DB-Spickzettel |
-| `Erklaer-Stil.md` | Vorlage/Regeln für A4-Erklär-Blätter (Trigger, Aufbau, Darcula-Farben). Alle Lernblätter selbst liegen in `Lernmaterial/`. — siehe Erklär-Stil-Regel in CLAUDE.md |
+| `Erklaer-Stil.md` | Vorlage/Regeln für A4-Erklär-Blätter (Trigger, Aufbau, Darcula-Farben). Alle Lernblätter selbst liegen in `Lernmaterial/`. |
+| `Anleitung_CRUD_eintragen.md` | Anleitung CRUD eintragen |
+| `Umbauplan_Staffelung.md` | Umbauplan Staffelung |
 
 **Regel:** Bei jeder Analyse/Änderung/Erkenntnis Eintrag in `Projekttagebuch.md` (Datum + Kategorie).

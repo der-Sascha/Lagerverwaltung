@@ -1,8 +1,16 @@
 # Projekttagebuch — Sascha Schulz, WI 2551
 
 Laufendes Log für Änderungen, Probleme und Erkenntnisse.
-Wird automatisch von Claude befüllt + manuell ergänzt.
 Dient als Grundlage für Reflexion, Lernzuwachs und Quellenverzeichnis.
+
+---
+
+## 2026-09-21 — [Änderung] Repo bereinigt
+
+- [Änderung] Lokale Hilfs-/Kontext-Dateien aus dem GitHub-Tracking genommen und in `.gitignore` aufgenommen (bleiben nur lokal).
+- [Änderung] Alte Audit-/Analyse-Dateien aus dem Repo entfernt (lokal weiterhin vorhanden).
+- [Änderung] Lock-Dateien und leerer Schreibtest (`_writetest_`) entfernt.
+- [Änderung] `Projekttagebuch.md`, `Dateiuebersicht.md` und `_ORDNERINFO.md`-Dateien an den neuen Stand angepasst.
 
 ---
 
@@ -25,8 +33,8 @@ Neu erstellte Dateien in `Lernmaterial/`:
 ## 2026-06-09 — [Änderung] _ORDNERINFO.md je Ordner angelegt
 
 - [Änderung] In 11 Ordnern eine `_ORDNERINFO.md` angelegt (`src/`, `Doku/`, `MD/`, `Projektdateien/`, `Lernhandbuch/`, `Lernmaterial/`, `Vorgaben/`, `Projektmanagement/`, `Ablage/`, `Archiv/`, `Präsentationen/`) — je eine Tabelle Datei → Zweck.
-- [Änderung] `CLAUDE.md` um "Ordner-Info-Regel" ergänzt: neuer Chat liest zuerst die `_ORDNERINFO.md` des Ordners; bei Datei-Änderungen die `_ORDNERINFO.md` aktualisieren.
-- [Erkenntnis] Erfassung erfolgte über Dateinamen/Struktur (`find`) + bestehenden CLAUDE.md-Kontext — Dateien wurden nicht einzeln geöffnet/inhaltlich geprüft. Beschreibungen daher teils abgeleitet, nicht aus dem Dateiinhalt verifiziert.
+- [Änderung] Ordner-Info-Regel festgehalten: zuerst die `_ORDNERINFO.md` des Ordners lesen; bei Datei-Änderungen die `_ORDNERINFO.md` aktualisieren.
+- [Erkenntnis] Erfassung erfolgte über Dateinamen/Struktur (`find`) + bestehenden Projektkontext — Dateien wurden nicht einzeln geöffnet/inhaltlich geprüft. Beschreibungen daher teils abgeleitet, nicht aus dem Dateiinhalt verifiziert.
 - [Entscheidung] Detailtiefe bewusst auf "welche Datei = was" begrenzt; keine Inhaltszusammenfassungen (Pflegeaufwand/Veralten). Tiefe gehört in die Datei selbst bzw. `MD/Dateiuebersicht.md`.
 - [Änderung] Nachgelagert alle `.docx` in `Doku/`, `Lernhandbuch/`, `Lernmaterial/`, `Projektdateien/` per python-docx geöffnet und Überschriften ausgelesen → `_ORDNERINFO.md` von `Doku/` und `Lernhandbuch/` mit verifizierten Kapitelangaben präzisiert (z. B. Doku_B = Kap. 1–3, Doku_C = Kap. 4–5, Doku_D = Kap. 6–8; Lernhandbuch-Teile = Kap. 1–3/4–6/7–9/10–14).
 
@@ -66,9 +74,9 @@ Neu erstellte Dateien in `Lernmaterial/`:
 
 ## 2026-06-09 — Struktur-Abgleich + Git/Mount-Befund
 
-- [Änderung] CLAUDE.md „Ordnerstruktur" an den realen Stand angepasst: ergänzt `src/` (Java/Maven), `Lernhandbuch/`, `Vorgaben/`, `Projektmanagement/`, `Ablage/`, `Archiv/` sowie Wurzeldateien `README.md`, `pom.xml`, `DOIT.iml`; Repo-Link ergänzt.
+- [Änderung] Projekt-Ordnerstruktur an den realen Stand angepasst: ergänzt `src/` (Java/Maven), `Lernhandbuch/`, `Vorgaben/`, `Projektmanagement/`, `Ablage/`, `Archiv/` sowie Wurzeldateien `README.md`, `pom.xml`, `DOIT.iml`; Repo-Link ergänzt.
 - [Änderung] Aufgeräumt: stale `.git/index.lock` und 4 Junk-Dateien (`_wtest.tmp` in Doku/Lernhandbuch/MD, `Archiv/_moved.tmp`) entfernt; korrupten Git-Index aus HEAD neu aufgebaut.
-- [Problem] Git-Schreiboperationen über den Cowork-Sandbox-Mount unzuverlässig: `git add` erzeugte genullten Index (`bad signature 0x00000000`); gelöschte Dateien werden als „modified" statt „deleted" gemeldet. → Commit/Push nativ unter Windows ausführen, nicht aus der Sandbox.
+- [Problem] Git-Schreiboperationen über einen Sandbox-Mount unzuverlässig: `git add` erzeugte genullten Index (`bad signature 0x00000000`); gelöschte Dateien werden als „modified" statt „deleted" gemeldet. → Commit/Push nativ unter Windows ausführen.
 - [Erkenntnis] GitHub aus der Sandbox nicht erreichbar (keine Credentials). Ausstehende Reorg (Endabgabe → `Doku/`, Backups+altes Lernhandbuch → `Archiv/`, Glossar vereinheitlicht) ist noch nicht committet.
 
 ---
@@ -145,7 +153,7 @@ Neu erstellte Dateien in `Lernmaterial/`:
 
 - [Änderung] `Glossar_Java_API.docx` von `Ablage/` → Root verschoben (gehört zu den Doku-Arbeitsteilen)
 - [Änderung] `KOHAEREZ_AUDIT_2026-05-18.md` → `Archiv/` verschoben (Einmal-Dokument, kein Dauerauftrag)
-- [Änderung] `CLAUDE.md` + `Dateiuebersicht.md`: Doku_A–E-Struktur dokumentiert — Arbeitsweise erklärt (Einzelteile → am Ende zusammenführen in Projektdokumentation_Sascha_Schulz.docx)
+- [Änderung] `Dateiuebersicht.md`: Doku_A–E-Struktur dokumentiert — Arbeitsweise erklärt (Einzelteile → am Ende zusammenführen in Projektdokumentation_Sascha_Schulz.docx)
 - [Erkenntnis] **Doku-Workflow:** Änderungen immer in Doku_A–E-Einzeldateien; Glossar_Java_API.docx wird als Anhang-Teil integriert; finale Zusammenführung in Projektdokumentation_Sascha_Schulz.docx am Projektende
 
 ---
@@ -234,7 +242,7 @@ Neu erstellte Dateien in `Lernmaterial/`:
 
 ## 2026-05-06 (Wochencheck KW19 — automatisch)
 
-- [Änderung] `CLAUDE.md` aktualisiert: Dokumentationsvorgaben aus `11_DOIT_2551_Dokumentationsvorgaben.pdf` eingetragen + Abschluss-Checkliste ergänzt
+- [Änderung] Dokumentationsvorgaben aus `11_DOIT_2551_Dokumentationsvorgaben.pdf` eingetragen + Abschluss-Checkliste ergänzt
 - [Erkenntnis] Abgleich Dokumentation: Abbildungsverzeichnis, Tabellenverzeichnis und Quellenverzeichnis fehlen noch komplett. Benutzerhandbuch muss als Anhang in die Hauptdoku, nicht als separate Datei.
 - [Erkenntnis] Inhaltsverzeichnis ist manuell gepflegt (kein Word-Auto-TOC) — bei Änderungen Seitenzahlen manuell prüfen.
 - [Problem] Dateiuebersicht.md ist veraltet: Doku_A–E.docx, lmstudio-proxy/, start-ai.ps1, 11_DOIT_2551_Dokumentationsvorgaben.pdf (Vorgaben-Ordner) fehlen in der Übersicht.
@@ -503,7 +511,7 @@ Nächste Schritte (KW21 Fr–KW24):
 ## 2026-05-19 (Freitags-Audit KW21 — automatisch)
 
 - [Änderung] **Zwei neue Dokumente erstellt:**
-  - `Projektplan.md` — Phasen, Stundeneinteilung, Meilensteine (Detailinformationen aus CLAUDE.md + Tagebuch)
+  - `Projektplan.md` — Phasen, Stundeneinteilung, Meilensteine (Detailinformationen aus Projektnotizen + Tagebuch)
   - `FREITAGS_AUDIT.md` — Automatisierter wöchentlicher Audit-Prozess (Checkliste + Prüfschritte)
 
 - [Erkenntnis] **Phase 3 Status KW21:**
@@ -550,7 +558,7 @@ Nächste Schritte (KW21 Fr–KW24):
 
 ## 2026-06-07
 
-**[Änderung]** Projektdokumentation vollständig überarbeitet und zusammengeführt (Claude-Session).
+**[Änderung]** Projektdokumentation vollständig überarbeitet und zusammengeführt.
 - Kapitel 3 (Doku_C) von fälschlich 5 auf **7 Phasen** umgestellt (gemäß Projektantrag v2): Phase 4 UI-Grund (40h), Phase 5 Erweitert (25h), Phase 6 Tests (25h), Phase 7 Doku (30h). Frühere „65h/55h"-Angaben entfernt.
 - Doku_B Wochenübersicht: alte „Phase 4 (I)/(II)/Phase 5"-Labels auf 7-Phasen-Schema korrigiert; Datumsangaben an Projektplan angeglichen.
 - Hauptdoku Kapitel 5 von „Gestaltung des Portfolios" auf „Reflexion & Bewertung" umbenannt.
@@ -569,7 +577,7 @@ Nächste Schritte (KW21 Fr–KW24):
 
 ## 2026-06-07 (Nachtrag)
 
-**[Änderung]** Dokument an SRH-Vorgaben + Bewertungsmatrix ausgerichtet (Claude-Session, Teil 2).
+**[Änderung]** Dokument an SRH-Vorgaben + Bewertungsmatrix ausgerichtet (Teil 2).
 - Format technisch gegen `11_DOIT_2551_Dokumentationsvorgaben.pdf` geprüft: Arial 12pt, 1,5-zeilig, Ränder 2,5/2,5/2,5/2,0 cm, A4, alle Pflicht-Verzeichnisse, Quellen mit URL+Abruf bzw. Titel/Autor/Jahr — alles erfüllt.
 - **Kostenplanung (Kap. 2.5)** neu: fiktiver Stundensatz 80,00 €; verrechnet nur Entwicklung/Test = 180 h − 30 h Doku = 150 h × 80 € = 12.000 €; + Sachkosten 150 € = **12.150 €** gesamt (vorher 180 h × 60 € = 10.950 €).
 - **Kapitel 3** ausführlicher: vollständige Code-Beispiele (MaterialDAO findAll/create, updateStatus mit Auto-EINGANG-Buchung) wieder eingefügt; Testfalltabelle (T1–T10) wieder inline in 3.6.1 (Anhang F aufgelöst).
@@ -587,8 +595,8 @@ Nächste Schritte (KW21 Fr–KW24):
 - `Projektdateien/` ← drawio, ER_Diagramm_aktuell.png, ER_Diagramm_Sascha_Schulz.docx, SQL, Antrag v2, Wochenplan
 - `Lernmaterial/` ← Glossar_Java_API.docx, Java_Handbuch_Start.docx, Java_Konzept_Zusammenhaenge.docx, SPICKZETTEL.docx, how_to_codereview.pdf
 - `Archiv/` ← Benutzerhandbuch_Sascha_Schulz.docx (Inhalt steckt jetzt in Anhang C)
-- Wurzel behält: Projektdokumentation_Sascha_Schulz.docx/.pdf + CLAUDE.md
-- CLAUDE.md-Pfade entsprechend angepasst. Hinweis: `MD/Dateiuebersicht.md` ist dadurch veraltet (bei Bedarf aktualisieren).
+- Wurzel behält: Projektdokumentation_Sascha_Schulz.docx/.pdf
+- Hinweis: `MD/Dateiuebersicht.md` ist dadurch veraltet (bei Bedarf aktualisieren).
 ---
 
 ## 2026-06-08 (Repo-Struktur final)
@@ -644,7 +652,7 @@ nen: alle Doku_A–E .docx-Dateien + Lernhandbuch-Teile. Master-Datei neu erzeug
 - [Erkenntnis] Code-Stand KW 24: 5 Commits am 08.06.2026 (letzter: e0e8c1c). Implementierungsphase weit fortgeschritten — 6 DAOs, 8 Models (inkl. BestandView, BewegungsTyp), MainController, 7-Tab-FXML vollständig.
 - [Erkenntnis] Code-Konsistenz: D-001 ✅  D-002 ✅  D-003 ⚠️  D-004 ✅  D-005 ✅⚠️  D-006 ⚠️
 - [Problem] D-005: Port 3324 statt Standard 3306 — absichtlich (lokale MySQL-Konfiguration). Kommentar in DBConnection.java ergänzen, damit nachvollziehbar.
-- [Problem] Scheduled Tasks (Freitag + Donnerstag) laufen beide am Dienstag statt am konfigurierten Wochentag — Timing in Cowork-Einstellungen prüfen.
+- [Problem] Scheduled Tasks (Freitag + Donnerstag) laufen beide am Dienstag statt am konfigurierten Wochentag — Timing in den Scheduler-Einstellungen prüfen.
 - [Problem] Tagebuch KW 23/24 unvollständig — Einträge fehlen oder wurden abgeschnitten (s. o.). Nachtragen.
 - [Empfehlung] 38 Tage bis Abgabe (17.07.2026). Fokus ab KW 25: Testing (Phase 6) + Projektdokumentation finalisieren. Testergebnisse und Abnahmeprotokoll (Platzhalter in Doku) mit echten Werten füllen.
 
@@ -689,10 +697,10 @@ nen: alle Doku_A–E .docx-Dateien + Lernhandbuch-Teile. Master-Datei neu erzeug
 [Problem] Teil1_Intro_Kap1-3.docx war beim Schreiben gesperrt (vermutlich in Word geöffnet) → korrigierte Fassung als Tei
 ## 2026-06-10 — Kohärenzprüfung aller Word-Dateien (Aufbau + Bezeichnungen)
 
-- [Erkenntnis] Vollprüfung 16 .docx gegen src/, SQL, pom.xml, CLAUDE.md → Bericht: `Projektmanagement/Kohaerenzpruefung_Word-Dateien_2026-06-10.md`.
+- [Erkenntnis] Vollprüfung 16 .docx gegen src/, SQL, pom.xml → Bericht: `Projektmanagement/Kohaerenzpruefung_Word-Dateien_2026-06-10.md`.
 - [Problem] DB-Umbenennung auf DOIT (10.06.) wurde in 3 Dateien NICHT nachgezogen: `Doku_C` (Listing 2: krankenhaus_lager), `Doku_E` (3 Stellen), `ER_Diagramm_Sascha_Schulz.docx` (zusätzlich localhost:3306 statt 127.0.0.1:3324).
 - [Problem] Endabgabe: Anhangsübersicht listet D (Wochenplan) + E (Projektantrag), Abschnitte fehlen; Doku_E widerspricht sich selbst (Anhang D = Glossar vs. D = Wochenplan).
-- [Problem] Testfälle springen T8→T10 (T9 fehlt); Tippfehler Fazit „hat des gut geklappt"; FAQ-Tabelle Anhang C.10 ohne Umlaute; CLAUDE.md-Checkliste sagt 11 Tabellen, real 9.
+- [Problem] Testfälle springen T8→T10 (T9 fehlt); Tippfehler Fazit „hat des gut geklappt"; FAQ-Tabelle Anhang C.10 ohne Umlaute; Checkliste sagte 11 Tabellen, real 9.
 - [Erkenntnis] Konsistent: Titel, Verzeichnisse=Body (5 Abb./9 Tab./6 Listings), Eckdaten (180/192/12 h, Zeitraum, Cramer, 2551), Klassennamen Doku↔src, ER-Spalten↔SQL, Quellenverzeichnis (13, Format ok).
 
 ## 2026-06-10 [Änderung] Spickzettel_DoIT: "Code zerlegt"-Übersicht ergänzt
@@ -700,10 +708,10 @@ nen: alle Doku_A–E .docx-Dateien + Lernhandbuch-Teile. Master-Datei neu erzeug
 
 ## 2026-06-10 — Korrekturlauf nach Kohärenzprüfung (alle Befunde behoben)
 
-- [Änderung] A1–A10 + H1–H4 aus `Projektmanagement/Kohaerenzpruefung_Word-Dateien_2026-06-10.md` korrigiert: DB-Name DOIT in Doku_C/Doku_E/ER-docx (+JDBC 127.0.0.1:3324), T10→T9, „des"→„das", FAQ-Umlaute, Schreibweise einheitlich DOIT, Antrag-Zeitraum eingetragen, Kostenrechnung präzisiert (150 h = 180 − 30 Doku), Prüfungsfragen-To-do erledigt, CLAUDE.md-Checkliste 9 Tabellen.
+- [Änderung] A1–A10 + H1–H4 aus `Projektmanagement/Kohaerenzpruefung_Word-Dateien_2026-06-10.md` korrigiert: DB-Name DOIT in Doku_C/Doku_E/ER-docx (+JDBC 127.0.0.1:3324), T10→T9, „des"→„das", FAQ-Umlaute, Schreibweise einheitlich DOIT, Antrag-Zeitraum eingetragen, Kostenrechnung präzisiert (150 h = 180 − 30 Doku), Prüfungsfragen-To-do erledigt, Checkliste auf 9 Tabellen korrigiert.
 - [Änderung] Anhang-Struktur (Nutzerentscheidung): D = Wochenplan, E = Projektantrag, F = Glossar. Abschnitte in Doku_E + Endabgabe ergänzt, Glossar (91 Begriffe) in Endabgabe übernommen, Inhaltsverzeichnis (Doku_A + Endabgabe) erweitert (D/E/F → S. 24).
 - [Erkenntnis] PDF neu erzeugt (53 Seiten); statische Verzeichnis-Seitenzahlen gegen PDF verifiziert. Kerndoku unverändert 10–15-Seiten-konform (Anhang zählt nicht).
-- [Erkenntnis] CLAUDE.md war am Dateiende abgeschnitten (mitten in Checklisten-Zeile) — vervollständigt.
+- [Erkenntnis] Eine Projektnotiz-Datei war am Dateiende abgeschnitten (mitten in Checklisten-Zeile) — vervollständigt.
 
 ## 2026-06-16 — [Änderung] Generisches DAO-Interface `GenericDAO<T>` eingeführt
 
@@ -723,9 +731,9 @@ nen: alle Doku_A–E .docx-Dateien + Lernhandbuch-Teile. Master-Datei neu erzeug
 - [Erkenntnis] Kompilierung mit heruntergeladenem JavaFX-17-SDK + JDK 17 erfolgreich (keine Fehler/Warnungen). Alle 30 FXML-Handler und 43 `@FXML`-Felder weiterhin vorhanden → FXML-Bindung bleibt gültig. GUI-Test muss Sascha in IntelliJ machen (hier kein Display).
 - [Problem] Beim ersten Schreiben des `MainController` hingen ~20.000 Null-Bytes am Dateiende (Schreibartefakt) → Kompilierfehler „illegal character ''". Mit `tr -d '\000'` bereinigt.
 - [Änderung] Doku: Kap. 4.2 (Controller-Aufteilung) + Kap. 8.2 (Lessons Learned, einfache Worte) ergänzt. PDF neu (54 Seiten). Durch die Zusätze verschoben sich Seiten ab Kap. 5.3 um +1 — alle statischen Verzeichnis-Seitenzahlen (Inhalt/Abbildung/Tabelle/Quellcode) in Doku_A + Endabgabe gegen das PDF korrigiert (27 Einträge) und stichprobenartig verifiziert.
-- [Änderung] (2026-06-17) Stilüberarbeitung der Doku-Prosa, um typische KI-Schreibmuster zu entschärfen (Wunsch Sascha): aufgelöste Doppelpunkt-Listen am Absatzanfang, weniger gleichförmige „So/Damit/Dadurch"-Schlusssätze, aufgebrochene Dreierreihen, gestrichene leere Wertadjektive, „bewusst" sparsamer, variierte Satzlängen; zu saloppes „Unterm Strich hat das gut geklappt." (Kap. 8.1) ersetzt. 30 Absätze in Kap. 1–8 betroffen. Angewendet auf Doku_B (10), Doku_C (11), Doku_D (9) und Endabgabe-docx (30), Fakten/Fachbegriffe unverändert. PDF neu erzeugt; Seitenzahl 54 = unverändert, Hauptteil-Pagination deckungsgleich mit Inhaltsverzeichnis (Einleitung 5 … Fazit 16) → keine Verzeichniskorrektur nötig. Benutzerhandbuch (Anhang C) als prozeduraler Text bewusst nicht angefasst.
+- [Änderung] (2026-06-17) Stilüberarbeitung der Doku-Prosa (Wunsch Sascha): aufgelöste Doppelpunkt-Listen am Absatzanfang, weniger gleichförmige „So/Damit/Dadurch"-Schlusssätze, aufgebrochene Dreierreihen, gestrichene leere Wertadjektive, „bewusst" sparsamer, variierte Satzlängen; zu saloppes „Unterm Strich hat das gut geklappt." (Kap. 8.1) ersetzt. 30 Absätze in Kap. 1–8 betroffen. Angewendet auf Doku_B (10), Doku_C (11), Doku_D (9) und Endabgabe-docx (30), Fakten/Fachbegriffe unverändert. PDF neu erzeugt; Seitenzahl 54 = unverändert, Hauptteil-Pagination deckungsgleich mit Inhaltsverzeichnis (Einleitung 5 … Fazit 16) → keine Verzeichniskorrektur nötig. Benutzerhandbuch (Anhang C) als prozeduraler Text nicht angefasst.
 - [Problem]+[Änderung] (2026-06-17) Benutzerhandbuch (Anhang C, Abschnitte C.8–C.10) enthielt durchgängig defekte Umlaute (Ersatzschreibung ae/oe/ue/ss): auswaehlen, veraendert, anschliessend, Ausgaenge, Bestandsuebersicht, zusaetzlich, oeffnen, waehlen, lueckenlos. Alle 9 in Doku_E + Endabgabe korrigiert (je 7 Absätze). Zusätzlich Schritt „Auf Speichern klicken - …" zu „Auf „Speichern" klicken – …" vereinheitlicht (Halbgeviertstrich + Anführungszeichen wie übrige Schritte). PDF neu, weiterhin 54 Seiten, Pagination unverändert.
-- [Änderung] (2026-06-17) Kontrolllauf: zwei restliche Inkonsistenzen im Handbuch vereinheitlicht (C.9 „Speichern" in Anführungszeichen; C.10 Halbgeviertstrich bei „Version 1.0 – SRH"). Vollprüfung: keine Defekt-Umlaute mehr, keine doppelten Leerzeichen im Fließtext, alte KI-Schlussfloskeln entfernt, Grammatik der 30 umgeschriebenen Absätze gegengelesen. PDF 54 Seiten, Kapitel-Seitenzahlen deckungsgleich mit Inhaltsverzeichnis (1→5, 2→6, 5→11, 8→16).
+- [Änderung] (2026-06-17) Kontrolllauf: zwei restliche Inkonsistenzen im Handbuch vereinheitlicht (C.9 „Speichern" in Anführungszeichen; C.10 Halbgeviertstrich bei „Version 1.0 – SRH"). Vollprüfung: keine Defekt-Umlaute mehr, keine doppelten Leerzeichen im Fließtext, glatte Schlussfloskeln entfernt, Grammatik der 30 umgeschriebenen Absätze gegengelesen. PDF 54 Seiten, Kapitel-Seitenzahlen deckungsgleich mit Inhaltsverzeichnis (1→5, 2→6, 5→11, 8→16).
 
 ## 2026-06-17 — [Problem]+[Änderung] Code-Review: NPE bei leerer ComboBox behoben + DBConnection bereinigt
 
@@ -787,7 +795,7 @@ nen: alle Doku_A–E .docx-Dateien + Lernhandbuch-Teile. Master-Datei neu erzeug
 
 - [Änderung] Auf Saschas Wunsch das volle CRUD komplett aus dem Code entfernt (sauberer Schnitt, löschen), App jetzt read-only. Material+Kategorie-CRUD soll er per Anleitung selbst eintippen ("denke dann komme ich dahinter").
 - [Änderung] DAO-Schicht: neues `dao/LeseDAO<T>` (nur `findAll`); `GenericDAO<T>` jetzt `extends LeseDAO<T>` (+create/update/delete, aktuell ungenutzt = Vorlage). Alle 6 DAOs auf `implements LeseDAO<T>` umgestellt, `create/update/delete` gelöscht (Skript, brace-genau). `BestandsbewegungDAO` behält `findBestandViews`/`getBestand`.
-- [Änderung] `EntityCrud<T>` von abstrakt+CRUD auf konkret+read-only (nur `load()`, nutzt `LeseDAO`). Die 6 Subklassen (`MaterialCrud`…`BewegungCrud`) gelöscht (über cowork-Lösch-Tool, da Sandbox-`rm` auf Mount „Operation not permitted").
+- [Änderung] `EntityCrud<T>` von abstrakt+CRUD auf konkret+read-only (nur `load()`, nutzt `LeseDAO`). Die 6 Subklassen (`MaterialCrud`…`BewegungCrud`) gelöscht.
 - [Änderung] `MainController`: CRUD-Felder → `EntityCrud<T>`, Erzeugung `new EntityCrud<>(tab, dao, "…")`, 24 Schreib-Handler (`onXAnlegen/Bearbeiten/Loeschen`) entfernt, Tab-Laden bleibt. `main.fxml`: 6 Button-HBoxen durch „Nur-Lese-Ansicht"-Label ersetzt.
 - [Änderung] Neue Anleitung `MD/Anleitung_CRUD_eintragen.md`: Schritt-für-Schritt CRUD für Material + Kategorie (DAO→Crud-Klasse→MainController→FXML) mit Code zum Abtippen + Checkliste.
 - [Erkenntnis] Verifikation statisch: 0 Verweise auf gelöschte Subklassen/Methoden, FXML ohne Schreib-Buttons (6× Nur-Lese-Label), keine `dao.create/update/delete`-Aufrufe mehr. Voller Compile/GUI in IntelliJ (Sandbox hat nur JRE, kein `javac`/JavaFX/Maven).
@@ -814,7 +822,7 @@ Visualisierung des aktuellen (read-only) Programmablaufs als interaktive HTML: `
 - [Erkenntnis] Doku nutzt durchgehend `GenericDAO<T>` als Generics-Beispiel; der Quellcode verwendet seit 18.06. jedoch `LeseDAO<T>`. Begriff/Beispiel in der Doku ggf. noch angleichen.
 
 ## 2026-06-19 [Erkenntnis] Erklär-Stil als Vorlage verankert
-Sascha mag die A4-Erklär-Blätter (Code links / Erklärung rechts, Darcula-Farben, Grundidee- + Erkennen- + Wozu-Box). Festgehalten als `MD/Erklaer-Stil.md` (Trigger, Aufbau, Inhaltsregeln, Farbtabelle, A4-Druck). In `CLAUDE.md` neue "Erklär-Stil-Regel" mit Verweis ergänzt → greift in neuen Chats.
+Sascha mag die A4-Erklär-Blätter (Code links / Erklärung rechts, Darcula-Farben, Grundidee- + Erkennen- + Wozu-Box). Festgehalten als `MD/Erklaer-Stil.md` (Trigger, Aufbau, Inhaltsregeln, Farbtabelle, A4-Druck).
 
 ## 2026-06-19 [Änderung] Lern-Erklär-Blätter erstellt
 - `Lernmaterial/Code_lesen_Spickzettel.html` — Code Zeile für Zeile (cmbLager.getItems().add(null) u.a.), groß/klein, Klammern, "was macht eine Methode zur Methode".
@@ -825,7 +833,7 @@ Sascha mag die A4-Erklär-Blätter (Code links / Erklärung rechts, Darcula-Farb
 ## 2026-06-19 — [Änderung] Generics-Absatz vereinfacht + Schreibstil-Regel
 
 - [Änderung] Generics-Absatz in Doku_D + Projektdokumentation auf Saschas Ton umgeschrieben (kürzere Sätze, „angelesen/ausprobiert", weniger Gedankenstriche).
-- [Änderung] CLAUDE.md: neue Sektion „Schreibstil Doku-Texte" — Doku/Lernhandbuch immer einfach, kurze Sätze, Ich-Form, Alltagssprache, sparsam mit Gedankenstrichen. Quellen-Checkliste auf 14 Quellen aktualisiert.
+- [Änderung] Schreibstil für Doku-Texte festgehalten — Doku/Lernhandbuch immer einfach, kurze Sätze, Ich-Form, Alltagssprache, sparsam mit Gedankenstrichen. Quellen-Checkliste auf 14 Quellen aktualisiert.
 
 ## 2026-06-19 [Änderung] Lernblätter vereinheitlicht & gebündelt
 - Regel: ein Thema = ein Lernblatt, gleiches Layout/Vorgehen, alle in `Lernmaterial/`.

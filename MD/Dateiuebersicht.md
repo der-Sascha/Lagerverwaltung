@@ -4,7 +4,7 @@
 
 ---
 
-## Projektstand auf einen Blick (für neue Chats)
+## Projektstand auf einen Blick
 
 - **Block 1 (KW19–KW21) abgeschlossen:** Phasen 1–3 fertig (DB-Schema, 6 Tabellen, DAO-Schicht, ~1.700 Zeilen Code). UI (MainController, 703 Zeilen) bereits in KW21 vorgearbeitet.
 - **Block 2 läuft (KW24, 08.06.–12.06.2026):** Phase 4 UI-Grundfunktionen (40h) aktiv. Phasen 5–7 folgen KW25–KW26.
@@ -18,7 +18,6 @@
 
 | Datei | Zweck | Status |
 |---|---|---|
-| `CLAUDE.md` | Kontext für jeden neuen Chat | aktuell |
 | `README.md` | Projekt-Übersicht (GitHub) | aktuell |
 | `pom.xml` | Maven-Build-Konfiguration | aktuell |
 | `lagerverwaltung.iml` | IntelliJ-Modulkonfiguration | aktuell |
@@ -56,7 +55,6 @@ Roter Faden: Amondis-Berufsgeschichte (Anwender) läuft synonym parallel zum Pro
 | `Projekttagebuch.md` | laufendes Log (Änderungen/Probleme/Erkenntnisse) | aktuell (Stand 07.06.) |
 | `Entscheidungen.md` | Designentscheidungen D-001–D-006 | aktuell |
 | `Dateiuebersicht.md` | diese Datei | aktuell |
-| `PROJEKT_ANALYSE_VOLLSTAENDIG.md` | große Übergabe-Analyse (Differenzen, Aufgabenplan) | Referenz (teils überholt) |
 | `KAPITEL_5_6_PLAN.md` | Lernplan Kapitel 5+6 (DBConnection + Models) | Referenz |
 | `GLOSSAR.md` | Glossar Fachbegriffe (Lernmaterial) | persönlich |
 | `LERNMATERIAL_README.md` | Übersicht Lernmaterial | persönlich |
@@ -107,8 +105,6 @@ Anleitung, Leitfaden, Vorlagen (Antrag/Wochenplan), Bewertungsbögen (Projektarb
 | `Benutzerhandbuch_Sascha_Schulz.docx` | Inhalt jetzt in Anhang C der Doku — Altbestand |
 | `Lernhandbuch_Lagerverwaltung_Krankenhaus_korrigiert.docx` | veraltet (ohne Kap. 10a), ersetzt durch Teil1–4 |
 | `Projektantrag_Sascha_Schulz_v2.docx` | Meilenstein-Backup (12.05.) |
-| `STATUS_KW21_CHECKPOINT.txt` | Statusbericht KW21 |
-| `KOHAEREZ_AUDIT_2026-05-18.md` | Kohärenz-Audit 18.05. |
 | `_backup_2026-06-07/` | Backup der Original-Doku vor Überarbeitung 07.06. (Doku_A–E + Master) |
 | `abgeloest_Lernmaterial_2026-06-10/` | 4 abgelöste Lernmaterial-Dateien (10.06.): Glossar_Java_API, Java_Handbuch_Start, Java_Konzept_Zusammenhaenge, SPICKZETTEL |
 
@@ -116,8 +112,8 @@ Anleitung, Leitfaden, Vorlagen (Antrag/Wochenplan), Bewertungsbögen (Projektarb
 
 | Ordner | Inhalt |
 |---|---|
-| `Ablage/Audits_und_Entwuerfe/` | Audit-Definitionen/Entwürfe (DONNERSTAGS_AUDIT.md) |
-| `Projektmanagement/` | `Kohaerenzpruefung_Lernhandbuch.md` |
+| `Ablage/` | Zwischenablage für Entwürfe (kein aktiver Inhalt im Repo) |
+| `Projektmanagement/` | `Kohaerenzpruefung_Word-Dateien_2026-06-10.md` |
 | `Vorgaben/` | SRH-Originale (Anleitungen, Vorlagen, Bewertungsbögen, Beispiel-Dokus) — nicht bearbeiten |
 | `src/` | Java/Maven-Quellcode (de.doit: db/, model/, dao/, controller/, Main.java, Launcher.java; FXML unter resources/fxml/) |
 

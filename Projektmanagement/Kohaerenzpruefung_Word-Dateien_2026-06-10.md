@@ -1,6 +1,6 @@
 # Kohärenzprüfung Word-Dateien (2026-06-10)
 
-Geprüft: alle 16 .docx (Doku, Projektdateien, Lernhandbuch, Lernmaterial) + Abgleich mit src/, SQL-Skript, pom.xml, CLAUDE.md.
+Geprüft: alle 16 .docx (Doku, Projektdateien, Lernhandbuch, Lernmaterial) + Abgleich mit src/, SQL-Skript, pom.xml.
 
 ## A. Fehler — beheben
 
@@ -15,7 +15,7 @@ Geprüft: alle 16 .docx (Doku, Projektdateien, Lernhandbuch, Lernmaterial) + Abg
 | 7 | Endabgabe + `Doku_E` | FAQ-Tabelle (Anhang C.10) ohne Umlaute: „Loesung", „pruefen", „laesst", „loeschen", „Geloeschte" | Umlaute wiederherstellen (Stilbruch zum Rest) |
 | 8 | `Projektdateien/ER_Diagramm_Sascha_Schulz.docx` | Veraltet: `krankenhaus_lager`, `localhost:3306` (Code/Doku: `DOIT`, `127.0.0.1:3324`). Tabellen/Spalten selbst stimmen | DB-Name + JDBC-URL angleichen oder Datei als veraltet ins Archiv |
 | 9 | `Lernhandbuch/Lernhandbuch_Pruefungsfragen_Loesungen.docx` | Enthält offenes To-do zu DB-Name/Port-Inkonsistenzen (Kap. 4/5/13) — laut Teil 2 + Teil 4 bereits behoben | To-do entfernen/als erledigt markieren |
-| 10 | `CLAUDE.md` (Checkliste) | „Tabellenverzeichnis (11 Tabellen)" — tatsächlich 9 Einträge | Checkliste auf 9 korrigieren |
+| 10 | Projekt-Checkliste | „Tabellenverzeichnis (11 Tabellen)" — tatsächlich 9 Einträge | Checkliste auf 9 korrigieren |
 
 ## B. Hinweise — prüfen
 
@@ -48,7 +48,7 @@ Alle Befunde A1–A10 und Hinweise H1–H4 behoben:
 - A1/A2/A8: DB-Name → `DOIT`, JDBC-URL → `127.0.0.1:3324` (Doku_C, Doku_E, ER-docx)
 - A3/A4: Anhänge neu strukturiert — D = Wochenplan, E = Projektantrag, **F = Glossar** (Nutzerentscheidung); Abschnitte + Übersicht + Inhaltsverzeichnis in Doku_E, Doku_A und Endabgabe ergänzt; Glossar (91 Begriffe) in Endabgabe übernommen (S. 24, Anhang zählt nicht zur Seitenbegrenzung)
 - A5: T10 → T9 | A6: „des" → „das" | A7: FAQ-Umlaute wiederhergestellt (beide Dateien)
-- A9: Prüfungsfragen-To-do als erledigt markiert | A10: CLAUDE.md-Checkliste korrigiert (9 Tabellen) + abgeschnittene Zeile vervollständigt
+- A9: Prüfungsfragen-To-do als erledigt markiert | A10: Checkliste korrigiert (9 Tabellen) + abgeschnittene Zeile vervollständigt
 - H1: Antrag Projektbeginn/-ende eingetragen (04.05./26.06.2026) | H2: Projektziel-Stil → Normal
 - H3: Kostenrechnung umformuliert: „150 h Projektarbeit (alle Phasen außer Dokumentation)" (180 − 30 = 150 ✓)
 - H4: Schreibweise einheitlich **DOIT** (Deckblatt + Einleitung in Doku_A/B + Endabgabe)
