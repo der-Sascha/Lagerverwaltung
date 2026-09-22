@@ -1,0 +1,20 @@
+digraph UC {
+  rankdir=LR;
+  graph [nodesep=0.35, ranksep=2.8, bgcolor="white", splines=line];
+  node [fontname="DejaVu Sans", fontsize=16];
+  edge [color="#6b7686", arrowsize=0.8];
+  actor [shape=plaintext, label="Pflege- /\nStationspersonal"];
+  node [shape=ellipse, style=filled, fillcolor="#d6e4f2", color="#33547a", fixedsize=true, width=4.0, height=1.15];
+  n1 [label="Bestand einsehen\n(Bestandsübersicht)"];
+  n2 [label="Suchen & Filtern\n(Name, Station)"];
+  n3 [label="Mindestbestand-\nWarnung sehen"];
+  n4 [label="Material / Kategorie\nlöschen"];
+  n5 [label="Bestellungen einsehen"];
+  n6 [label="Bestandsbewegungen einsehen\n(Ein-/Ausgang, Umlagerung)"];
+  actor -> n1 [headport=w];
+  actor -> n2 [headport=w];
+  actor -> n3 [headport=w];
+  actor -> n4 [headport=w];
+  actor -> n5 [headport=w];
+  actor -> n6 [headport=w];
+}
